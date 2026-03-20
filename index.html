@@ -1,0 +1,2492 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TPC I — Resumen Completo</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,400;0,500;1,400&family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,700;1,9..144,300&family=Inter:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0f0f11;
+    --bg2: #18181c;
+    --bg3: #1f1f25;
+    --bg4: #26262e;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8e6e1;
+    --muted: #8a8880;
+    --muted2: #5a5856;
+    --accent: #c5a97e;
+    --accent2: #e8c99a;
+    --accent-dim: rgba(197,169,126,0.12);
+    --accent-dim2: rgba(197,169,126,0.06);
+    --rust: #d4845a;
+    --rust-dim: rgba(212,132,90,0.12);
+    --green: #5fa37c;
+    --green-dim: rgba(95,163,124,0.1);
+    --blue: #6a9fb8;
+    --blue-dim: rgba(106,159,184,0.1);
+    --purple: #9b89c4;
+    --purple-dim: rgba(155,137,196,0.1);
+    --red: #c46060;
+    --sidebar-w: 260px;
+    --font-body: 'Inter', sans-serif;
+    --font-display: 'Fraunces', serif;
+    --font-mono: 'DM Mono', monospace;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.7;
+    display: flex;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    width: var(--sidebar-w);
+    min-height: 100vh;
+    height: 100vh;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; /* no scroll on sidebar itself */
+    z-index: 100;
+    transition: transform 0.3s ease;
+  }
+
+  #sidebar-header {
+    padding: 24px 20px 16px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  #sidebar-header .course-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+
+  #sidebar-header h1 {
+    font-family: var(--font-display);
+    font-size: 16px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+  }
+
+  #sidebar-header .subtitle {
+    font-size: 11px;
+    color: var(--muted);
+    margin-top: 3px;
+  }
+
+  #sidebar-progress {
+    padding: 10px 20px;
+    border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
+  }
+
+  .progress-bar-bg {
+    height: 3px;
+    background: var(--bg4);
+    border-radius: 2px;
+    margin-top: 6px;
+  }
+
+  .progress-bar-fill {
+    height: 3px;
+    background: var(--accent);
+    border-radius: 2px;
+    width: 100%;
+    transition: width 0.5s ease;
+  }
+
+  .progress-label {
+    font-size: 10px;
+    color: var(--muted);
+    display: flex;
+    justify-content: space-between;
+  }
+
+  /* NAV scrolls inside its container */
+  nav {
+    flex: 1;
+    overflow-y: auto;
+    padding: 8px 0;
+    /* Custom scrollbar */
+    scrollbar-width: thin;
+    scrollbar-color: var(--bg4) transparent;
+  }
+
+  nav::-webkit-scrollbar { width: 4px; }
+  nav::-webkit-scrollbar-track { background: transparent; }
+  nav::-webkit-scrollbar-thumb { background: var(--bg4); border-radius: 2px; }
+
+  .nav-section { margin-bottom: 1px; }
+
+  .nav-unit-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 20px;
+    font-size: 10px;
+    font-family: var(--font-mono);
+    letter-spacing: 0.1em;
+    color: var(--muted2);
+    text-transform: uppercase;
+    cursor: pointer;
+    user-select: none;
+    transition: color 0.2s;
+  }
+
+  .nav-unit-header:hover { color: var(--muted); }
+  .nav-unit-header .chevron { margin-left: auto; transition: transform 0.2s; font-size: 9px; }
+  .nav-unit-header.open .chevron { transform: rotate(90deg); }
+
+  .nav-items { display: none; }
+  .nav-items.open { display: block; }
+
+  .nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 6px 20px 6px 30px;
+    font-size: 12px;
+    color: var(--muted);
+    text-decoration: none;
+    cursor: pointer;
+    border-left: 2px solid transparent;
+    transition: all 0.15s;
+  }
+
+  .nav-link:hover { color: var(--text); background: var(--accent-dim2); }
+  .nav-link.active { color: var(--accent2); border-left-color: var(--accent); background: var(--accent-dim); }
+
+  .nav-link .dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    background: var(--bg4);
+    border: 1px solid var(--muted2);
+  }
+
+  .nav-link.active .dot, .nav-link.done .dot {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  .nav-link .badge {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    padding: 1px 5px;
+    border-radius: 3px;
+    background: var(--accent-dim);
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* ── MAIN CONTENT ── */
+  #main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    max-width: 900px;
+    padding: 0 48px 80px;
+  }
+
+  /* ── SECTION ── */
+  .content-section {
+    border-bottom: 1px solid var(--border);
+    padding: 56px 0;
+  }
+
+  .content-section:last-child { border-bottom: none; }
+
+  .section-tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .section-tag::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  h2 {
+    font-family: var(--font-display);
+    font-size: 30px;
+    font-weight: 300;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 8px;
+  }
+
+  h2 em { font-style: italic; color: var(--accent2); }
+
+  .section-intro {
+    font-size: 14px;
+    color: var(--muted);
+    margin-bottom: 32px;
+    max-width: 600px;
+    line-height: 1.6;
+  }
+
+  h3 {
+    font-family: var(--font-display);
+    font-size: 19px;
+    font-weight: 500;
+    color: var(--text);
+    margin: 32px 0 10px;
+  }
+
+  h4 {
+    font-size: 12px;
+    font-weight: 500;
+    font-family: var(--font-mono);
+    letter-spacing: 0.06em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin: 20px 0 8px;
+  }
+
+  p { color: var(--text); margin-bottom: 12px; line-height: 1.75; }
+  p.muted { color: var(--muted); font-size: 14px; }
+  strong { font-weight: 500; color: var(--accent2); }
+
+  /* ── CARDS ── */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 10px;
+    margin: 16px 0;
+  }
+
+  .card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    transition: border-color 0.2s, background 0.2s;
+  }
+
+  .card:hover { border-color: var(--border2); background: var(--bg3); }
+
+  .card-icon { font-size: 18px; margin-bottom: 8px; display: block; }
+  .card-title { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 5px; }
+  .card-desc { font-size: 12px; color: var(--muted); line-height: 1.5; }
+
+  /* ── DEFINITION BLOCK ── */
+  .def-block {
+    border-left: 2px solid var(--accent);
+    padding: 12px 18px;
+    background: var(--accent-dim2);
+    border-radius: 0 8px 8px 0;
+    margin: 14px 0;
+  }
+
+  .def-block .term {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    margin-bottom: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .def-block p { margin: 0; font-size: 13px; color: var(--muted); }
+
+  /* ── CODE BLOCK ── */
+  pre {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 18px 22px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    line-height: 1.7;
+    margin: 14px 0;
+    position: relative;
+  }
+
+  pre .lang-tag {
+    position: absolute;
+    top: 8px; right: 12px;
+    font-size: 10px;
+    color: var(--muted2);
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .kw { color: #c792ea; }
+  .fn { color: #82aaff; }
+  .ty { color: #ffcb6b; }
+  .str { color: #c3e88d; }
+  .cm { color: var(--muted2); font-style: italic; }
+  .num { color: #f78c6c; }
+  .mac { color: var(--rust); }
+
+  /* ── CONCEPT GRID ── */
+  .concept-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    margin: 16px 0;
+  }
+
+  .concept-cell {
+    background: var(--bg2);
+    padding: 16px 18px;
+    transition: background 0.2s;
+  }
+
+  .concept-cell:hover { background: var(--bg3); }
+
+  .concept-cell .label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    text-transform: uppercase;
+    margin-bottom: 5px;
+  }
+
+  .concept-cell p { margin: 0; font-size: 13px; color: var(--muted); }
+
+  /* ── COLLAPSIBLE ── */
+  .collapsible-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 12px 16px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-size: 13px;
+    font-weight: 500;
+    transition: background 0.2s, border-color 0.2s;
+    user-select: none;
+  }
+
+  .collapsible-header:hover { background: var(--bg4); border-color: var(--border2); }
+  .collapsible-header.open { border-radius: 8px 8px 0 0; border-bottom-color: transparent; background: var(--bg4); }
+  .collapsible-header .ch-title { color: var(--text); }
+  .collapsible-header .ch-tag { font-family: var(--font-mono); font-size: 10px; color: var(--muted2); text-transform: uppercase; }
+  .collapsible-header .ch-arrow { color: var(--muted2); font-size: 11px; transition: transform 0.25s; }
+  .collapsible-header.open .ch-arrow { transform: rotate(180deg); }
+
+  .collapsible-body {
+    display: none;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-top: none;
+    border-radius: 0 0 8px 8px;
+    padding: 16px 18px;
+  }
+
+  .collapsible-body.open { display: block; }
+  .collapsible-body p { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
+  .collapsible-body p:last-child { margin-bottom: 0; }
+
+  /* ── TABLE ── */
+  .table-wrap { overflow-x: auto; margin: 14px 0; border-radius: 10px; border: 1px solid var(--border); }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    background: var(--bg3);
+    color: var(--muted);
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    padding: 10px 14px;
+    text-align: left;
+    border-bottom: 1px solid var(--border);
+  }
+  td { padding: 10px 14px; color: var(--text); border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--bg3); }
+
+  /* ── CALLOUT ── */
+  .callout {
+    display: flex;
+    gap: 12px;
+    padding: 14px 16px;
+    border-radius: 8px;
+    margin: 14px 0;
+    font-size: 13px;
+  }
+
+  .callout.info { background: var(--blue-dim); border: 1px solid rgba(106,159,184,0.2); }
+  .callout.warn { background: var(--rust-dim); border: 1px solid rgba(212,132,90,0.2); }
+  .callout.tip { background: var(--green-dim); border: 1px solid rgba(95,163,124,0.2); }
+  .callout.purple { background: var(--purple-dim); border: 1px solid rgba(155,137,196,0.2); }
+
+  .callout-icon { font-size: 14px; flex-shrink: 0; line-height: 1.7; }
+  .callout-body { color: var(--muted); line-height: 1.6; }
+  .callout-body strong { color: var(--text); }
+
+  /* ── FLOW DIAGRAM ── */
+  .flow-diagram { display: flex; flex-direction: column; gap: 0; margin: 16px 0; }
+
+  .flow-step { display: flex; gap: 14px; position: relative; }
+
+  .flow-step::before {
+    content: '';
+    position: absolute;
+    left: 15px; top: 32px;
+    width: 1px;
+    height: calc(100% - 10px);
+    background: var(--border2);
+  }
+
+  .flow-step:last-child::before { display: none; }
+
+  .flow-num {
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+
+  .flow-content { padding: 5px 0 20px; flex: 1; }
+  .flow-content h5 { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 3px; }
+  .flow-content p { font-size: 12px; color: var(--muted); margin: 0; }
+
+  /* ── MODELS VISUAL ── */
+  .models-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 8px;
+    margin: 16px 0;
+  }
+
+  .model-pill {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 10px 8px;
+    text-align: center;
+    transition: all 0.2s;
+    cursor: pointer;
+  }
+
+  .model-pill:hover { border-color: var(--accent); background: var(--accent-dim); }
+  .model-pill.highlight { border-color: var(--accent); background: var(--accent-dim); }
+  .model-pill .icon { font-size: 16px; display: block; margin-bottom: 5px; }
+  .model-pill .label { font-size: 10px; font-family: var(--font-mono); color: var(--muted); text-transform: uppercase; letter-spacing: 0.06em; }
+
+  /* ── INLINE CODE ── */
+  .inline-code {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1px 5px;
+    color: var(--accent2);
+  }
+
+  /* ── HAMBURGER MOBILE ── */
+  #hamburger {
+    display: none;
+    position: fixed;
+    top: 16px; left: 16px;
+    z-index: 200;
+    background: var(--bg2);
+    border: 1px solid var(--border2);
+    border-radius: 8px;
+    width: 36px; height: 36px;
+    align-items: center; justify-content: center;
+    cursor: pointer;
+    font-size: 15px;
+  }
+
+  /* ── SCROLL INDICATOR ── */
+  #scroll-indicator { position: fixed; top: 0; left: 0; right: 0; height: 2px; background: var(--bg3); z-index: 300; }
+  #scroll-bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.1s; }
+
+  /* ── FOOTER ── */
+  .page-footer {
+    padding: 28px 0 0;
+    border-top: 1px solid var(--border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .page-footer .footer-text { font-size: 11px; color: var(--muted2); font-family: var(--font-mono); }
+
+  /* ── TAGS ── */
+  .tag { display: inline-block; font-family: var(--font-mono); font-size: 10px; padding: 2px 7px; border-radius: 4px; margin: 2px 3px; letter-spacing: 0.06em; }
+  .tag-rust  { background: var(--rust-dim); color: var(--rust); border: 1px solid rgba(212,132,90,0.2); }
+  .tag-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(95,163,124,0.2); }
+  .tag-blue  { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(106,159,184,0.2); }
+  .tag-gold  { background: var(--accent-dim); color: var(--accent); border: 1px solid rgba(197,169,126,0.2); }
+  .tag-purple { background: var(--purple-dim); color: var(--purple); border: 1px solid rgba(155,137,196,0.2); }
+
+  ul, ol { padding-left: 18px; margin-bottom: 12px; }
+  li { color: var(--muted); font-size: 13px; margin-bottom: 4px; line-height: 1.6; }
+  li strong { color: var(--text); }
+
+  /* ── PROP GRID ── */
+  .prop-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 16px 0;
+  }
+
+  .prop-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  .prop-card.safety { border-top: 2px solid var(--blue); }
+  .prop-card.liveness { border-top: 2px solid var(--green); }
+
+  .prop-card .prop-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+  }
+
+  .prop-card.safety .prop-label { color: var(--blue); }
+  .prop-card.liveness .prop-label { color: var(--green); }
+
+  .prop-item {
+    font-size: 12px;
+    color: var(--muted);
+    margin-bottom: 7px;
+    padding-left: 10px;
+    border-left: 2px solid var(--border2);
+  }
+
+  .prop-item strong { display: block; font-size: 11px; color: var(--text); margin-bottom: 2px; font-weight: 500; }
+
+  /* ── SIMD VISUAL ── */
+  .simd-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    margin: 14px 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  .simd-row {
+    display: grid;
+    grid-template-columns: 72px 1fr 80px;
+    align-items: center;
+    gap: 0;
+    padding: 10px 14px;
+    border-bottom: 1px solid var(--border);
+  }
+  .simd-row:last-child { border-bottom: none; }
+  .simd-row.op-row { background: rgba(255,255,255,0.02); }
+  .simd-label { color: var(--muted2); font-size: 10px; letter-spacing: 0.04em; white-space: nowrap; }
+  .simd-reg { display: flex; gap: 3px; }
+  .simd-lane {
+    width: 52px; height: 30px;
+    border-radius: 4px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    border: 1px solid var(--border2);
+    flex-shrink: 0;
+  }
+  .lane-a { background: rgba(197,169,126,0.15); color: var(--accent2); }
+  .lane-b { background: rgba(106,159,184,0.15); color: var(--blue); }
+  .lane-c { background: rgba(95,163,124,0.15); color: var(--green); }
+  .simd-op {
+    color: var(--muted);
+    font-size: 13px;
+    text-align: right;
+    padding-right: 4px;
+    font-family: var(--font-mono);
+    white-space: nowrap;
+  }
+  @media (max-width: 600px) {
+    .simd-row { grid-template-columns: 60px 1fr 60px; }
+    .simd-lane { width: 40px; font-size: 9px; }
+  }
+
+  /* ── SEM VISUAL ── */
+  .sem-visual { display: flex; gap: 10px; margin: 16px 0; flex-wrap: wrap; }
+  .sem-box { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 18px; flex: 1; min-width: 170px; }
+  .sem-box .sem-label { font-family: var(--font-mono); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--accent); margin-bottom: 8px; }
+
+  /* ── PETRI LEGEND ── */
+  .petri-legend { display: flex; gap: 16px; flex-wrap: wrap; margin: 14px 0; padding: 14px 18px; background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; }
+  .petri-legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; color: var(--muted); }
+  .petri-place { width: 24px; height: 24px; border-radius: 50%; border: 2px solid var(--accent); display: flex; align-items: center; justify-content: center; font-size: 10px; color: var(--accent); flex-shrink: 0; }
+  .petri-transition { width: 10px; height: 24px; background: var(--text); border-radius: 2px; flex-shrink: 0; }
+  .petri-token { width: 7px; height: 7px; background: var(--accent); border-radius: 50%; flex-shrink: 0; }
+
+  /* ── MONITOR DIAGRAM ── */
+  .monitor-diagram { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin: 16px 0; }
+  .monitor-box { border: 2px solid var(--accent); border-radius: 8px; padding: 14px; position: relative; margin-bottom: 10px; }
+  .monitor-box-label { position: absolute; top: -9px; left: 14px; background: var(--bg2); padding: 0 7px; font-family: var(--font-mono); font-size: 10px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; }
+  .monitor-internals { display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 7px; }
+  .monitor-internal-item { background: var(--bg3); border: 1px solid var(--border); border-radius: 6px; padding: 9px 10px; font-size: 11px; color: var(--muted); }
+  .monitor-internal-item .mi-label { font-family: var(--font-mono); font-size: 9px; color: var(--muted2); text-transform: uppercase; margin-bottom: 3px; }
+
+  /* ── DISTRIB ALGO CARD ── */
+  .algo-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 10px;
+    margin: 16px 0;
+  }
+
+  .algo-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    border-top: 2px solid var(--accent);
+  }
+
+  .algo-card.blue-top { border-top-color: var(--blue); }
+  .algo-card.green-top { border-top-color: var(--green); }
+  .algo-card.rust-top { border-top-color: var(--rust); }
+
+  .algo-card .algo-name {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--accent);
+    margin-bottom: 8px;
+  }
+
+  .algo-card.blue-top .algo-name { color: var(--blue); }
+  .algo-card.green-top .algo-name { color: var(--green); }
+  .algo-card.rust-top .algo-name { color: var(--rust); }
+
+  .algo-card p { font-size: 12px; color: var(--muted); margin-bottom: 0; }
+  .algo-card ul { margin-bottom: 0; }
+  .algo-card li { font-size: 12px; }
+
+  /* ── ACTOR DIAGRAM ── */
+  .actor-system {
+    display: flex;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin: 16px 0;
+  }
+
+  .actor-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+    min-width: 150px;
+    flex: 1;
+  }
+
+  .actor-box .actor-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--purple);
+    margin-bottom: 7px;
+  }
+
+  .actor-mailbox {
+    background: var(--bg3);
+    border: 1px dashed var(--border2);
+    border-radius: 6px;
+    padding: 7px 9px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted2);
+    margin-top: 7px;
+  }
+
+  .actor-state {
+    background: var(--purple-dim);
+    border: 1px solid rgba(155,137,196,0.2);
+    border-radius: 6px;
+    padding: 7px 9px;
+    font-size: 11px;
+    color: var(--purple);
+    margin-top: 5px;
+  }
+
+  /* ── SOCKET FLOW ── */
+  .socket-flow {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+    margin: 16px 0;
+  }
+
+  .socket-col {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+
+  .socket-col .socket-title {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 10px;
+  }
+
+  .socket-col.server .socket-title { color: var(--blue); }
+  .socket-col.client .socket-title { color: var(--green); }
+
+  .socket-step {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 7px 0;
+    border-bottom: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--muted);
+    font-family: var(--font-mono);
+  }
+
+  .socket-step:last-child { border-bottom: none; }
+  .socket-step .fn-name { color: var(--accent2); }
+
+  /* ── LANG PILLS ── */
+  .lang-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin: 16px 0;
+  }
+
+  .lang-pill {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+    transition: all 0.2s;
+  }
+
+  .lang-pill:hover { border-color: var(--border2); background: var(--bg3); }
+  .lang-pill .lang-icon { font-size: 24px; display: block; margin-bottom: 8px; }
+  .lang-pill .lang-name { font-family: var(--font-mono); font-size: 11px; color: var(--accent); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 4px; }
+  .lang-pill .lang-desc { font-size: 11px; color: var(--muted); line-height: 1.4; }
+
+  /* ── GPU COMPARE ── */
+  .gpu-compare {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 16px 0;
+  }
+
+  .gpu-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+
+  .gpu-box.cpu-box { border-top: 2px solid var(--blue); }
+  .gpu-box.gpu-box-card { border-top: 2px solid var(--green); }
+
+  .gpu-box .gpu-title {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 10px;
+  }
+
+  .gpu-box.cpu-box .gpu-title { color: var(--blue); }
+  .gpu-box.gpu-box-card .gpu-title { color: var(--green); }
+
+  /* ── ACID GRID ── */
+  .acid-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 16px 0;
+  }
+
+  .acid-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+
+  .acid-letter {
+    font-family: var(--font-display);
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--accent);
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .acid-word {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--muted2);
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 8px;
+  }
+
+  .acid-desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── RESPONSIVE / MOBILE ── */
+  @media (max-width: 900px) {
+    :root { --sidebar-w: 0px; }
+    #sidebar { transform: translateX(-260px); width: 260px; height: 100vh; }
+    #sidebar.open { transform: translateX(0); box-shadow: 4px 0 32px rgba(0,0,0,0.5); }
+    #main { margin-left: 0; padding: 56px 20px 80px; }
+    #hamburger { display: flex; }
+    .concept-grid { grid-template-columns: 1fr; }
+    .models-row { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .prop-grid { grid-template-columns: 1fr; }
+    .monitor-internals { grid-template-columns: 1fr; }
+    .algo-compare { grid-template-columns: 1fr; }
+    .socket-flow { grid-template-columns: 1fr; }
+    .lang-row { grid-template-columns: repeat(2, 1fr); }
+    .gpu-compare { grid-template-columns: 1fr; }
+    .acid-grid { grid-template-columns: repeat(2, 1fr); }
+    .twopc-grid { grid-template-columns: 1fr; }
+    h2 { font-size: 24px; }
+    h3 { font-size: 17px; }
+    .card-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+    pre { font-size: 11.5px; padding: 14px 16px; }
+    .sem-visual { flex-direction: column; }
+    .actor-system { flex-direction: column; }
+    .content-section { padding: 40px 0; }
+  }
+
+  @media (max-width: 480px) {
+    #main { padding: 52px 14px 60px; }
+    .card-grid { grid-template-columns: 1fr; }
+    .models-row { grid-template-columns: repeat(3, 1fr); }
+    .acid-grid { grid-template-columns: repeat(2, 1fr); }
+    .lang-row { grid-template-columns: 1fr 1fr; }
+    h2 { font-size: 21px; }
+    h3 { font-size: 16px; }
+    .table-wrap { font-size: 12px; }
+    td, th { padding: 7px 9px; }
+    .algo-compare { grid-template-columns: 1fr; }
+    pre { font-size: 10.5px; padding: 12px 13px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .flow-content { padding-bottom: 14px; }
+    .prop-grid { grid-template-columns: 1fr; }
+    .concept-grid { grid-template-columns: 1fr; }
+    .twopc-grid { grid-template-columns: 1fr; }
+    .gpu-compare { grid-template-columns: 1fr; }
+    .socket-flow { grid-template-columns: 1fr; }
+    .collapsible-header { font-size: 12px; }
+    .def-block { padding: 10px 14px; }
+    .callout { padding: 12px 14px; font-size: 12px; }
+    .section-tag { font-size: 9px; }
+    .content-section { padding: 32px 0; }
+    .acid-letter { font-size: 28px; }
+    .simd-lane { width: 36px; height: 24px; font-size: 8px; }
+  }
+
+  .content-section:target { scroll-margin-top: 20px; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
+
+  /* ── QUIZ BLOCK ── */
+  .quiz-block { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin: 14px 0; }
+  .quiz-q { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 10px; }
+  .quiz-options { list-style: none; padding: 0; margin: 0; }
+  .quiz-options li { padding: 8px 12px; border-radius: 6px; border: 1px solid var(--border); margin-bottom: 5px; cursor: pointer; transition: all 0.15s; font-size: 12px; color: var(--muted); }
+  .quiz-options li:hover { border-color: var(--accent); color: var(--text); background: var(--accent-dim2); }
+  .quiz-options li.correct { border-color: var(--green); background: var(--green-dim); color: var(--green); }
+  .quiz-options li.wrong { border-color: var(--red); background: rgba(196,96,96,0.1); color: var(--red); }
+
+  /* ── 2PC FLOW ── */
+  .twopc-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .twopc-phase {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 16px;
+  }
+  .twopc-phase .phase-label {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: var(--accent);
+    margin-bottom: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid var(--border);
+  }
+  .twopc-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-bottom: 7px;
+    font-size: 12px;
+    color: var(--muted);
+  }
+  .twopc-n {
+    width: 18px; height: 18px;
+    border-radius: 50%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--font-mono);
+    font-size: 9px;
+    color: var(--accent);
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+</style>
+</head>
+<body>
+
+<div id="scroll-indicator"><div id="scroll-bar"></div></div>
+<button id="hamburger" onclick="toggleSidebar()">☰</button>
+
+<!-- ══════════════ SIDEBAR ══════════════ -->
+<aside id="sidebar">
+  <div id="sidebar-header">
+    <div class="course-tag">FIUBA · Computación</div>
+    <h1>Técnicas de<br>Prog. Concurrente I</h1>
+    <div class="subtitle">Resumen integrado · 27 PDFs</div>
+  </div>
+
+  <div id="sidebar-progress">
+    <div class="progress-label">
+      <span>Material completo</span>
+      <span>27 / 27 PDFs</span>
+    </div>
+    <div class="progress-bar-bg"><div class="progress-bar-fill"></div></div>
+  </div>
+
+  <nav id="sidebar-nav">
+    <!-- UNIDAD 1 -->
+    <div class="nav-section">
+      <div class="nav-unit-header open" onclick="toggleNavUnit(this)">
+        <span>U1 · Fundamentos</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="nav-items open">
+        <a class="nav-link done" onclick="scrollToSection('intro')">
+          <span class="dot"></span> Introducción &amp; Modelos
+          <span class="badge">PDF 1</span>
+        </a>
+        <a class="nav-link done" onclick="scrollToSection('rust')">
+          <span class="dot"></span> Introducción a Rust
+          <span class="badge">PDF 2</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- UNIDAD 2 -->
+    <div class="nav-section">
+      <div class="nav-unit-header open" onclick="toggleNavUnit(this)">
+        <span>U2 · Paralelismo</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="nav-items open">
+        <a class="nav-link done" onclick="scrollToSection('forkjoin')">
+          <span class="dot"></span> Fork-Join
+          <span class="badge">PDF 3–4</span>
+        </a>
+        <a class="nav-link done" onclick="scrollToSection('vectorizacion')">
+          <span class="dot"></span> Vectorización &amp; SIMD
+          <span class="badge">PDF 5</span>
+        </a>
+        <a class="nav-link done" onclick="scrollToSection('async')">
+          <span class="dot"></span> Async / Await
+          <span class="badge">PDF 6–7</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- UNIDAD 3 -->
+    <div class="nav-section">
+      <div class="nav-unit-header open" onclick="toggleNavUnit(this)">
+        <span>U3 · Sincronización</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="nav-items open">
+        <a class="nav-link done" onclick="scrollToSection('correccion')">
+          <span class="dot"></span> Corrección &amp; Locks
+          <span class="badge">PDF 8–9</span>
+        </a>
+        <a class="nav-link done" onclick="scrollToSection('semaforos')">
+          <span class="dot"></span> Semáforos
+          <span class="badge">PDF 10</span>
+        </a>
+        <a class="nav-link done" onclick="scrollToSection('monitores')">
+          <span class="dot"></span> Monitores
+          <span class="badge">PDF 11</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- UNIDAD 4 -->
+    <div class="nav-section">
+      <div class="nav-unit-header open" onclick="toggleNavUnit(this)">
+        <span>U4 · Redes de Petri</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="nav-items open">
+        <a class="nav-link done" onclick="scrollToSection('petri')">
+          <span class="dot"></span> Red Ordinaria &amp; General
+          <span class="badge">PDF 12</span>
+        </a>
+        <a class="nav-link done" onclick="scrollToSection('petri-ejemplos')">
+          <span class="dot"></span> Ejemplos Clásicos
+          <span class="badge">PDF 13</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- UNIDAD 5 -->
+    <div class="nav-section">
+      <div class="nav-unit-header open" onclick="toggleNavUnit(this)">
+        <span>U5 · Channels &amp; Actores</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="nav-items open">
+        <a class="nav-link done" onclick="scrollToSection('channels')">
+          <span class="dot"></span> Pasaje de Mensajes
+          <span class="badge">PDF 14</span>
+        </a>
+        <a class="nav-link done" onclick="scrollToSection('actores')">
+          <span class="dot"></span> Modelo de Actores
+          <span class="badge">PDF 15</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- UNIDAD 6 -->
+    <div class="nav-section">
+      <div class="nav-unit-header open" onclick="toggleNavUnit(this)">
+        <span>U6 · Distribuido</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="nav-items open">
+        <a class="nav-link done" onclick="scrollToSection('distrib')">
+          <span class="dot"></span> Exclusión Mutua &amp; Sockets
+          <span class="badge">PDF 16–17</span>
+        </a>
+        <a class="nav-link done" onclick="scrollToSection('eleccion')">
+          <span class="dot"></span> Algoritmos de Elección
+          <span class="badge">PDF 18</span>
+        </a>
+        <a class="nav-link done" onclick="scrollToSection('transacciones')">
+          <span class="dot"></span> Transacciones ACID
+          <span class="badge">PDF 19</span>
+        </a>
+        <a class="nav-link done" onclick="scrollToSection('ambientes')">
+          <span class="dot"></span> Ambientes Distribuidos
+          <span class="badge">PDF 20</span>
+        </a>
+        <a class="nav-link done" onclick="scrollToSection('deadlocks-distrib')">
+          <span class="dot"></span> Deadlocks Distribuidos
+          <span class="badge">PDF 21</span>
+        </a>
+      </div>
+    </div>
+
+    <!-- UNIDAD X -->
+    <div class="nav-section">
+      <div class="nav-unit-header open" onclick="toggleNavUnit(this)">
+        <span>Extras · GPU · Testing · Langs</span>
+        <span class="chevron">▶</span>
+      </div>
+      <div class="nav-items open">
+        <a class="nav-link done" onclick="scrollToSection('cuda')">
+          <span class="dot"></span> CUDA &amp; GPU
+          <span class="badge">PDF 22</span>
+        </a>
+        <a class="nav-link done" onclick="scrollToSection('testing')">
+          <span class="dot"></span> Testing Concurrente
+          <span class="badge">PDF 23</span>
+        </a>
+        <a class="nav-link done" onclick="scrollToSection('lenguajes')">
+          <span class="dot"></span> Otros Lenguajes
+          <span class="badge">PDF 24</span>
+        </a>
+      </div>
+    </div>
+  </nav>
+</aside>
+
+<!-- ══════════════ MAIN ══════════════ -->
+<main id="main">
+
+  <!-- ════ 01 INTRODUCCIÓN ════ -->
+  <section class="content-section" id="intro">
+    <div class="section-tag">01 · Introducción</div>
+    <h2>Programación <em>Concurrente</em></h2>
+    <p class="section-intro">Fundamentos teóricos, vocabulario esencial y los cinco modelos de concurrencia estudiados en la materia.</p>
+
+    <h3>Definiciones Clave</h3>
+
+    <div class="def-block">
+      <div class="term">Programa</div>
+      <p>Conjunto de datos, asignaciones e instrucciones de control de flujo que compilan a instrucciones de máquina. Se ejecutan <strong>secuencialmente</strong> en un procesador.</p>
+    </div>
+
+    <div class="def-block">
+      <div class="term">Programa Concurrente</div>
+      <p>Conjunto finito de <strong>procesos secuenciales</strong> que pueden ejecutarse en paralelo. Su ejecución resulta del intercalado arbitrario de instrucciones atómicas de cada proceso.</p>
+    </div>
+
+    <div class="def-block">
+      <div class="term">Instrucción Atómica</div>
+      <p>Una instrucción que puede ejecutarse de principio a fin sin interrupciones, o directamente no ejecutarse. No hay estado intermedio observable.</p>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-cell">
+        <div class="label">Proceso</div>
+        <p>Cada programa secuencial que conforma el programa concurrente. Tiene su propio estado de ejecución.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Sistema Paralelo</div>
+        <p>Varios programas ejecutándose <strong>simultáneamente</strong> en procesadores físicos distintos.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Multitasking</div>
+        <p>Ejecución de múltiples procesos en un periodo de tiempo. El <strong>scheduler</strong> del kernel coordina el acceso.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Multithreading</div>
+        <p>Construcción que permite ejecución concurrente de <strong>threads</strong> dentro del mismo proceso/programa.</p>
+      </div>
+    </div>
+
+    <h3>Desafíos de la Concurrencia</h3>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">⏱</span>
+        <div class="card-title">Sincronización</div>
+        <div class="card-desc">Coordinación <strong>temporal</strong> entre distintos procesos.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">📡</span>
+        <div class="card-title">Comunicación</div>
+        <div class="card-desc">Datos que los procesos necesitan <strong>compartir</strong> para cumplir la función del programa.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚠️</span>
+        <div class="card-title">Race Conditions</div>
+        <div class="card-desc">Cuando el resultado depende del <strong>orden de ejecución</strong> de los threads.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔒</span>
+        <div class="card-title">Deadlock</div>
+        <div class="card-desc">Dos o más procesos <strong>bloqueados mutuamente</strong> esperando recursos que el otro tiene.</div>
+      </div>
+    </div>
+
+    <h3>Modelos de Concurrencia</h3>
+
+    <div class="models-row">
+      <div class="model-pill highlight"><span class="icon">🔱</span><div class="label">Fork-Join</div></div>
+      <div class="model-pill highlight"><span class="icon">⚡</span><div class="label">Async</div></div>
+      <div class="model-pill highlight"><span class="icon">📬</span><div class="label">Canales</div></div>
+      <div class="model-pill highlight"><span class="icon">🎭</span><div class="label">Actores</div></div>
+      <div class="model-pill highlight"><span class="icon">🔐</span><div class="label">Estado Comp.</div></div>
+    </div>
+  </section>
+
+  <!-- ════ 02 RUST ════ -->
+  <section class="content-section" id="rust">
+    <div class="section-tag">02 · Lenguaje</div>
+    <h2>Introducción a <em>Rust</em></h2>
+    <p class="section-intro">Rust es el lenguaje base de la materia. Sus objetivos son velocidad, seguridad y concurrencia. Su sistema de ownership permite garantizar "concurrencia sin miedo".</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">🚀</span>
+        <div class="card-title">Velocidad</div>
+        <div class="card-desc">Zero-cost abstractions. Performance comparable a C/C++.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🛡</span>
+        <div class="card-title">Memory Safety</div>
+        <div class="card-desc">Sin punteros sueltos, sin buffer overflow. Todo en <strong>tiempo de compilación</strong>.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚙️</span>
+        <div class="card-title">Concurrencia</div>
+        <div class="card-desc">El compilador previene race conditions. Si compila, no hay data races.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">📦</span>
+        <div class="card-title">Cargo</div>
+        <div class="card-desc">Herramienta de build + gestión de dependencias (crates.io).</div>
+      </div>
+    </div>
+
+    <h3>Ownership: el corazón de Rust</h3>
+
+    <div class="callout warn">
+      <span class="callout-icon">⚠</span>
+      <div class="callout-body">
+        <strong>Ownership es la razón por la que Rust puede garantizar memory safety sin garbage collector.</strong> Inspirado en C++ RAII pero llevado al extremo: el compilador verifica las reglas en compile-time, con costo de runtime cero.
+      </div>
+    </div>
+
+    <div class="flow-diagram">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-content">
+          <h5>Cada valor tiene un único dueño (owner)</h5>
+          <p>Solo una variable puede ser el owner de un valor en un momento dado.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-content">
+          <h5>Cambiar de dueño es un <em>move</em></h5>
+          <p>Al asignar a otra variable o pasar a una función, la original ya no puede usarse.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-content">
+          <h5>Cuando el owner sale de scope, el valor se elimina</h5>
+          <p>Se llama automáticamente al trait <span class="inline-code">Drop</span>. No hace falta <span class="inline-code">free()</span>.</p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Traits Send y Sync</h3>
+    <div class="concept-grid">
+      <div class="concept-cell">
+        <div class="label">Send</div>
+        <p>El ownership del tipo puede ser <strong>transferido entre threads</strong>. Casi todos los tipos son Send. Excepción: <span class="inline-code">Rc&lt;T&gt;</span>.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Sync</div>
+        <p>Es seguro ser <strong>referenciado desde múltiples threads</strong>. T es Sync si <span class="inline-code">&T</span> es Send. Los primitivos son Sync.</p>
+      </div>
+    </div>
+
+    <h3>Threads en Rust</h3>
+    <pre><span class="lang-tag">rust</span><span class="kw">use</span> std::{thread, time::Duration};
+
+<span class="kw">let</span> join_handle = thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
+    <span class="mac">println!</span>(<span class="str">"[HIJO] spawnie"</span>);
+    thread::<span class="fn">sleep</span>(<span class="ty">Duration</span>::<span class="fn">from_secs</span>(<span class="num">2</span>));
+});
+
+join_handle.<span class="fn">join</span>().<span class="fn">unwrap</span>();  <span class="cm">// espera que el thread termine</span></pre>
+  </section>
+
+  <!-- ════ 03 FORK-JOIN ════ -->
+  <section class="content-section" id="forkjoin">
+    <div class="section-tag">03 · Modelo de Paralelismo</div>
+    <h2>Fork-<em>Join</em></h2>
+    <p class="section-intro">Modelo de paralelismo datado de 1963 (Melvin Conway). El cómputo se divide recursivamente en sub-tareas independientes que se ejecutan en paralelo y luego se combinan.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">🔀</span>
+        <div class="card-title">División Recursiva</div>
+        <div class="card-desc">El cómputo se parte recursivamente. Los sub-cómputos son <strong>independientes</strong> → se pueden ejecutar en paralelo.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🎲</span>
+        <div class="card-title">Determinístico</div>
+        <div class="card-desc">Los threads están aislados. Produce el <strong>mismo resultado</strong> independientemente de la velocidad.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚡</span>
+        <div class="card-title">Performance Ideal</div>
+        <div class="card-desc">En caso ideal: <strong>t_secuencial / N_threads</strong>. Varía por tamaño de tareas y costo de combinar.</div>
+      </div>
+    </div>
+
+    <h3>Work Stealing</h3>
+    <p>El algoritmo de scheduling más importante en Fork-Join. Resuelve el <strong>balanceo de carga</strong> cuando las tareas tienen distintos tamaños. Cada thread tiene su propia cola de tareas; cuando una cola se vacía, el thread "roba" tareas de la cola de otro.</p>
+
+    <h3>Implementación con Rayon</h3>
+    <pre><span class="lang-tag">rust</span><span class="kw">use</span> rayon::prelude::*;
+
+<span class="cm">// Dos tareas en paralelo</span>
+<span class="kw">let</span> (v1, v2) = rayon::<span class="fn">join</span>(fn1, fn2);
+
+<span class="cm">// N tareas en paralelo con iterador paralelo</span>
+giant_vector.<span class="fn">par_iter</span>().<span class="fn">for_each</span>(|value| {
+    <span class="fn">do_thing_with_value</span>(value);
+});</pre>
+  </section>
+
+  <!-- ════ 04 VECTORIZACIÓN ════ -->
+  <section class="content-section" id="vectorizacion">
+    <div class="section-tag">04 · Paralelismo de Datos</div>
+    <h2>Vectorización <em>&amp; SIMD</em></h2>
+    <p class="section-intro">Cuando queremos un cómputo "simple" sobre un conjunto grande de datos, el overhead de crear threads puede ser excesivo. Las CPUs modernas ofrecen instrucciones SIMD para resolverlo.</p>
+
+    <div class="def-block">
+      <div class="term">SIMD — Single Instruction, Multiple Data</div>
+      <p>Instrucciones que operan sobre <strong>vectores de datos</strong> en paralelo. Cada variable (registro) es un vector de tamaño fijo, generalmente de entre <strong>128 y 512 bits</strong>, dividido en N "lanes" según el tamaño de los datos.</p>
+    </div>
+
+    <div class="simd-visual">
+      <div class="simd-row">
+        <div class="simd-label">registro A</div>
+        <div class="simd-reg">
+          <div class="simd-lane lane-a">x₀</div>
+          <div class="simd-lane lane-a">x₁</div>
+          <div class="simd-lane lane-a">x₂</div>
+          <div class="simd-lane lane-a">x₃</div>
+        </div>
+        <div class="simd-op"></div>
+      </div>
+      <div class="simd-row op-row">
+        <div class="simd-label">registro B</div>
+        <div class="simd-reg">
+          <div class="simd-lane lane-b">y₀</div>
+          <div class="simd-lane lane-b">y₁</div>
+          <div class="simd-lane lane-b">y₂</div>
+          <div class="simd-lane lane-b">y₃</div>
+        </div>
+        <div class="simd-op">A + B →</div>
+      </div>
+      <div class="simd-row">
+        <div class="simd-label">resultado C</div>
+        <div class="simd-reg">
+          <div class="simd-lane lane-c">x₀+y₀</div>
+          <div class="simd-lane lane-c">x₁+y₁</div>
+          <div class="simd-lane lane-c">x₂+y₂</div>
+          <div class="simd-lane lane-c">x₃+y₃</div>
+        </div>
+        <div class="simd-op"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ 05 ASYNC ════ -->
+  <section class="content-section" id="async">
+    <div class="section-tag">05 · Modelo Asincrónico</div>
+    <h2>Async / <em>Await</em></h2>
+    <p class="section-intro">Modelo de concurrencia basado en la cooperación entre tareas livianas. Ideal para operaciones I/O-bound donde los threads pasarían la mayor parte del tiempo esperando system calls.</p>
+
+    <div class="concept-grid">
+      <div class="concept-cell" style="border-top: 2px solid var(--red);">
+        <div class="label" style="color: var(--red);">❌ No usar async</div>
+        <p>Calcular un factorial, producto de matrices, problema de los filósofos. Son tareas <strong>CPU-bound</strong> → usá Fork-Join.</p>
+      </div>
+      <div class="concept-cell" style="border-top: 2px solid var(--green);">
+        <div class="label" style="color: var(--green);">✓ Usar async</div>
+        <p>Consultar servicios externos, leer archivos, servir requests HTTP. Son tareas <strong>I/O-bound</strong> donde el thread estaría bloqueado esperando.</p>
+      </div>
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-icon">⚠</span>
+      <div class="callout-body">
+        <strong>El cambio de una tarea a otra ocurre SÓLO en las expresiones await.</strong> Un cómputo grande en una función async no daría lugar a la ejecución de otras tareas. Esto es diferente a los threads, donde el scheduler puede interrumpir en cualquier momento.
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ 06 CORRECCIÓN Y LOCKS ════ -->
+  <section class="content-section" id="correccion">
+    <div class="section-tag">06 · Sincronización</div>
+    <h2>Corrección &amp; <em>Locks</em></h2>
+    <p class="section-intro">En programas concurrentes, la corrección es más difícil de razonar que en programas secuenciales: la salida puede depender del escenario de ejecución.</p>
+
+    <h3>Propiedades de Corrección</h3>
+
+    <div class="prop-grid">
+      <div class="prop-card safety">
+        <div class="prop-label">Safety — debe ser verdadera siempre</div>
+        <div class="prop-item">
+          <strong>Exclusión Mutua</strong>
+          Dos procesos no deben intercalar ciertas (sub)secuencias de instrucciones.
+        </div>
+        <div class="prop-item">
+          <strong>Ausencia de Deadlock</strong>
+          Un sistema que aún no finalizó debe poder continuar realizando su tarea.
+        </div>
+      </div>
+      <div class="prop-card liveness">
+        <div class="prop-label">Liveness — debe volverse verdadera eventualmente</div>
+        <div class="prop-item">
+          <strong>Ausencia de Starvation</strong>
+          Todo proceso que esté listo para utilizar un recurso debe recibirlo eventualmente.
+        </div>
+        <div class="prop-item">
+          <strong>Fairness (equidad)</strong>
+          Una instrucción que está continuamente habilitada, eventualmente aparece en el escenario.
+        </div>
+      </div>
+    </div>
+
+    <h3>RwLock en Rust</h3>
+    <pre><span class="lang-tag">rust</span><span class="kw">use</span> std::sync::{<span class="ty">Arc</span>, <span class="ty">RwLock</span>};
+
+<span class="kw">let</span> shared = <span class="ty">Arc</span>::<span class="fn">new</span>(<span class="ty">RwLock</span>::<span class="fn">new</span>(<span class="num">0i32</span>));
+<span class="kw">let mut</span> w = shared.<span class="fn">write</span>().<span class="fn">unwrap</span>();
+*w += <span class="num">1</span>;</pre>
+  </section>
+
+  <!-- ════ 07 SEMÁFOROS ════ -->
+  <section class="content-section" id="semaforos">
+    <div class="section-tag">07 · Sincronización II</div>
+    <h2><em>Semáforos</em></h2>
+    <p class="section-intro">Mecanismos de sincronismo implementados como una construcción de programación concurrente de más alto nivel. Introducidos por Dijkstra en los años 60.</p>
+
+    <div class="def-block">
+      <div class="term">Semáforo</div>
+      <p>Tipo de dato compuesto por un <strong>entero no negativo V</strong> y un <strong>conjunto de procesos L</strong> (los bloqueados). Dos operaciones atómicas: <strong>wait(S)</strong> y <strong>signal(S)</strong>.</p>
+    </div>
+
+    <h3>Semántica de las Operaciones</h3>
+    <div class="sem-visual">
+      <div class="sem-box">
+        <div class="sem-label">wait(S) — p(S)</div>
+        <pre style="background: var(--bg3); border: none; margin: 0; padding: 8px 12px; font-size: 12px;"><span class="kw">if</span> S.V > <span class="num">0</span>
+    S.V := S.V - <span class="num">1</span>
+<span class="kw">else</span>
+    S.L.add(p)
+    p.state := blocked</pre>
+      </div>
+      <div class="sem-box">
+        <div class="sem-label">signal(S) — v(S)</div>
+        <pre style="background: var(--bg3); border: none; margin: 0; padding: 8px 12px; font-size: 12px;"><span class="kw">if</span> S.L.isEmpty()
+    S.V := S.V + <span class="num">1</span>
+<span class="kw">else</span>
+    q := S.L.takeOne()
+    q.state := ready</pre>
+      </div>
+    </div>
+
+    <h3>Problema Clásico: Productor-Consumidor</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Caso</th><th>Semáforos necesarios</th><th>Descripción</th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Buffer infinito</td>
+            <td><span class="inline-code">notEmpty (0, ∅)</span></td>
+            <td>Solo problema 1: no consumir si el buffer está vacío</td>
+          </tr>
+          <tr>
+            <td>Buffer acotado N</td>
+            <td><span class="inline-code">notEmpty (0, ∅)</span><br><span class="inline-code">notFull (N, ∅)</span></td>
+            <td>Problema 1 y 2: además no producir si el buffer está lleno</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ════ 08 MONITORES ════ -->
+  <section class="content-section" id="monitores">
+    <div class="section-tag">08 · Sincronización III</div>
+    <h2><em>Monitores</em></h2>
+    <p class="section-intro">Herramienta de sincronización de más alto nivel que los semáforos. Los monitores encapsulan estado compartido junto con las operaciones que lo modifican, garantizando exclusión mutua implícita.</p>
+
+    <div class="def-block">
+      <div class="term">Monitor</div>
+      <p>Herramienta que permite a los hilos tener <strong>exclusión mutua</strong> y la posibilidad de <strong>esperar (block)</strong> a que una condición se cumpla. Tiene un mecanismo para señalizar a otros hilos cuando su condición se satisface.</p>
+    </div>
+
+    <h3>Condition Variables</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Operación</th><th>Efecto</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="inline-code">waitC(cond)</span></td>
+            <td>Bloquea el proceso y <strong>libera el lock del monitor</strong>. Siempre bloquea.</td>
+          </tr>
+          <tr>
+            <td><span class="inline-code">signalC(cond)</span></td>
+            <td>Desbloquea el proceso del tope de la cola FIFO. <strong>No tiene efecto si la cola está vacía</strong>.</td>
+          </tr>
+          <tr>
+            <td><span class="inline-code">empty(cond)</span></td>
+            <td>Devuelve true si la cola de la condition variable está vacía.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Condition Variables en Rust</h3>
+    <pre><span class="lang-tag">rust</span><span class="kw">use</span> std::sync::{<span class="ty">Arc</span>, <span class="ty">Condvar</span>, <span class="ty">Mutex</span>};
+
+<span class="kw">let</span> pair = <span class="ty">Arc</span>::<span class="fn">new</span>((<span class="ty">Mutex</span>::<span class="fn">new</span>(<span class="kw">false</span>), <span class="ty">Condvar</span>::<span class="fn">new</span>()));
+
+<span class="cm">// Thread que espera:</span>
+<span class="kw">while</span> !*ready {
+    ready = cvar.<span class="fn">wait</span>(ready).<span class="fn">unwrap</span>(); <span class="cm">// libera el lock y espera</span>
+}
+
+<span class="cm">// Thread que señaliza:</span>
+*ready = <span class="kw">true</span>;
+cvar.<span class="fn">notify_all</span>();</pre>
+
+    <div class="callout warn">
+      <span class="callout-icon">⚠</span>
+      <div class="callout-body">
+        <strong>Spurious wakeups:</strong> Un thread puede despertar de un wait sin que notify haya sido llamado. Por eso siempre se debe volver a verificar la condición en un <strong>while</strong>, no en un if.
+      </div>
+    </div>
+
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div>
+        <div class="ch-tag">Clásico</div>
+        <div class="ch-title">Filósofos, Barbero, Lector-Escritor</div>
+      </div>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <p><strong>Filósofos:</strong> 5 filósofos, 5 palitos. Si todos toman el palito izquierdo → deadlock. Solución: árbitro o forzar a uno a tomar en orden inverso.</p>
+      <p><strong>Barbero Dormilón:</strong> Si no hay clientes, el barbero duerme. El primer cliente lo despierta. Sincronizar despertar con llegada de clientes.</p>
+      <p><strong>Lector-Escritor:</strong> Múltiples lectores simultáneos OK. Escritor requiere acceso exclusivo. Cuidado con starvation de escritores.</p>
+    </div>
+  </section>
+
+  <!-- ════ 09 REDES DE PETRI ════ -->
+  <section class="content-section" id="petri">
+    <div class="section-tag">09 · Formalismo</div>
+    <h2>Redes de <em>Petri</em></h2>
+    <p class="section-intro">Formalismo matemático para modelar sistemas concurrentes. Permite razonar sobre propiedades como deadlock, alcanzabilidad y corrección de manera visual y rigurosa.</p>
+
+    <div class="petri-legend">
+      <div class="petri-legend-item">
+        <div class="petri-place">●</div>
+        <span>Lugar (p): representa un estado o condición</span>
+      </div>
+      <div class="petri-legend-item">
+        <div class="petri-transition"></div>
+        <span>Transición (t): representa un evento o acción</span>
+      </div>
+      <div class="petri-legend-item">
+        <div class="petri-token"></div>
+        <span>Token (•): indica que un lugar está marcado / activo</span>
+      </div>
+    </div>
+
+    <h3>Red Ordinaria de Petri</h3>
+    <div class="def-block">
+      <div class="term">Definición Formal</div>
+      <p>PN = (T, P, A) donde T = transiciones, P = lugares, A ⊆ (T × P) ∪ (P × T) = arcos. Una transición t está <strong>habilitada</strong> si M(p) ≥ 1 para todo p ∈ I(t). Al disparar: consume tokens de entrada, produce tokens de salida.</p>
+    </div>
+
+    <h3>Red General de Petri (con pesos)</h3>
+    <div class="def-block">
+      <div class="term">Definición Extendida</div>
+      <p>PN = (T, P, A, W, M₀) donde W : A → ℕ es la <strong>función de peso</strong>. Una transición t está habilitada si M(p) ≥ W(p, t) para todo p ∈ I(t).</p>
+    </div>
+  </section>
+
+  <!-- ════ 10 PETRI EJEMPLOS ════ -->
+  <section class="content-section" id="petri-ejemplos">
+    <div class="section-tag">10 · Redes de Petri · Avanzado</div>
+    <h2>Red General &amp; <em>Ejemplos Clásicos</em></h2>
+
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div><div class="ch-tag">Modelo Petri</div><div class="ch-title">Mutex (Exclusión Mutua)</div></div>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <p>P2 inicializado con 1 token actúa como el lock. Solo uno de los procesos puede tener ese token y entrar a la sección crítica. P3 y P4 nunca tienen token simultáneamente → exclusión mutua garantizada.</p>
+    </div>
+
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div><div class="ch-tag">Modelo Petri</div><div class="ch-title">Productor-Consumidor con Buffer Acotado (N)</div></div>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <p>Se agrega lugar p₆ con N tokens que representa los espacios libres. La transición que produce necesita un token de p₆ (hay espacio). La que consume devuelve un token a p₆. El productor no puede superar N items.</p>
+    </div>
+
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div><div class="ch-tag">Modelo Petri</div><div class="ch-title">Lector-Escritor con Arco Inhibidor</div></div>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <p><strong>Arco Inhibidor:</strong> Se representa con flecha de punta abierta. Una transición con arco inhibidor desde p solo está habilitada si <strong>p NO tiene tokens</strong>. T0 (lector) tiene arco inhibidor desde P4 (escritores activos). T2 (escritor) tiene arco inhibidor desde P1 (lectores activos).</p>
+    </div>
+  </section>
+
+  <!-- ════ 11 CHANNELS ════ -->
+  <section class="content-section" id="channels">
+    <div class="section-tag">11 · Pasaje de Mensajes</div>
+    <h2>Channels &amp; <em>Mensajes</em></h2>
+    <p class="section-intro">Modelo de comunicación basado en el pasaje de mensajes entre procesos. En lugar de memoria compartida, los procesos se comunican enviando datos a través de canales tipados.</p>
+
+    <div class="callout info">
+      <span class="callout-icon">💬</span>
+      <div class="callout-body">
+        <strong>Filosofía Go adoptada por Rust:</strong> "Do not communicate by sharing memory; instead, share memory by communicating."
+      </div>
+    </div>
+
+    <h3>Modelos de Comunicación</h3>
+    <div class="concept-grid">
+      <div class="concept-cell">
+        <div class="label">Comunicación Sincrónica</div>
+        <p>El emisor se bloquea hasta que el receptor recibe el mensaje. No hay buffer.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Comunicación Asincrónica</div>
+        <p>El emisor deposita el mensaje en un <strong>buffer</strong> y continúa. El receptor lo lee cuando puede.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Direccionamiento Simétrico</div>
+        <p>El emisor nombra al receptor y el receptor nombra al emisor.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Flujo Unidireccional</div>
+        <p>Los canales solo transportan datos en una dirección: de emisor a receptor.</p>
+      </div>
+    </div>
+
+    <h3>Canales en Rust — <span class="inline-code">std::sync::mpsc</span></h3>
+    <p>Rust provee canales <strong>MPSC (Multiple Producer, Single Consumer)</strong>. El canal tiene dos extremos: un emisor <span class="inline-code">Sender&lt;T&gt;</span> y un receptor <span class="inline-code">Receiver&lt;T&gt;</span>. <strong>Transfieren el ownership</strong> del elemento enviado.</p>
+
+    <pre><span class="lang-tag">rust</span><span class="kw">use</span> std::sync::mpsc;
+<span class="kw">use</span> std::thread;
+
+<span class="kw">let</span> (tx, rx) = mpsc::<span class="fn">channel</span>();
+
+thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
+    tx.<span class="fn">send</span>(<span class="ty">String</span>::<span class="fn">from</span>(<span class="str">"Hola"</span>)).<span class="fn">unwrap</span>();
+});
+
+<span class="kw">let</span> received = rx.<span class="fn">recv</span>().<span class="fn">unwrap</span>();
+<span class="mac">println!</span>(<span class="str">"Recibido: {}"</span>, received);</pre>
+
+    <h3>Selective Input</h3>
+    <div class="def-block">
+      <div class="term">Selective Input</div>
+      <p>Sintaxis que permite escuchar en <strong>varios canales de forma bloqueante</strong> y desbloquearse con el primero que recibe un mensaje. Fundamental para que un proceso pueda reaccionar a distintas fuentes de datos.</p>
+    </div>
+
+    <h3>Canales en Unix: Pipes, FIFOs y Message Queues</h3>
+    <p>Unix provee <strong>Pipes</strong> y <strong>FIFOs</strong> para conectar dos procesos independientes, orientados a bytes. Los FIFOs tienen representación en el filesystem. También existen <strong>Message Queues</strong>, orientadas a mensajes como unidades independientes.</p>
+
+    <h3>Filósofos con Canales — Solución de Chandy/Misra</h3>
+    <div class="callout tip">
+      <span class="callout-icon">✓</span>
+      <div class="callout-body">
+        <strong>Idea clave:</strong> Los palitos circulan por mensajes entre filósofos. Cada palito puede estar <strong>sucio</strong> o <strong>limpio</strong>. Un filósofo entrega un palito sucio si le es solicitado, pero retiene uno limpio. Esto garantiza ausencia de deadlock y starvation.
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ 12 ACTORES ════ -->
+  <section class="content-section" id="actores">
+    <div class="section-tag">12 · Modelo de Actores</div>
+    <h2>Actores &amp; <em>Actix</em></h2>
+    <p class="section-intro">Modelo de concurrencia desarrollado por Carl Hewitt en 1973. Popularizado por Erlang. Los actores encapsulan estado, comportamiento y tienen una dirección única.</p>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">📬</span>
+        <div class="card-title">Mailbox (FIFO)</div>
+        <div class="card-desc">Cada actor tiene una cola de mensajes entrantes. Procesa <strong>uno a la vez</strong>.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔒</span>
+        <div class="card-title">Estado Privado</div>
+        <div class="card-desc">No comparte memoria con otros actores. El estado <strong>solo cambia al procesar mensajes</strong>.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌐</span>
+        <div class="card-title">Distribuible</div>
+        <div class="card-desc">La dirección de un actor puede ser <strong>remota</strong>. El código no cambia.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚡</span>
+        <div class="card-title">Livianos</div>
+        <div class="card-desc">Se pueden crear <strong>miles de actores</strong> en lugar de threads.</div>
+      </div>
+    </div>
+
+    <h3>Formas de Enviar Mensajes (Actix)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Método</th><th>Comportamiento</th></tr></thead>
+        <tbody>
+          <tr>
+            <td><span class="inline-code">Addr::do_send(M)</span></td>
+            <td>Fire-and-forget. Ignora errores. No retorna resultado.</td>
+          </tr>
+          <tr>
+            <td><span class="inline-code">Addr::try_send(M)</span></td>
+            <td>Envío inmediato. Retorna <span class="inline-code">SendError</span> si mailbox lleno o cerrado.</td>
+          </tr>
+          <tr>
+            <td><span class="inline-code">Addr::send(M)</span></td>
+            <td>Retorna un <strong>Future</strong> con el resultado del handler. Permite <span class="inline-code">.await</span>.</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ════ 13 DISTRIBUIDO ════ -->
+  <section class="content-section" id="distrib">
+    <div class="section-tag">13 · Sistemas Distribuidos</div>
+    <h2>Concurrencia <em>Distribuida</em></h2>
+    <p class="section-intro">En sistemas distribuidos, los procesos corren en máquinas separadas y se comunican por red. Los algoritmos clásicos de exclusión mutua y comunicación deben adaptarse a este modelo.</p>
+
+    <h3>Exclusión Mutua Distribuida</h3>
+
+    <div class="algo-compare">
+      <div class="algo-card blue-top">
+        <div class="algo-name">Centralizado</div>
+        <ul>
+          <li>Un proceso es el <strong>coordinador</strong></li>
+          <li>Para entrar a la SC: enviar mensaje al coordinador</li>
+          <li>Si SC libre: coordinador responde OK</li>
+          <li>Si SC ocupada: coordinador encola y espera</li>
+        </ul>
+        <p style="margin-top:6px; color: var(--rust);">⚠ Punto único de falla</p>
+      </div>
+      <div class="algo-card green-top">
+        <div class="algo-name">Ricart-Agrawala</div>
+        <ul>
+          <li>Enviar REQUEST con timestamp a todos</li>
+          <li>Recibir OK de todos para entrar</li>
+          <li>Timestamps desempatan conflictos</li>
+        </ul>
+      </div>
+      <div class="algo-card rust-top">
+        <div class="algo-name">Token Ring</div>
+        <ul>
+          <li>Procesos en anillo lógico</li>
+          <li>Solo el que tiene el <strong>token</strong> puede entrar</li>
+          <li>Al salir, pasa el token al siguiente</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Flujo TCP: Cliente y Servidor</h3>
+    <div class="socket-flow">
+      <div class="socket-col server">
+        <div class="socket-title">🖥 Servidor TCP</div>
+        <div class="socket-step"><span class="fn-name">socket()</span> — crear socket</div>
+        <div class="socket-step"><span class="fn-name">bind(addr)</span> — asignar dirección local</div>
+        <div class="socket-step"><span class="fn-name">listen(backlog)</span> — poner en escucha</div>
+        <div class="socket-step"><span class="fn-name">accept()</span> — esperar conexión entrante</div>
+        <div class="socket-step"><span class="fn-name">read(buf)</span> — leer datos</div>
+        <div class="socket-step"><span class="fn-name">write(buf)</span> — enviar respuesta</div>
+        <div class="socket-step"><span class="fn-name">close()</span> — cerrar conexión</div>
+      </div>
+      <div class="socket-col client">
+        <div class="socket-title">💻 Cliente TCP</div>
+        <div class="socket-step"><span class="fn-name">socket()</span> — crear socket</div>
+        <div class="socket-step" style="opacity:0.3">— — —</div>
+        <div class="socket-step" style="opacity:0.3">— — —</div>
+        <div class="socket-step"><span class="fn-name">connect(addr)</span> — conectarse</div>
+        <div class="socket-step"><span class="fn-name">write(buf)</span> — enviar petición</div>
+        <div class="socket-step"><span class="fn-name">read(buf)</span> — leer respuesta</div>
+        <div class="socket-step"><span class="fn-name">close()</span> — cerrar conexión</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ 14 ELECCIÓN DE LÍDER ════ -->
+  <section class="content-section" id="eleccion">
+    <div class="section-tag">14 · Distribuido II</div>
+    <h2>Algoritmos de <em>Elección</em></h2>
+    <p class="section-intro">Varios algoritmos distribuidos requieren un coordinador con un rol especial. Los algoritmos de elección permiten elegir uno automáticamente cuando el actual falla.</p>
+
+    <div class="algo-compare">
+      <div class="algo-card blue-top">
+        <div class="algo-name">Bully (Garcia-Molina)</div>
+        <p>Cuando el coordinador no responde, P envía ELECTION a los de mayor ID. Si nadie responde, P es el coordinador. El mayor ID siempre gana. O(N²) mensajes en el peor caso.</p>
+      </div>
+      <div class="algo-card green-top">
+        <div class="algo-name">Ring</div>
+        <p>Procesos en anillo lógico. El mensaje ELECTION recorre el anillo acumulando IDs. Al completar la vuelta, el mayor ID gana. O(N) mensajes.</p>
+      </div>
+      <div class="algo-card rust-top">
+        <div class="algo-name">Comparación</div>
+        <ul>
+          <li>Bully: simple, re-elección automática</li>
+          <li>Ring: eficiente en anillos</li>
+          <li>Token Ring: equitativo, sin starvation</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ 15 TRANSACCIONES ════ -->
+  <section class="content-section" id="transacciones">
+    <div class="section-tag">15 · Distribuido III</div>
+    <h2>Transacciones <em>Distribuidas</em></h2>
+    <p class="section-intro">Una transacción es una secuencia de operaciones que debe ejecutarse de forma atómica en un sistema distribuido. Si cualquier parte falla, todo debe revertirse.</p>
+
+    <h3>Propiedades ACID</h3>
+
+    <div class="acid-grid">
+      <div class="acid-card">
+        <div class="acid-letter">A</div>
+        <div class="acid-word">Atomic</div>
+        <div class="acid-desc">La transacción no puede ser dividida. Todo o nada.</div>
+      </div>
+      <div class="acid-card">
+        <div class="acid-letter">C</div>
+        <div class="acid-word">Consistent</div>
+        <div class="acid-desc">Cumple con todos los invariantes del sistema.</div>
+      </div>
+      <div class="acid-card">
+        <div class="acid-letter">I</div>
+        <div class="acid-word">Isolated</div>
+        <div class="acid-desc">Las transacciones concurrentes no interfieren entre sí.</div>
+      </div>
+      <div class="acid-card">
+        <div class="acid-letter">D</div>
+        <div class="acid-word">Durable</div>
+        <div class="acid-desc">Una vez commiteados los cambios, son permanentes.</div>
+      </div>
+    </div>
+
+    <h3>Primitivas de Transacción</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Primitiva</th><th>Descripción</th></tr></thead>
+        <tbody>
+          <tr><td><span class="inline-code">BEGIN TRANSACTION</span></td><td>Marca el inicio de la transacción</td></tr>
+          <tr><td><span class="inline-code">END TRANSACTION</span></td><td>Finalizar la transacción y tratar de hacer commit</td></tr>
+          <tr><td><span class="inline-code">ABORT TRANSACTION</span></td><td>Finalizar forzadamente y restaurar los valores anteriores (rollback)</td></tr>
+          <tr><td><span class="inline-code">READ / WRITE</span></td><td>Leer o escribir datos de un archivo u otro objeto</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Commit en Dos Fases (2PC)</h3>
+    <p>El protocolo más utilizado para garantizar atomicidad en transacciones distribuidas. Un coordinador coordina a los participantes:</p>
+
+    <div class="twopc-grid">
+      <div class="twopc-phase">
+        <div class="phase-label">⬡ Fase 1 — Prepare</div>
+        <div class="twopc-step"><div class="twopc-n">1</div>El coordinador escribe <em>prepare</em> en su log y envía mensaje PREPARE a todos los participantes</div>
+        <div class="twopc-step"><div class="twopc-n">2</div>Los participantes que pueden commitear responden READY y escriben en su log</div>
+        <div class="twopc-step"><div class="twopc-n">3</div>Si alguno responde ABORT, la transacción se cancela</div>
+      </div>
+      <div class="twopc-phase">
+        <div class="phase-label">⬡ Fase 2 — Commit</div>
+        <div class="twopc-step"><div class="twopc-n">1</div>Si todos respondieron READY: el coordinador escribe COMMIT y envía mensaje COMMIT</div>
+        <div class="twopc-step"><div class="twopc-n">2</div>Los participantes escriben COMMIT en el log y responden FINISHED</div>
+        <div class="twopc-step"><div class="twopc-n">3</div>El coordinador escribe END OF TRANSACTION</div>
+      </div>
+    </div>
+
+    <h3>Implementaciones</h3>
+
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div><div class="ch-tag">Técnica</div><div class="ch-title">Private Workspace</div></div>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <p>Al iniciar una transacción, el proceso recibe una <strong>copia de todos los archivos</strong> a los que tiene acceso. Hasta que hace commit, trabaja con la copia. Al commitear, se persisten los cambios. <em>Desventaja: extremadamente costoso salvo por optimizaciones.</em></p>
+    </div>
+
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div><div class="ch-tag">Técnica</div><div class="ch-title">Writeahead Log (WAL)</div></div>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <p>Los archivos se modifican <em>in place</em>, pero se mantiene una lista de los cambios aplicados (primero se escribe la lista y luego se modifica el archivo). Al commitear, se escribe un registro <em>commit</em> en el log. Si la transacción se aborta, se lee el log de atrás hacia adelante para hacer <strong>rollback</strong>.</p>
+    </div>
+
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div><div class="ch-tag">Control de Concurrencia</div><div class="ch-title">Two-Phase Locking (2PL)</div></div>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <p><strong>Fase de expansión:</strong> se toman todos los locks a usar. <strong>Fase de contracción:</strong> se liberan todos los locks (no se pueden tomar nuevos). Garantiza propiedad serializable. Pueden ocurrir deadlocks. En <em>Strict 2PL</em>, la contracción ocurre recién después del commit.</p>
+    </div>
+
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div><div class="ch-tag">Control de Concurrencia</div><div class="ch-title">Concurrencia Optimista</div></div>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <p>El proceso modifica los archivos sin ningún control, esperando que no haya conflictos. Al commitear, se verifica si el resto de las transacciones modificó los mismos archivos. Si es así, se <strong>aborta la transacción</strong>. <em>Ventajas: Libre de deadlocks. Desventajas: Rehacer todo puede ser costoso bajo alta carga.</em></p>
+    </div>
+
+    <h3>Ejemplo Práctico: RustiShop</h3>
+    <div class="callout purple">
+      <span class="callout-icon">🛒</span>
+      <div class="callout-body">
+        <strong>RustiShop:</strong> El proceso de checkout requiere conectarse con RustiPago, RustiStock y RustiEnvios. Debe ejecutarse <strong>atómicamente</strong>: si cualquier servicio falla o rechaza, toda la operación se cancela. Solución: implementar 2PC entre los tres servicios.
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ 16 AMBIENTES DISTRIBUIDOS ════ -->
+  <section class="content-section" id="ambientes">
+    <div class="section-tag">16 · Distribuido IV</div>
+    <h2>Ambientes <em>Distribuidos</em></h2>
+    <p class="section-intro">Modelo formal para describir sistemas distribuidos: entidades, eventos, comportamiento colectivo y métricas de costo.</p>
+
+    <h3>Entidades</h3>
+    <div class="def-block">
+      <div class="term">Entidad</div>
+      <p>Es la unidad de cómputo de un ambiente informático distribuido. Puede ser un proceso, un procesador, etc. Cada entidad tiene acceso de lectura/escritura a una memoria local (no compartida), capacidad de procesamiento local, comunicación via mensajes, y un reloj local.</p>
+    </div>
+
+    <h3>Eventos Externos</h3>
+    <p>La entidad es <strong>reactiva</strong>: solo responde a eventos externos. Los posibles eventos son:</p>
+    <ul>
+      <li><strong>Llegada de un mensaje</strong> — enviado por otra entidad</li>
+      <li><strong>Activación del reloj</strong> — el reloj local dispara una alarma</li>
+      <li><strong>Impulso espontáneo</strong> — el único evento que viene de fuera del sistema</li>
+    </ul>
+
+    <h3>Reglas y Comportamiento</h3>
+    <div class="concept-grid">
+      <div class="concept-cell">
+        <div class="label">Acción</div>
+        <p>Secuencia finita e indivisible de operaciones. Es atómica: se ejecuta sin interrupciones.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Regla</div>
+        <p>Relación entre evento y estado: <strong>estado × evento → acción</strong>. Para cada posible evento y estado debe existir una única regla.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Comportamiento B(x)</div>
+        <p>Conjunto de todas las reglas que obedece una entidad x. También llamado <strong>protocolo o algoritmo distribuido</strong>.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Comportamiento Homogéneo</div>
+        <p>Cuando todas las entidades del sistema tienen el mismo comportamiento: ∀x, y ∈ E, B(x) = B(y). Todo comportamiento colectivo puede transformarse en homogéneo.</p>
+      </div>
+    </div>
+
+    <h3>Restricciones del Sistema</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tipo</th><th>Restricción</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Confiabilidad</strong></td><td>Entrega garantizada: cualquier mensaje enviado será recibido intacto. Parcial: no ocurrirán fallas. Total: no han ocurrido ni ocurrirán fallas.</td></tr>
+          <tr><td><strong>Temporal</strong></td><td>Delays acotados (existe constante Δ), delays unitarios, relojes sincronizados.</td></tr>
+          <tr><td><strong>Orientación local</strong></td><td>Una entidad puede distinguir qué vecino le envía un mensaje y puede enviar a un vecino específico.</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Costo y Complejidad</h3>
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">📨</span>
+        <div class="card-title">Costo de Mensajes (M)</div>
+        <div class="card-desc">Cantidad de transmisiones y carga de trabajo por entidad y de transmisión.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">⏱</span>
+        <div class="card-title">Tiempo de Ejecución</div>
+        <div class="card-desc">Tiempo total del protocolo. Tiempo ideal: medido bajo delays unitarios y relojes sincronizados.</div>
+      </div>
+    </div>
+
+    <h3>Tipos de Conocimiento Local</h3>
+    <ul>
+      <li><strong>Información métrica:</strong> datos numéricos sobre la red (n = |V|, m = |E|, diámetro, etc.)</li>
+      <li><strong>Propiedades topológicas:</strong> el grafo es un anillo, es acíclico, etc.</li>
+      <li><strong>Mapas topológicos:</strong> un mapa de la vecindad de la entidad hasta una distancia d (ej: matriz de adyacencia)</li>
+    </ul>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <div class="callout-body">
+        <strong>Principio clave:</strong> En ausencia de fallas, el conocimiento no puede perderse. Los eventos disparan acciones que pueden generar nuevos eventos, los cuales ocurrirán siempre en un tiempo futuro Future(t).
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ 17 DEADLOCKS DISTRIBUIDOS ════ -->
+  <section class="content-section" id="deadlocks-distrib">
+    <div class="section-tag">17 · Distribuido V</div>
+    <h2>Deadlocks <em>Distribuidos</em></h2>
+    <p class="section-intro">En sistemas distribuidos, los deadlocks son más difíciles de detectar porque no existe una vista global del estado. Se necesitan algoritmos especiales para detectarlos y prevenirlos.</p>
+
+    <h3>Detección</h3>
+
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div><div class="ch-tag">Algoritmo</div><div class="ch-title">Centralizado: Grafo de uso de recursos</div></div>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <p>El proceso coordinador mantiene el <strong>grafo de uso de recursos</strong>. Los procesos envían mensajes al coordinador cuando obtienen/liberan un recurso, y el coordinador actualiza el grafo. <em>Problema:</em> los mensajes pueden llegar desordenados y generar falsos deadlocks. <em>Solución:</em> usar timestamps globales (algoritmo de Lamport) para ordenar los mensajes.</p>
+    </div>
+
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div><div class="ch-tag">Algoritmo</div><div class="ch-title">Distribuido: Probe Messages</div></div>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <p>Cuando un proceso debe esperar por un recurso, envía un <strong>probe message</strong> al proceso que lo tiene. El mensaje contiene: id del proceso bloqueado, id del emisor, id del destinatario. Al recibir el mensaje, el proceso lo reenvía a quienes tienen el recurso que necesita. Si el mensaje llega al proceso original, tenemos un <strong>ciclo en el grafo</strong> → deadlock detectado.</p>
+    </div>
+
+    <h3>Prevención mediante Timestamps</h3>
+    <div class="concept-grid">
+      <div class="concept-cell">
+        <div class="label">Wait-Die</div>
+        <p>Si el proceso tiene timestamp <strong>menor</strong> (más viejo), espera. Si no (es más joven), aborta la transacción y vuelve a intentar.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Wound-Wait</div>
+        <p>Si el proceso tiene timestamp <strong>menor</strong> (más viejo), aborta la transacción del proceso que tiene el recurso (lo "hiere"). Si no, espera.</p>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <div class="callout-body">
+        Ambos algoritmos usan timestamps globales de <strong>Lamport</strong> asignados al inicio de cada transacción. Ambos garanteízan ausencia de deadlock pero con diferentes trade-offs: Wait-Die favorece a los más viejos sin abortar a otros; Wound-Wait puede abortar transacciones activas.
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ 18 CUDA ════ -->
+  <section class="content-section" id="cuda">
+    <div class="section-tag">18 · Extra · GPU</div>
+    <h2>CUDA &amp; <em>Programación GPU</em></h2>
+    <p class="section-intro">Las GPUs tienen miles de núcleos simples optimizados para operaciones masivamente paralelas. CUDA es el modelo de programación de NVIDIA para aprovechar este poder de cómputo.</p>
+
+    <h3>GPU vs CPU</h3>
+
+    <div class="gpu-compare">
+      <div class="gpu-box cpu-box">
+        <div class="gpu-title">CPU — Low Latency Processor</div>
+        <ul>
+          <li>Diseñada para <strong>minimizar la latencia</strong></li>
+          <li>Caches grandes (L1, L2, L3)</li>
+          <li>Lógica complicada (pipeline, branch prediction)</li>
+          <li>Pocos núcleos potentes, context switch caro</li>
+          <li>Ideal para tareas secuenciales y código con mucha lógica</li>
+        </ul>
+      </div>
+      <div class="gpu-box gpu-box-card">
+        <div class="gpu-title">GPU — High Throughput Processor</div>
+        <ul>
+          <li>Diseñada para <strong>maximizar el throughput</strong></li>
+          <li>Más transistores en ALUs, caches pequeños</li>
+          <li>Los tiempos de espera de RAM se diluyen intercalando threads</li>
+          <li>Context switch muy económico (hasta uno por clock cycle)</li>
+          <li>Ideal para datos masivos con operaciones simples</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>SIMT — Single Instruction, Multiple Threads</h3>
+    <div class="def-block">
+      <div class="term">Warp</div>
+      <p>La ejecución se schedulea en <strong>warps de 32 hilos</strong>. Como todos los hilos ejecutan el mismo código, comparten un único program counter (hasta arquitectura Volta). Cada hilo trabaja en un "lane" SIMD. El contexto de ejecución de cada warp se mantiene en el chip para hacer interleaving.</p>
+    </div>
+
+    <div class="callout warn">
+      <span class="callout-icon">⚠</span>
+      <div class="callout-body">
+        <strong>Branch Divergence:</strong> Cuando el código tiene saltos condicionales, el warp debe ejecutar <em>todas</em> las variantes aplicando una máscara de threads. La máxima eficiencia se logra cuando todos los threads del warp convergen (ejecutan el mismo camino).
+      </div>
+    </div>
+
+    <h3>Jerarquía de Threads</h3>
+    <div class="flow-diagram">
+      <div class="flow-step">
+        <div class="flow-num">G</div>
+        <div class="flow-content">
+          <h5>Grid</h5>
+          <p>El programa se divide en un <strong>grid de bloques</strong> independientes. Representa el total del trabajo a realizar.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">B</div>
+        <div class="flow-content">
+          <h5>Block of Threads</h5>
+          <p>Cada bloque tiene N threads. Los bloques se mantienen en el mismo <strong>SM (Streaming Multiprocessor)</strong> al ejecutarse. Óptima performance cuando cantidad de threads es múltiplo de 32.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">T</div>
+        <div class="flow-content">
+          <h5>Thread</h5>
+          <p>Unidad mínima de ejecución. Se identifica con <span class="inline-code">threadIdx.x</span> dentro del bloque. Índice global: <span class="inline-code">blockIdx.x * blockDim.x + threadIdx.x</span></p>
+        </div>
+      </div>
+    </div>
+
+    <h3>Modelo de Memoria</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Tipo</th><th>Alcance</th><th>Velocidad</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Registers</strong></td><td>Por thread (private)</td><td>⚡ Mínima latencia posible</td></tr>
+          <tr><td><strong>Local Memory</strong></td><td>Por thread (private)</td><td>🐢 Más lenta (va a DRAM)</td></tr>
+          <tr><td><strong>Shared Memory</strong></td><td>Por bloque (todos los threads del bloque)</td><td>⚡ Muy rápida, ideal para intercambiar datos entre threads</td></tr>
+          <tr><td><strong>Global Memory</strong></td><td>Todos los threads de la grid</td><td>🐢 La más lenta</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Sincronización</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Nivel</th><th>Función</th><th>Velocidad</th></tr></thead>
+        <tbody>
+          <tr><td>Grid</td><td><span class="inline-code">grid_group::sync()</span> (Cooperative Groups API)</td><td>🐢 Lenta, evitar si no es necesario</td></tr>
+          <tr><td>Thread-Block</td><td><span class="inline-code">__syncthreads()</span></td><td>⚡ Rápida, el más común</td></tr>
+          <tr><td>Warp / Sub-warp</td><td><span class="inline-code">__syncwarp()</span></td><td>⚡⚡ Muy rápida</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Flujo Típico de un Programa CUDA</h3>
+    <div class="flow-diagram">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-content">
+          <h5>Allocar memoria en host y device</h5>
+          <p>Reservar memoria tanto en CPU (host) como en GPU (device).</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-content">
+          <h5>Inicializar datos en host</h5>
+          <p>Preparar los datos de entrada en memoria del host.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-content">
+          <h5>Transferir datos host → device</h5>
+          <p>Copiar los datos a la memoria de la GPU.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-content">
+          <h5>Ejecutar kernels en la GPU</h5>
+          <p>Lanzar uno o más kernels (funciones que corren en la GPU). Esperar a que terminen.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">5</div>
+        <div class="flow-content">
+          <h5>Transferir resultados device → host</h5>
+          <p>Copiar los resultados de vuelta a la CPU para usarlos.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ════ 19 TESTING ════ -->
+  <section class="content-section" id="testing">
+    <div class="section-tag">19 · Extra · Testing</div>
+    <h2>Testing <em>Concurrente</em></h2>
+    <p class="section-intro">Testear código concurrente es más difícil que el secuencial: los bugs dependen del orden de ejecución. Rust provee herramientas específicas para hacer estos tests más deterministas y confiables.</p>
+
+    <h3>Testing en Rust</h3>
+
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">🏷</span>
+        <div class="card-title">#[cfg(test)]</div>
+        <div class="card-desc">El módulo solo se compila cuando se ejecuta <span class="inline-code">cargo test</span>. También existe <span class="inline-code">#[cfg(not(test))]</span>.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">✅</span>
+        <div class="card-title">#[test]</div>
+        <div class="card-desc">Marca funciones que son tests. Las macros <span class="inline-code">assert_eq!</span> son wrappers sobre <span class="inline-code">panic()</span>.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚡</span>
+        <div class="card-title">Concurrencia por defecto</div>
+        <div class="card-desc">Por defecto los tests se corren de forma <strong>concurrente</strong>. Usar <span class="inline-code">--test-threads=1</span> para secuencial.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🏗</span>
+        <div class="card-title">SOLID para testabilidad</div>
+        <div class="card-desc">El diseño determina la testeabilidad. Dependency Inversion permite inyectar mocks fácilmente.</div>
+      </div>
+    </div>
+
+    <h3>Crate mockall</h3>
+    <p>La herramienta más completa para mocks en Rust. Permite generar automáticamente implementaciones mock de traits.</p>
+
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div><div class="ch-tag">mockall</div><div class="ch-title">Funcionalidades principales</div></div>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <p><strong>#[automock]:</strong> Genera mocks automáticamente de traits. El mock implementa el trait con comportamiento controlable en tests.</p>
+      <p><strong>Mocks de métodos estáticos:</strong> Permite mockear funciones estáticas y constructores, que normalmente son difíciles de reemplazar.</p>
+      <p><strong>#[double]:</strong> Reemplaza una implementación real en tiempo de test sin cambiar el resto del código. Alternativa manual: <span class="inline-code">#[cfg(not(test))]</span> para la implementación real y <span class="inline-code">#[cfg(test)]</span> para la mock.</p>
+      <p><strong>lazy_static para singletons de mocks:</strong> En algunos casos, se necesita acceder a la instancia del mock desde distintos lugares del test. <span class="inline-code">lazy_static</span> permite crear "singletons" controlables.</p>
+    </div>
+
+    <h3>Loom — Model Checking para Concurrencia</h3>
+    <div class="def-block">
+      <div class="term">Loom</div>
+      <p>Herramienta para testear programas concurrentes. Ejecuta los tests muchas veces, permutando las posibles ejecuciones concurrentes según el modelo de memoria C11. Usa técnicas de reducción de estados para evitar explosión combinatoria. Permite cubrir <strong>todos los posibles escenarios</strong> de ejecución.</p>
+    </div>
+
+    <h3>Técnicas para Race Conditions</h3>
+    <p>El <strong>Race Condition Game</strong> es un patrón de ejemplo: N threads duermen por tiempos aleatorios; el primero en despertar setea su ID en un mutex. Para testearlo:</p>
+    <ul>
+      <li><strong>Template methods:</strong> minimizar cambios de código conservando la esencia del algoritmo</li>
+      <li><strong>Reemplazar sleeps</strong> no controlados por channels controlables desde el test</li>
+      <li><strong>Loom:</strong> cubre todos los posibles interleavings automáticamente</li>
+    </ul>
+
+    <h3>Testing de Actores (Actix)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Técnica</th><th>Descripción</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Mocking de actores</strong></td><td>Crear actores mock que implementen el trait del actor real pero con comportamiento controlable</td></tr>
+          <tr><td><strong>Tests async</strong></td><td>Esperar resultados sobre futures, channels o promesas (oneshot)</td></tr>
+          <tr><td><strong>Tests end-to-end</strong></td><td>Esperar por un mensaje final para detener el actor system. Siempre con un timeout razonable.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ════ 20 LENGUAJES ════ -->
+  <section class="content-section" id="lenguajes">
+    <div class="section-tag">20 · Extra · Lenguajes</div>
+    <h2>Lenguajes para <em>Concurrencia</em></h2>
+    <p class="section-intro">Más allá de Rust, existen lenguajes con primitivas de concurrencia distintas. Cada uno toma decisiones de diseño radicalmente diferentes para resolver los mismos problemas.</p>
+
+    <div class="lang-row">
+      <div class="lang-pill">
+        <span class="lang-icon">🐹</span>
+        <div class="lang-name">Go</div>
+        <div class="lang-desc">Goroutines + channels. "No comuniques compartiendo memoria; compartí memoria comunicando."</div>
+      </div>
+      <div class="lang-pill">
+        <span class="lang-icon">💧</span>
+        <div class="lang-name">Elixir</div>
+        <div class="lang-desc">Actores sobre BEAM VM (Erlang). Tolerancia a fallos: "Let it crash".</div>
+      </div>
+      <div class="lang-pill">
+        <span class="lang-icon">🌀</span>
+        <div class="lang-name">Clojure</div>
+        <div class="lang-desc">Dialecto de Lisp en JVM. Software Transactional Memory (STM).</div>
+      </div>
+      <div class="lang-pill">
+        <span class="lang-icon">📐</span>
+        <div class="lang-name">Julia</div>
+        <div class="lang-desc">Scientific computing. SIMD nativo, green threads, computación distribuida.</div>
+      </div>
+    </div>
+
+    <h3>Go — Goroutines</h3>
+    <div class="def-block">
+      <div class="term">Goroutine</div>
+      <p>Green thread administrada por el runtime de Go. Stack inicial de solo <strong>2KB</strong> (puede crecer dinámicamente). Cualquier función puede ejecutarse concurrentemente con la palabra reservada <span class="inline-code">go</span>. Se planifica sobre un pool de <span class="inline-code">GOMAXPROCS</span> threads del OS.</p>
+    </div>
+
+    <pre><span class="lang-tag">go</span><span class="cm">// Lanzar una goroutine</span>
+go <span class="fn">myFunction</span>()
+
+<span class="cm">// Crear un canal</span>
+ch := <span class="fn">make</span>(<span class="kw">chan</span> <span class="ty">int</span>)
+go <span class="kw">func</span>() { ch <- <span class="num">42</span> }()
+val := <-ch
+
+<span class="cm">// Select: escuchar varios canales</span>
+<span class="kw">select</span> {
+<span class="kw">case</span> v := <-ch1: <span class="fn">process</span>(v)
+<span class="kw">case</span> v := <-ch2: <span class="fn">process</span>(v)
+}</pre>
+
+    <h3>Elixir — Actores sobre BEAM</h3>
+    <div class="concept-grid">
+      <div class="concept-cell">
+        <div class="label">Procesos Ligeros</div>
+        <p>Los procesos de Elixir son extremadamente baratos. El scheduler propio usa un pool de runners igual a la cantidad de CPUs.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Let it Crash</div>
+        <p>Filosofía de tolerancia a fallos: dejar que los procesos fallen y que un <strong>Supervisor</strong> los reinicie automáticamente.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">OTP — GenServer</div>
+        <p>Open Telecom Platform: protocolo estandarizado para definir un proceso ("actor") extendiendo GenServer.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Funcional Puro</div>
+        <p>Immutabilidad por defecto. Pattern matching potente. Usado en producción por Discord y WhatsApp (Erlang).</p>
+      </div>
+    </div>
+
+    <h3>Clojure — Software Transactional Memory</h3>
+    <div class="def-block">
+      <div class="term">STM (Software Transactional Memory)</div>
+      <p>Modelo de concurrencia que trata la memoria compartida como transacciones de base de datos. Las operaciones se ejecutan especulativamente y se reintentan si hay conflictos. Libre de deadlocks. Atlassian usa Clojure para el backend de su realtime collaboration.</p>
+    </div>
+
+    <pre><span class="lang-tag">clojure</span><span class="cm">; Referencia mutable</span>
+(<span class="kw">def</span> counter (<span class="fn">ref</span> <span class="num">0</span>))
+
+<span class="cm">; Transacción STM — atómica y aislada</span>
+(<span class="fn">dosync</span>
+  (<span class="fn">alter</span> counter <span class="fn">inc</span>))
+
+<span class="cm">; Agent — actualización asíncrona</span>
+(<span class="kw">def</span> ag (<span class="fn">agent</span> <span class="num">0</span>))
+(<span class="fn">send</span> ag <span class="fn">inc</span>)</pre>
+
+    <h3>Julia — Computación Científica Paralela</h3>
+    <div class="card-grid">
+      <div class="card">
+        <span class="card-icon">🧵</span>
+        <div class="card-title">@Threads</div>
+        <div class="card-desc">Macro para paralelismo de threads. Simple de usar para loops embarazosamente paralelos.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🔢</span>
+        <div class="card-title">SIMD Nativo</div>
+        <div class="card-desc">Soporte SIMD out-of-the-box. El compilador puede auto-vectorizar código Julia.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">🌐</span>
+        <div class="card-title">Distributed</div>
+        <div class="card-desc">Computación distribuida integrada en el lenguaje. Ideal para clusters de científicos.</div>
+      </div>
+    </div>
+
+    <h3>¿Qué lenguaje elegir?</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Lenguaje</th><th>Primitiva central</th><th>Caso de uso ideal</th><th>GC</th></tr></thead>
+        <tbody>
+          <tr><td><strong>Rust</strong></td><td>Ownership + tipos</td><td>Sistemas, performance, embebido</td><td>No</td></tr>
+          <tr><td><strong>Go</strong></td><td>Goroutines + channels</td><td>Servicios web, networking</td><td>Sí</td></tr>
+          <tr><td><strong>Elixir</strong></td><td>Actores (procesos BEAM)</td><td>Sistemas distribuidos, alta disponibilidad</td><td>Sí</td></tr>
+          <tr><td><strong>Clojure</strong></td><td>STM + immutabilidad</td><td>Datos, backend colaborativo</td><td>JVM</td></tr>
+          <tr><td><strong>Julia</strong></td><td>SIMD + threads + distributed</td><td>Computación científica, ML</td><td>Sí</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- ════════════ FOOTER ════════════ -->
+  <div class="page-footer">
+    <span class="footer-text">TPC I · FIUBA · Resumen completo — 27/27 PDFs ✓</span>
+    <span class="footer-text">Deymonnaz · Concurrentes I</span>
+  </div>
+
+</main>
+
+<script>
+  function scrollToSection(id) {
+    const el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+    const link = document.querySelector(`.nav-link[onclick="scrollToSection('${id}')"]`);
+    if (link) link.classList.add('active');
+  }
+
+  function toggleNavUnit(header) {
+    header.classList.toggle('open');
+    header.nextElementSibling.classList.toggle('open');
+  }
+
+  function toggleCollapsible(header) {
+    header.classList.toggle('open');
+    header.nextElementSibling.classList.toggle('open');
+  }
+
+  // Scroll indicator
+  window.addEventListener('scroll', () => {
+    const h = document.documentElement;
+    const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
+    document.getElementById('scroll-bar').style.width = pct + '%';
+
+    const sections = ['intro','rust','forkjoin','vectorizacion','async','correccion','semaforos','monitores','petri','petri-ejemplos','channels','actores','distrib','eleccion','transacciones','ambientes','deadlocks-distrib','cuda','testing','lenguajes'];
+    const scrollPos = window.scrollY + 200;
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (!el) return;
+      const link = document.querySelector(`.nav-link[onclick="scrollToSection('${id}')"]`);
+      if (!link) return;
+      if (el.offsetTop <= scrollPos && el.offsetTop + el.offsetHeight > scrollPos) {
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+      }
+    });
+  });
+
+  function toggleSidebar() {
+    document.getElementById('sidebar').classList.toggle('open');
+  }
+
+  document.addEventListener('click', (e) => {
+    const sidebar = document.getElementById('sidebar');
+    const hamburger = document.getElementById('hamburger');
+    if (window.innerWidth <= 900 &&
+        !sidebar.contains(e.target) &&
+        !hamburger.contains(e.target)) {
+      sidebar.classList.remove('open');
+    }
+  });
+</script>
+</body>
+</html>
