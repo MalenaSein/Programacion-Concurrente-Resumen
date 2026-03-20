@@ -52,11 +52,12 @@
   /* ── SIDEBAR ── */
   #sidebar {
     width: var(--sidebar-w);
-    height: 100vh;
+    height: 100%;
+    min-height: 100vh;
     background: var(--bg2);
     border-right: 1px solid var(--border);
     position: fixed;
-    top: 0; left: 0;
+    top: 0; left: 0; bottom: 0;
     display: flex;
     flex-direction: column;
     overflow: hidden;
@@ -126,10 +127,12 @@
     flex: 1;
     overflow-y: auto;
     overflow-x: hidden;
-    padding: 8px 0;
+    padding: 8px 0 40px;
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: var(--bg4) transparent;
+    /* fill background to bottom even when content is short */
+    background: var(--bg2);
   }
 
   nav::-webkit-scrollbar { width: 4px; }
@@ -914,13 +917,15 @@
       transform: translateX(-280px);
       width: 280px;
       height: 100vh;
+      height: 100dvh;
       overflow: hidden;
     }
     #sidebar.open {
       transform: translateX(0);
-      box-shadow: 4px 0 40px rgba(0,0,0,0.6);
+      box-shadow: 4px 0 40px rgba(0,0,0,0.7);
+      overflow: hidden;
     }
-    #sidebar.open nav {
+    #sidebar nav {
       overflow-y: auto;
       -webkit-overflow-scrolling: touch;
     }
@@ -2513,13 +2518,26 @@ val := <-ch
     });
   });
 
+  function openAllNavUnits() {
+    document.querySelectorAll('.nav-unit-header').forEach(h => {
+      h.classList.add('open');
+      const items = h.nextElementSibling;
+      if (items) items.classList.add('open');
+    });
+  }
+
   function toggleSidebar() {
     const sidebar = document.getElementById('sidebar');
     const overlay = document.getElementById('sidebar-overlay');
     const isOpen = sidebar.classList.toggle('open');
     overlay.classList.toggle('visible', isOpen);
     document.body.style.overflow = isOpen ? 'hidden' : '';
+    // Abrir todas las unidades cuando se abre el sidebar en mobile
+    if (isOpen) openAllNavUnits();
   }
+
+  // También abrir todas las unidades en mobile al cargar
+  if (window.innerWidth <= 900) openAllNavUnits();
 
   document.addEventListener('click', (e) => {
     const sidebar = document.getElementById('sidebar');
