@@ -52,7 +52,6 @@
   /* ── SIDEBAR ── */
   #sidebar {
     width: var(--sidebar-w);
-    min-height: 100vh;
     height: 100vh;
     background: var(--bg2);
     border-right: 1px solid var(--border);
@@ -60,7 +59,7 @@
     top: 0; left: 0;
     display: flex;
     flex-direction: column;
-    overflow: hidden; /* no scroll on sidebar itself */
+    overflow: hidden;
     z-index: 100;
     transition: transform 0.3s ease;
   }
@@ -126,8 +125,9 @@
   nav {
     flex: 1;
     overflow-y: auto;
+    overflow-x: hidden;
     padding: 8px 0;
-    /* Custom scrollbar */
+    -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: var(--bg4) transparent;
   }
@@ -534,7 +534,16 @@
     font-size: 15px;
   }
 
-  /* ── SCROLL INDICATOR ── */
+  /* ── SIDEBAR OVERLAY (mobile) ── */
+  #sidebar-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.5);
+    z-index: 99;
+  }
+
+  #sidebar-overlay.visible { display: block; }
   #scroll-indicator { position: fixed; top: 0; left: 0; right: 0; height: 2px; background: var(--bg3); z-index: 300; }
   #scroll-bar { height: 100%; background: var(--accent); width: 0%; transition: width 0.1s; }
 
@@ -600,7 +609,7 @@
 
   .prop-item strong { display: block; font-size: 11px; color: var(--text); margin-bottom: 2px; font-weight: 500; }
 
-  /* ── SIMD VISUAL ── */
+  /* SIMD VISUAL */
   .simd-visual {
     display: flex;
     flex-direction: column;
@@ -614,39 +623,53 @@
     overflow: hidden;
   }
   .simd-row {
-    display: grid;
-    grid-template-columns: 72px 1fr 80px;
+    display: flex;
     align-items: center;
-    gap: 0;
+    gap: 8px;
     padding: 10px 14px;
     border-bottom: 1px solid var(--border);
+    min-width: 0;
+    overflow: hidden;
   }
   .simd-row:last-child { border-bottom: none; }
   .simd-row.op-row { background: rgba(255,255,255,0.02); }
-  .simd-label { color: var(--muted2); font-size: 10px; letter-spacing: 0.04em; white-space: nowrap; }
-  .simd-reg { display: flex; gap: 3px; }
-  .simd-lane {
-    width: 52px; height: 30px;
-    border-radius: 4px;
-    display: flex; align-items: center; justify-content: center;
+  .simd-label {
+    color: var(--muted2);
     font-size: 10px;
-    border: 1px solid var(--border2);
+    letter-spacing: 0.04em;
+    white-space: nowrap;
     flex-shrink: 0;
+    width: 74px;
+  }
+  .simd-reg {
+    display: flex;
+    gap: 3px;
+    flex: 1;
+    min-width: 0;
+  }
+  .simd-lane {
+    flex: 1;
+    min-width: 0;
+    height: 28px;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9.5px;
+    border: 1px solid var(--border2);
+    overflow: hidden;
   }
   .lane-a { background: rgba(197,169,126,0.15); color: var(--accent2); }
   .lane-b { background: rgba(106,159,184,0.15); color: var(--blue); }
   .lane-c { background: rgba(95,163,124,0.15); color: var(--green); }
   .simd-op {
     color: var(--muted);
-    font-size: 13px;
-    text-align: right;
-    padding-right: 4px;
-    font-family: var(--font-mono);
+    font-size: 11px;
     white-space: nowrap;
-  }
-  @media (max-width: 600px) {
-    .simd-row { grid-template-columns: 60px 1fr 60px; }
-    .simd-lane { width: 40px; font-size: 9px; }
+    font-family: var(--font-mono);
+    flex-shrink: 0;
+    width: 58px;
+    text-align: right;
   }
 
   /* ── SEM VISUAL ── */
@@ -887,8 +910,20 @@
   /* ── RESPONSIVE / MOBILE ── */
   @media (max-width: 900px) {
     :root { --sidebar-w: 0px; }
-    #sidebar { transform: translateX(-260px); width: 260px; height: 100vh; }
-    #sidebar.open { transform: translateX(0); box-shadow: 4px 0 32px rgba(0,0,0,0.5); }
+    #sidebar {
+      transform: translateX(-280px);
+      width: 280px;
+      height: 100vh;
+      overflow: hidden;
+    }
+    #sidebar.open {
+      transform: translateX(0);
+      box-shadow: 4px 0 40px rgba(0,0,0,0.6);
+    }
+    #sidebar.open nav {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
     #main { margin-left: 0; padding: 56px 20px 80px; }
     #hamburger { display: flex; }
     .concept-grid { grid-template-columns: 1fr; }
@@ -918,7 +953,7 @@
     .lang-row { grid-template-columns: 1fr 1fr; }
     h2 { font-size: 21px; }
     h3 { font-size: 16px; }
-    .table-wrap { font-size: 12px; }
+    .table-wrap { font-size: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
     td, th { padding: 7px 9px; }
     .algo-compare { grid-template-columns: 1fr; }
     pre { font-size: 10.5px; padding: 12px 13px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
@@ -934,7 +969,10 @@
     .section-tag { font-size: 9px; }
     .content-section { padding: 32px 0; }
     .acid-letter { font-size: 28px; }
-    .simd-lane { width: 36px; height: 24px; font-size: 8px; }
+    /* SIMD en pantallas muy chicas: label más corto */
+    .simd-label { width: 58px; font-size: 9px; }
+    .simd-op { width: 48px; font-size: 10px; }
+    .simd-lane { height: 26px; font-size: 8.5px; }
   }
 
   .content-section:target { scroll-margin-top: 20px; }
@@ -997,6 +1035,7 @@
 <body>
 
 <div id="scroll-indicator"><div id="scroll-bar"></div></div>
+<div id="sidebar-overlay" onclick="toggleSidebar()"></div>
 <button id="hamburger" onclick="toggleSidebar()">☰</button>
 
 <!-- ══════════════ SIDEBAR ══════════════ -->
@@ -2475,16 +2514,24 @@ val := <-ch
   });
 
   function toggleSidebar() {
-    document.getElementById('sidebar').classList.toggle('open');
+    const sidebar = document.getElementById('sidebar');
+    const overlay = document.getElementById('sidebar-overlay');
+    const isOpen = sidebar.classList.toggle('open');
+    overlay.classList.toggle('visible', isOpen);
+    document.body.style.overflow = isOpen ? 'hidden' : '';
   }
 
   document.addEventListener('click', (e) => {
     const sidebar = document.getElementById('sidebar');
     const hamburger = document.getElementById('hamburger');
+    const overlay = document.getElementById('sidebar-overlay');
     if (window.innerWidth <= 900 &&
+        sidebar.classList.contains('open') &&
         !sidebar.contains(e.target) &&
         !hamburger.contains(e.target)) {
       sidebar.classList.remove('open');
+      overlay.classList.remove('visible');
+      document.body.style.overflow = '';
     }
   });
 </script>
