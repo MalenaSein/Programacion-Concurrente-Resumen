@@ -95,35 +95,6 @@
     margin-top: 3px;
   }
 
-  #sidebar-progress {
-    padding: 10px 20px;
-    border-bottom: 1px solid var(--border);
-    flex-shrink: 0;
-  }
-
-  .progress-bar-bg {
-    height: 3px;
-    background: var(--bg4);
-    border-radius: 2px;
-    margin-top: 6px;
-  }
-
-  .progress-bar-fill {
-    height: 3px;
-    background: var(--accent);
-    border-radius: 2px;
-    width: 100%;
-    transition: width 0.5s ease;
-  }
-
-  .progress-label {
-    font-size: 10px;
-    color: var(--muted);
-    display: flex;
-    justify-content: space-between;
-  }
-
-  /* NAV scrolls inside its container */
   nav {
     flex: 1;
     overflow-y: auto;
@@ -132,7 +103,6 @@
     -webkit-overflow-scrolling: touch;
     scrollbar-width: thin;
     scrollbar-color: var(--bg4) transparent;
-    /* fill background to bottom even when content is short */
     background: var(--bg2);
   }
 
@@ -212,7 +182,6 @@
     padding: 0 48px 80px;
   }
 
-  /* ── SECTION ── */
   .content-section {
     border-bottom: 1px solid var(--border);
     padding: 56px 0;
@@ -538,7 +507,6 @@
     font-size: 15px;
   }
 
-  /* ── SIDEBAR OVERLAY (mobile) ── */
   #sidebar-overlay {
     display: none;
     position: fixed;
@@ -911,79 +879,6 @@
     line-height: 1.5;
   }
 
-  /* ── RESPONSIVE / MOBILE ── */
-  @media (max-width: 900px) {
-    :root { --sidebar-w: 0px; }
-    #sidebar {
-      transform: translateX(-280px);
-      width: 280px;
-      height: 100vh;
-      height: 100dvh;
-      overflow: hidden;
-    }
-    #sidebar.open {
-      transform: translateX(0);
-      box-shadow: 4px 0 40px rgba(0,0,0,0.7);
-      overflow: hidden;
-    }
-    #sidebar nav {
-      overflow-y: auto;
-      -webkit-overflow-scrolling: touch;
-    }
-    #main { margin-left: 0; padding: 56px 20px 80px; }
-    #hamburger { display: flex; }
-    .concept-grid { grid-template-columns: 1fr; }
-    .models-row { grid-template-columns: repeat(3, 1fr); gap: 6px; }
-    .prop-grid { grid-template-columns: 1fr; }
-    .monitor-internals { grid-template-columns: 1fr; }
-    .algo-compare { grid-template-columns: 1fr; }
-    .socket-flow { grid-template-columns: 1fr; }
-    .lang-row { grid-template-columns: repeat(2, 1fr); }
-    .gpu-compare { grid-template-columns: 1fr; }
-    .acid-grid { grid-template-columns: repeat(2, 1fr); }
-    .twopc-grid { grid-template-columns: 1fr; }
-    h2 { font-size: 24px; }
-    h3 { font-size: 17px; }
-    .card-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
-    pre { font-size: 11.5px; padding: 14px 16px; }
-    .sem-visual { flex-direction: column; }
-    .actor-system { flex-direction: column; }
-    .content-section { padding: 40px 0; }
-  }
-
-  @media (max-width: 480px) {
-    #main { padding: 52px 14px 60px; }
-    .card-grid { grid-template-columns: 1fr; }
-    .models-row { grid-template-columns: repeat(3, 1fr); }
-    .acid-grid { grid-template-columns: repeat(2, 1fr); }
-    .lang-row { grid-template-columns: 1fr 1fr; }
-    h2 { font-size: 21px; }
-    h3 { font-size: 16px; }
-    .table-wrap { font-size: 12px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    td, th { padding: 7px 9px; }
-    .algo-compare { grid-template-columns: 1fr; }
-    pre { font-size: 10.5px; padding: 12px 13px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
-    .flow-content { padding-bottom: 14px; }
-    .prop-grid { grid-template-columns: 1fr; }
-    .concept-grid { grid-template-columns: 1fr; }
-    .twopc-grid { grid-template-columns: 1fr; }
-    .gpu-compare { grid-template-columns: 1fr; }
-    .socket-flow { grid-template-columns: 1fr; }
-    .collapsible-header { font-size: 12px; }
-    .def-block { padding: 10px 14px; }
-    .callout { padding: 12px 14px; font-size: 12px; }
-    .section-tag { font-size: 9px; }
-    .content-section { padding: 32px 0; }
-    .acid-letter { font-size: 28px; }
-    /* SIMD en pantallas muy chicas: label más corto */
-    .simd-label { width: 58px; font-size: 9px; }
-    .simd-op { width: 48px; font-size: 10px; }
-    .simd-lane { height: 26px; font-size: 8.5px; }
-  }
-
-  .content-section:target { scroll-margin-top: 20px; }
-  hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
-
   /* ── QUIZ BLOCK ── */
   .quiz-block { background: var(--bg3); border: 1px solid var(--border); border-radius: 10px; padding: 18px; margin: 14px 0; }
   .quiz-q { font-size: 13px; font-weight: 500; color: var(--text); margin-bottom: 10px; }
@@ -1036,6 +931,205 @@
     flex-shrink: 0;
     margin-top: 2px;
   }
+
+  /* ── OWNERSHIP DIAGRAM ── */
+  .ownership-diagram {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 20px;
+    margin: 16px 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .own-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .own-row:last-child { border-bottom: none; }
+  .own-var {
+    width: 100px;
+    color: var(--accent2);
+    font-size: 11px;
+    flex-shrink: 0;
+  }
+  .own-arrow { color: var(--muted2); flex-shrink: 0; }
+  .own-value {
+    flex: 1;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    border-radius: 6px;
+    padding: 6px 10px;
+    font-size: 11px;
+    color: var(--text);
+  }
+  .own-status {
+    font-size: 10px;
+    padding: 2px 7px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .own-valid { background: var(--green-dim); color: var(--green); border: 1px solid rgba(95,163,124,0.3); }
+  .own-invalid { background: rgba(196,96,96,0.1); color: var(--red); border: 1px solid rgba(196,96,96,0.3); }
+  .own-borrow { background: var(--blue-dim); color: var(--blue); border: 1px solid rgba(106,159,184,0.3); }
+
+  /* ── HEAP BOX VISUAL ── */
+  .heap-compare {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 16px 0;
+  }
+  .heap-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px 12px;
+    text-align: center;
+  }
+  .heap-type {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--accent2);
+    margin-bottom: 6px;
+  }
+  .heap-desc {
+    font-size: 11px;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* ── WORKAROUND RAYON TABLE ── */
+  .rayon-table { background: var(--bg2); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; margin: 16px 0; }
+  .rayon-row { display: flex; border-bottom: 1px solid var(--border); }
+  .rayon-row:last-child { border-bottom: none; }
+  .rayon-cell { flex: 1; padding: 12px 16px; font-size: 12px; color: var(--muted); font-family: var(--font-mono); }
+  .rayon-cell.header { background: var(--bg3); font-size: 10px; color: var(--muted2); text-transform: uppercase; letter-spacing: 0.08em; }
+  .rayon-cell.seq { color: var(--blue); }
+  .rayon-cell.par { color: var(--green); }
+
+  /* ── FUTURES VISUAL ── */
+  .futures-visual {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin: 16px 0;
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .future-poll {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 12px 16px;
+  }
+  .future-num {
+    width: 24px; height: 24px;
+    border-radius: 50%;
+    background: var(--bg3);
+    border: 1px solid var(--border2);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 10px;
+    color: var(--accent);
+    flex-shrink: 0;
+  }
+  .future-desc { flex: 1; color: var(--muted); font-size: 12px; }
+  .future-result {
+    font-size: 10px;
+    padding: 2px 8px;
+    border-radius: 4px;
+    flex-shrink: 0;
+  }
+  .result-pending { background: var(--rust-dim); color: var(--rust); border: 1px solid rgba(212,132,90,0.3); }
+  .result-ready { background: var(--green-dim); color: var(--green); border: 1px solid rgba(95,163,124,0.3); }
+
+  /* ── PRODUCTOR-CONSUMIDOR ── */
+  .prod-cons {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 8px;
+    align-items: center;
+    margin: 16px 0;
+  }
+  .prod-box, .cons-box {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 14px;
+  }
+  .prod-box { border-top: 2px solid var(--blue); }
+  .cons-box { border-top: 2px solid var(--green); }
+  .prod-box .box-label { font-family: var(--font-mono); font-size: 10px; color: var(--blue); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .cons-box .box-label { font-family: var(--font-mono); font-size: 10px; color: var(--green); text-transform: uppercase; letter-spacing: 0.08em; margin-bottom: 8px; }
+  .prod-cons-arrow { text-align: center; color: var(--accent); font-size: 18px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 900px) {
+    :root { --sidebar-w: 0px; }
+    #sidebar {
+      transform: translateX(-280px);
+      width: 280px;
+      height: 100vh;
+      height: 100dvh;
+      overflow: hidden;
+    }
+    #sidebar.open {
+      transform: translateX(0);
+      box-shadow: 4px 0 40px rgba(0,0,0,0.7);
+      overflow: hidden;
+    }
+    #sidebar nav {
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    #main { margin-left: 0; padding: 56px 20px 80px; }
+    #hamburger { display: flex; }
+    .concept-grid { grid-template-columns: 1fr; }
+    .models-row { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+    .prop-grid { grid-template-columns: 1fr; }
+    .monitor-internals { grid-template-columns: 1fr; }
+    .algo-compare { grid-template-columns: 1fr; }
+    .socket-flow { grid-template-columns: 1fr; }
+    .lang-row { grid-template-columns: repeat(2, 1fr); }
+    .gpu-compare { grid-template-columns: 1fr; }
+    .acid-grid { grid-template-columns: repeat(2, 1fr); }
+    .twopc-grid { grid-template-columns: 1fr; }
+    .heap-compare { grid-template-columns: repeat(2, 1fr); }
+    .prod-cons { grid-template-columns: 1fr; }
+    .prod-cons-arrow { transform: rotate(90deg); }
+    h2 { font-size: 24px; }
+    h3 { font-size: 17px; }
+    .card-grid { grid-template-columns: 1fr 1fr; gap: 8px; }
+    pre { font-size: 11.5px; padding: 14px 16px; }
+    .sem-visual { flex-direction: column; }
+    .content-section { padding: 40px 0; }
+  }
+
+  @media (max-width: 480px) {
+    #main { padding: 52px 14px 60px; }
+    .card-grid { grid-template-columns: 1fr; }
+    .models-row { grid-template-columns: repeat(3, 1fr); }
+    .acid-grid { grid-template-columns: repeat(2, 1fr); }
+    .lang-row { grid-template-columns: 1fr 1fr; }
+    .heap-compare { grid-template-columns: 1fr 1fr; }
+    h2 { font-size: 21px; }
+    h3 { font-size: 16px; }
+    pre { font-size: 10.5px; padding: 12px 13px; overflow-x: auto; -webkit-overflow-scrolling: touch; }
+    .flow-content { padding-bottom: 14px; }
+    .simd-label { width: 58px; font-size: 9px; }
+    .simd-op { width: 48px; font-size: 10px; }
+    .simd-lane { height: 26px; font-size: 8.5px; }
+    .content-section { padding: 32px 0; }
+  }
+
+  .content-section:target { scroll-margin-top: 20px; }
+  hr { border: none; border-top: 1px solid var(--border); margin: 20px 0; }
 </style>
 </head>
 <body>
@@ -1053,7 +1147,6 @@
   </div>
 
   <nav id="sidebar-nav">
-    <!-- UNIDAD 1 -->
     <div class="nav-section">
       <div class="nav-unit-header open" onclick="toggleNavUnit(this)">
         <span>U1 · Fundamentos</span>
@@ -1062,16 +1155,16 @@
       <div class="nav-items open">
         <a class="nav-link done" onclick="scrollToSection('intro')">
           <span class="dot"></span> Introducción &amp; Modelos
-          <span class="badge">PDF 1</span>
         </a>
         <a class="nav-link done" onclick="scrollToSection('rust')">
           <span class="dot"></span> Introducción a Rust
-          <span class="badge">PDF 2</span>
+        </a>
+        <a class="nav-link done" onclick="scrollToSection('rust-avanzado')">
+          <span class="dot"></span> Rust Avanzado: Ownership
         </a>
       </div>
     </div>
 
-    <!-- UNIDAD 2 -->
     <div class="nav-section">
       <div class="nav-unit-header open" onclick="toggleNavUnit(this)">
         <span>U2 · Paralelismo</span>
@@ -1080,20 +1173,19 @@
       <div class="nav-items open">
         <a class="nav-link done" onclick="scrollToSection('forkjoin')">
           <span class="dot"></span> Fork-Join
-          <span class="badge">PDF 3–4</span>
+        </a>
+        <a class="nav-link done" onclick="scrollToSection('mapreduce')">
+          <span class="dot"></span> MapReduce &amp; Dremel
         </a>
         <a class="nav-link done" onclick="scrollToSection('vectorizacion')">
           <span class="dot"></span> Vectorización &amp; SIMD
-          <span class="badge">PDF 5</span>
         </a>
         <a class="nav-link done" onclick="scrollToSection('async')">
-          <span class="dot"></span> Async / Await
-          <span class="badge">PDF 6–7</span>
+          <span class="dot"></span> Async / Await &amp; Futures
         </a>
       </div>
     </div>
 
-    <!-- UNIDAD 3 -->
     <div class="nav-section">
       <div class="nav-unit-header open" onclick="toggleNavUnit(this)">
         <span>U3 · Sincronización</span>
@@ -1102,20 +1194,16 @@
       <div class="nav-items open">
         <a class="nav-link done" onclick="scrollToSection('correccion')">
           <span class="dot"></span> Corrección &amp; Locks
-          <span class="badge">PDF 8–9</span>
         </a>
         <a class="nav-link done" onclick="scrollToSection('semaforos')">
           <span class="dot"></span> Semáforos
-          <span class="badge">PDF 10</span>
         </a>
         <a class="nav-link done" onclick="scrollToSection('monitores')">
-          <span class="dot"></span> Monitores
-          <span class="badge">PDF 11</span>
+          <span class="dot"></span> Monitores &amp; Condvars
         </a>
       </div>
     </div>
 
-    <!-- UNIDAD 4 -->
     <div class="nav-section">
       <div class="nav-unit-header open" onclick="toggleNavUnit(this)">
         <span>U4 · Redes de Petri</span>
@@ -1124,16 +1212,13 @@
       <div class="nav-items open">
         <a class="nav-link done" onclick="scrollToSection('petri')">
           <span class="dot"></span> Red Ordinaria &amp; General
-          <span class="badge">PDF 12</span>
         </a>
         <a class="nav-link done" onclick="scrollToSection('petri-ejemplos')">
           <span class="dot"></span> Ejemplos Clásicos
-          <span class="badge">PDF 13</span>
         </a>
       </div>
     </div>
 
-    <!-- UNIDAD 5 -->
     <div class="nav-section">
       <div class="nav-unit-header open" onclick="toggleNavUnit(this)">
         <span>U5 · Channels &amp; Actores</span>
@@ -1142,16 +1227,13 @@
       <div class="nav-items open">
         <a class="nav-link done" onclick="scrollToSection('channels')">
           <span class="dot"></span> Pasaje de Mensajes
-          <span class="badge">PDF 14</span>
         </a>
         <a class="nav-link done" onclick="scrollToSection('actores')">
           <span class="dot"></span> Modelo de Actores
-          <span class="badge">PDF 15</span>
         </a>
       </div>
     </div>
 
-    <!-- UNIDAD 6 -->
     <div class="nav-section">
       <div class="nav-unit-header open" onclick="toggleNavUnit(this)">
         <span>U6 · Distribuido</span>
@@ -1160,45 +1242,36 @@
       <div class="nav-items open">
         <a class="nav-link done" onclick="scrollToSection('distrib')">
           <span class="dot"></span> Exclusión Mutua &amp; Sockets
-          <span class="badge">PDF 16–17</span>
         </a>
         <a class="nav-link done" onclick="scrollToSection('eleccion')">
           <span class="dot"></span> Algoritmos de Elección
-          <span class="badge">PDF 18</span>
         </a>
         <a class="nav-link done" onclick="scrollToSection('transacciones')">
           <span class="dot"></span> Transacciones ACID
-          <span class="badge">PDF 19</span>
         </a>
         <a class="nav-link done" onclick="scrollToSection('ambientes')">
           <span class="dot"></span> Ambientes Distribuidos
-          <span class="badge">PDF 20</span>
         </a>
         <a class="nav-link done" onclick="scrollToSection('deadlocks-distrib')">
           <span class="dot"></span> Deadlocks Distribuidos
-          <span class="badge">PDF 21</span>
         </a>
       </div>
     </div>
 
-    <!-- UNIDAD X -->
     <div class="nav-section">
       <div class="nav-unit-header open" onclick="toggleNavUnit(this)">
-        <span>Extras · GPU · Testing · Langs</span>
+        <span>Extras</span>
         <span class="chevron">▶</span>
       </div>
       <div class="nav-items open">
         <a class="nav-link done" onclick="scrollToSection('cuda')">
           <span class="dot"></span> CUDA &amp; GPU
-          <span class="badge">PDF 22</span>
         </a>
         <a class="nav-link done" onclick="scrollToSection('testing')">
           <span class="dot"></span> Testing Concurrente
-          <span class="badge">PDF 23</span>
         </a>
         <a class="nav-link done" onclick="scrollToSection('lenguajes')">
           <span class="dot"></span> Otros Lenguajes
-          <span class="badge">PDF 24</span>
         </a>
       </div>
     </div>
@@ -1215,210 +1288,704 @@
     <p class="section-intro">Fundamentos teóricos, vocabulario esencial y los cinco modelos de concurrencia estudiados en la materia.</p>
 
     <h3>Definiciones Clave</h3>
+    <p>Antes de hablar de concurrencia, es fundamental entender qué es un programa <em>secuencial</em> y cómo se diferencia de uno concurrente.</p>
 
     <div class="def-block">
       <div class="term">Programa</div>
-      <p>Conjunto de datos, asignaciones e instrucciones de control de flujo que compilan a instrucciones de máquina. Se ejecutan <strong>secuencialmente</strong> en un procesador.</p>
+      <p>Conjunto de datos, asignaciones e instrucciones de control de flujo que compilan a instrucciones de máquina. Se ejecutan <strong>secuencialmente</strong> en un procesador y acceden a datos almacenados en memoria principal o secundaria.</p>
     </div>
 
     <div class="def-block">
       <div class="term">Programa Concurrente</div>
-      <p>Conjunto finito de <strong>procesos secuenciales</strong> que pueden ejecutarse en paralelo. Su ejecución resulta del intercalado arbitrario de instrucciones atómicas de cada proceso.</p>
+      <p>Conjunto finito de <strong>procesos secuenciales</strong> que pueden ejecutarse en paralelo. Su ejecución resulta del <strong>intercalado arbitrario</strong> de instrucciones atómicas de cada proceso. No es tan simple como "corren al mismo tiempo": el resultado depende del orden en que se intercalen las instrucciones.</p>
+    </div>
+
+    <div class="def-block">
+      <div class="term">Proceso</div>
+      <p>Cada uno de los programas secuenciales que conforman el programa concurrente. Están compuestos por un conjunto finito de <strong>instrucciones atómicas</strong>.</p>
     </div>
 
     <div class="def-block">
       <div class="term">Instrucción Atómica</div>
-      <p>Una instrucción que puede ejecutarse de principio a fin sin interrupciones, o directamente no ejecutarse. No hay estado intermedio observable.</p>
+      <p>Una instrucción que puede ejecutarse de principio a fin sin interrupciones, <strong>o directamente no ejecutarse</strong>. No hay estado intermedio observable. Ejemplo: un incremento <span class="inline-code">x++</span> a nivel de C parece atómico, pero en assembler son tres instrucciones separadas (load, add, store).</p>
     </div>
 
     <div class="concept-grid">
       <div class="concept-cell">
-        <div class="label">Proceso</div>
-        <p>Cada programa secuencial que conforma el programa concurrente. Tiene su propio estado de ejecución.</p>
-      </div>
-      <div class="concept-cell">
         <div class="label">Sistema Paralelo</div>
-        <p>Varios programas ejecutándose <strong>simultáneamente</strong> en procesadores físicos distintos.</p>
+        <p>Varios programas ejecutándose <strong>simultáneamente</strong> en procesadores físicos distintos. Paralelismo real.</p>
       </div>
       <div class="concept-cell">
         <div class="label">Multitasking</div>
-        <p>Ejecución de múltiples procesos en un periodo de tiempo. El <strong>scheduler</strong> del kernel coordina el acceso.</p>
+        <p>Ejecución de múltiples procesos en un periodo de tiempo. El <strong>scheduler</strong> del kernel coordina el acceso a los procesadores, dando la ilusión de paralelismo.</p>
       </div>
       <div class="concept-cell">
         <div class="label">Multithreading</div>
-        <p>Construcción que permite ejecución concurrente de <strong>threads</strong> dentro del mismo proceso/programa.</p>
+        <p>Construcción que permite ejecución concurrente de <strong>threads</strong> dentro del mismo proceso. Los threads comparten el espacio de memoria del proceso pero tienen su propio stack, PC y registros.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Ejecución Concurrente</div>
+        <p>Resulta de ejecutar una secuencia de instrucciones atómicas que se obtiene de <strong>intercalar arbitrariamente</strong> las instrucciones de los procesos. El resultado puede variar.</p>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <div class="callout-body">
+        <strong>Threads vs Procesos:</strong> Los procesos son independientes y tienen memoria separada. Los threads son "procesos ligeros" dentro del mismo proceso — comparten la memoria del proceso, pero cada uno tiene su propia información de estado (stack, Program Counter, registros). Esto es lo que los hace más eficientes pero también más riesgosos.
       </div>
     </div>
 
     <h3>Desafíos de la Concurrencia</h3>
+    <p>La programación concurrente introduce problemas que no existen en programación secuencial. Los principales son:</p>
 
     <div class="card-grid">
       <div class="card">
         <span class="card-icon">⏱</span>
         <div class="card-title">Sincronización</div>
-        <div class="card-desc">Coordinación <strong>temporal</strong> entre distintos procesos.</div>
+        <div class="card-desc">Coordinación <strong>temporal</strong> entre distintos procesos. ¿Cuándo puede el proceso B continuar si depende de que el proceso A terminó algo?</div>
       </div>
       <div class="card">
         <span class="card-icon">📡</span>
         <div class="card-title">Comunicación</div>
-        <div class="card-desc">Datos que los procesos necesitan <strong>compartir</strong> para cumplir la función del programa.</div>
+        <div class="card-desc">Datos que los procesos necesitan <strong>compartir</strong> para cumplir la función del programa. ¿Cómo pasan información entre sí sin corromperla?</div>
       </div>
       <div class="card">
         <span class="card-icon">⚠️</span>
         <div class="card-title">Race Conditions</div>
-        <div class="card-desc">Cuando el resultado depende del <strong>orden de ejecución</strong> de los threads.</div>
+        <div class="card-desc">Cuando el resultado depende del <strong>orden de ejecución</strong> de los threads. El programa se comporta diferente cada vez que corre.</div>
       </div>
       <div class="card">
         <span class="card-icon">🔒</span>
         <div class="card-title">Deadlock</div>
-        <div class="card-desc">Dos o más procesos <strong>bloqueados mutuamente</strong> esperando recursos que el otro tiene.</div>
+        <div class="card-desc">Dos o más procesos <strong>bloqueados mutuamente</strong> esperando recursos que el otro tiene. Nadie puede avanzar.</div>
       </div>
     </div>
 
-    <h3>Modelos de Concurrencia</h3>
+    <h3>Los 5 Modelos de Concurrencia</h3>
+    <p>Existen distintas formas de encarar el problema de la concurrencia. La materia estudia cinco modelos principales, cada uno con sus ventajas y casos de uso ideales:</p>
 
     <div class="models-row">
-      <div class="model-pill highlight"><span class="icon">🔱</span><div class="label">Fork-Join</div></div>
-      <div class="model-pill highlight"><span class="icon">⚡</span><div class="label">Async</div></div>
-      <div class="model-pill highlight"><span class="icon">📬</span><div class="label">Canales</div></div>
-      <div class="model-pill highlight"><span class="icon">🎭</span><div class="label">Actores</div></div>
       <div class="model-pill highlight"><span class="icon">🔐</span><div class="label">Estado Comp.</div></div>
+      <div class="model-pill highlight"><span class="icon">🔱</span><div class="label">Fork-Join</div></div>
+      <div class="model-pill highlight"><span class="icon">📬</span><div class="label">Canales</div></div>
+      <div class="model-pill highlight"><span class="icon">⚡</span><div class="label">Async</div></div>
+      <div class="model-pill highlight"><span class="icon">🎭</span><div class="label">Actores</div></div>
+    </div>
+
+    <div class="concept-grid">
+      <div class="concept-cell">
+        <div class="label">1. Estado Mutable Compartido</div>
+        <p>Los procesos comparten memoria y se <strong>serializa el acceso</strong> con locks. Solo un proceso a la vez puede ejecutar ciertas regiones de código. Es el modelo más bajo nivel.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">2. Paralelismo Fork-Join</div>
+        <p>El cómputo se divide en sub-tareas independientes que se ejecutan en paralelo y luego se combinan. Ideal para algoritmos tipo divide-and-conquer.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">3. Canales / Mensajes</div>
+        <p>Los procesos se comunican enviando mensajes a través de <strong>canales tipados</strong>. No comparten memoria directamente. Más seguro y fácil de razonar.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">4. Programación Asincrónica</div>
+        <p>Tareas livianas que se interleavan cooperativamente. El cambio de tarea solo ocurre en puntos específicos (await). Ideal para I/O-bound.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">5. Actores</div>
+        <p>Entidades independientes con estado privado que solo se comunican por mensajes. Cada actor procesa mensajes de a uno, sin compartir estado.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Serializar el Acceso</div>
+        <p>En el modelo de estado compartido: marcar regiones de código que no pueden superponerse en la ejecución. Si un proceso está en la región, los demás esperan.</p>
+      </div>
     </div>
   </section>
 
-  <!-- ════ 02 RUST ════ -->
+  <!-- ════ 02 RUST BÁSICO ════ -->
   <section class="content-section" id="rust">
-    <div class="section-tag">02 · Lenguaje</div>
+    <div class="section-tag">02 · Lenguaje Base</div>
     <h2>Introducción a <em>Rust</em></h2>
-    <p class="section-intro">Rust es el lenguaje base de la materia. Sus objetivos son velocidad, seguridad y concurrencia. Su sistema de ownership permite garantizar "concurrencia sin miedo".</p>
+    <p class="section-intro">Rust es el lenguaje base de la materia. Sus tres pilares son velocidad, seguridad y concurrencia. Está diseñado para que el compilador detecte errores que en C/C++ solo aparecen en runtime.</p>
 
     <div class="card-grid">
       <div class="card">
         <span class="card-icon">🚀</span>
         <div class="card-title">Velocidad</div>
-        <div class="card-desc">Zero-cost abstractions. Performance comparable a C/C++.</div>
+        <div class="card-desc">Zero-cost abstractions: pagás solo por lo que usás. Performance comparable a C/C++ sin garbage collector.</div>
       </div>
       <div class="card">
         <span class="card-icon">🛡</span>
         <div class="card-title">Memory Safety</div>
-        <div class="card-desc">Sin punteros sueltos, sin buffer overflow. Todo en <strong>tiempo de compilación</strong>.</div>
+        <div class="card-desc">Sin punteros sueltos (dangling pointers), sin buffer overflow, sin doble liberación. Todo se verifica en <strong>tiempo de compilación</strong>.</div>
       </div>
       <div class="card">
         <span class="card-icon">⚙️</span>
         <div class="card-title">Concurrencia</div>
-        <div class="card-desc">El compilador previene race conditions. Si compila, no hay data races.</div>
+        <div class="card-desc">El compilador previene data races. Si compila, no hay race conditions sobre los datos.</div>
       </div>
       <div class="card">
         <span class="card-icon">📦</span>
         <div class="card-title">Cargo</div>
-        <div class="card-desc">Herramienta de build + gestión de dependencias (crates.io).</div>
+        <div class="card-desc">Herramienta de build integrada + gestor de dependencias (crates.io). Un solo comando para compilar, testear, formatear.</div>
       </div>
     </div>
 
-    <h3>Ownership: el corazón de Rust</h3>
+    <h3>Tipos de Datos</h3>
+    <p>Rust es fuertemente tipado. El compilador puede inferir tipos en muchos casos, pero siempre son verificados en compile-time.</p>
+
+    <div class="concept-grid">
+      <div class="concept-cell">
+        <div class="label">Enteros con signo</div>
+        <p><span class="inline-code">i8</span>, <span class="inline-code">i16</span>, <span class="inline-code">i32</span>, <span class="inline-code">i64</span> — El número indica los bits. <span class="inline-code">isize</span> depende de la arquitectura del target.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Enteros sin signo</div>
+        <p><span class="inline-code">u8</span>, <span class="inline-code">u16</span>, <span class="inline-code">u32</span>, <span class="inline-code">u64</span> — Solo valores positivos. <span class="inline-code">usize</span> se usa para índices y tamaños.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Flotantes y bool</div>
+        <p><span class="inline-code">f32</span>, <span class="inline-code">f64</span> — Punto flotante. <span class="inline-code">bool</span> ocupa 1 byte. <span class="inline-code">char</span> es Unicode (4 bytes).</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Compuestos</div>
+        <p>Arrays: <span class="inline-code">[u8; 3]</span>. Slices: <span class="inline-code">arr[3..5]</span>. Tuplas: <span class="inline-code">(char, u8, i32)</span>. Dinámicos: <span class="inline-code">Vec&lt;T&gt;</span>, <span class="inline-code">String</span>.</p>
+      </div>
+    </div>
+
+    <h3>Variables e Inmutabilidad</h3>
+    <p>Una de las decisiones más importantes de Rust: las variables son <strong>inmutables por defecto</strong>. Hay que pedir explícitamente mutabilidad. Esto fuerza al programador a pensar en qué cosas deben cambiar.</p>
+
+    <pre><span class="lang-tag">rust</span><span class="cm">// Las variables son inmutables por default</span>
+<span class="kw">let</span> t = <span class="kw">true</span>;
+<span class="cm">// t = false; // ERROR: no se puede asignar a variable inmutable</span>
+
+<span class="cm">// Para hacerlas mutables usamos mut</span>
+<span class="kw">let mut</span> punto = (<span class="num">1u8</span>, <span class="num">2u8</span>);
+punto = (<span class="num">4</span>, <span class="num">3</span>);  <span class="cm">// OK, es mutable</span>
+
+<span class="cm">// Los tipos pueden ser inferidos o explícitos. La asignación = "binding"</span>
+<span class="kw">let</span> numero: <span class="ty">i32</span> = <span class="num">42</span>;</pre>
+
+    <h3>Funciones y Closures</h3>
+    <p>Las funciones en Rust usan la sintaxis <span class="inline-code">fn nombre(param: tipo) -> tipo_retorno</span>. El último valor sin punto y coma es el valor de retorno implícito.</p>
+
+    <pre><span class="lang-tag">rust</span><span class="cm">// Función normal</span>
+<span class="kw">fn</span> <span class="fn">sumar_uno</span>(a: <span class="ty">i32</span>) -> <span class="ty">i32</span> {
+    a + <span class="num">1</span>  <span class="cm">// sin punto y coma = retorno implícito</span>
+}
+
+<span class="cm">// Closure (función anónima, captura el entorno)</span>
+<span class="kw">let</span> plus_one = |a| { a + <span class="num">1</span> };
+
+<span class="cm">// Función que recibe otra función como parámetro</span>
+<span class="kw">fn</span> <span class="fn">map42</span>(mapper: <span class="kw">fn</span>(<span class="ty">i32</span>) -> <span class="ty">i32</span>) -> <span class="ty">i32</span> {
+    <span class="fn">mapper</span>(<span class="num">42</span>)
+}</pre>
+
+    <h3>Structs y sus Métodos</h3>
+    <p>Los structs agrupan datos relacionados. Con <span class="inline-code">impl</span> se definen los métodos. El primer parámetro <span class="inline-code">&self</span> indica que es un método de instancia (como <span class="inline-code">this</span> en otros lenguajes).</p>
+
+    <pre><span class="lang-tag">rust</span><span class="cm">// Struct con campos con nombre</span>
+<span class="kw">#[derive(Debug)]</span>
+<span class="kw">struct</span> <span class="ty">Persona</span> {
+    nombre: <span class="ty">String</span>,
+    apellido: <span class="ty">String</span>,
+}
+
+<span class="cm">// Struct posicional (tuple struct)</span>
+<span class="kw">struct</span> <span class="ty">NumeroImaginario</span>(<span class="ty">f64</span>, <span class="ty">f64</span>);
+
+<span class="cm">// Métodos del struct</span>
+<span class="kw">impl</span> <span class="ty">NumeroImaginario</span> {
+    <span class="cm">// "Método estático" / constructor (no recibe &self)</span>
+    <span class="kw">fn</span> <span class="fn">new</span>(r: <span class="ty">f64</span>, i: <span class="ty">f64</span>) -> <span class="ty">NumeroImaginario</span> {
+        <span class="ty">NumeroImaginario</span>(r, i)
+    }
+
+    <span class="cm">// Método de instancia (recibe &self, referencia al objeto)</span>
+    <span class="kw">fn</span> <span class="fn">modulo</span>(&self) -> <span class="ty">f64</span> {
+        (self.<span class="num">0</span> * self.<span class="num">0</span> + self.<span class="num">1</span> * self.<span class="num">1</span>).<span class="fn">sqrt</span>()
+    }
+}</pre>
+
+    <h3>Traits: interfaces de Rust</h3>
+    <p>Los traits son como las interfaces en otros lenguajes. Definen un conjunto de métodos que un tipo debe implementar. Permiten el polimorfismo en Rust.</p>
+
+    <pre><span class="lang-tag">rust</span><span class="cm">// Definir un trait</span>
+<span class="kw">trait</span> <span class="ty">MagnitudVectorial</span> {
+    <span class="kw">fn</span> <span class="fn">norma</span>(&self) -> <span class="ty">f64</span>;
+}
+
+<span class="cm">// Implementar el trait para nuestro tipo</span>
+<span class="kw">impl</span> <span class="ty">MagnitudVectorial</span> <span class="kw">for</span> <span class="ty">NumeroImaginario</span> {
+    <span class="kw">fn</span> <span class="fn">norma</span>(&self) -> <span class="ty">f64</span> {
+        self.<span class="fn">modulo</span>()
+    }
+}
+
+<span class="cm">// Función polimórfica: acepta cualquier tipo que implemente el trait</span>
+<span class="kw">fn</span> <span class="fn">max</span>(v1: &<span class="kw">dyn</span> <span class="ty">MagnitudVectorial</span>, v2: &<span class="kw">dyn</span> <span class="ty">MagnitudVectorial</span>) -> <span class="ty">f64</span> {
+    v1.<span class="fn">norma</span>().<span class="fn">max</span>(v2.<span class="fn">norma</span>())
+}</pre>
+
+    <h3>Enums y Pattern Matching</h3>
+    <p>Los enums en Rust son mucho más poderosos que en otros lenguajes: cada variante puede contener datos. El pattern matching con <span class="inline-code">match</span> obliga a manejar todos los casos.</p>
+
+    <pre><span class="lang-tag">rust</span><span class="kw">enum</span> <span class="ty">Message</span> {
+    Fire,
+    Move { x: <span class="ty">i32</span>, y: <span class="ty">i32</span> },  <span class="cm">// con campos nombrados</span>
+    Say(<span class="ty">String</span>),               <span class="cm">// con dato</span>
+}
+
+<span class="kw">fn</span> <span class="fn">print_message</span>(m: <span class="ty">Message</span>) {
+    <span class="kw">match</span> m {
+        <span class="ty">Message</span>::Fire => <span class="mac">println!</span>(<span class="str">"Fire"</span>),
+        <span class="cm">// Guard adicional: solo si y > 10</span>
+        <span class="ty">Message</span>::Move { x: _, y } <span class="kw">if</span> y > <span class="num">10</span> => <span class="mac">println!</span>(<span class="str">"Corre hacia arriba"</span>),
+        <span class="ty">Message</span>::Move { x, y } => <span class="mac">println!</span>(<span class="str">"Se mueve hacia {}, {}"</span>, x, y),
+        <span class="ty">Message</span>::Say(msg) => <span class="mac">println!</span>(<span class="str">"Dice: {}"</span>, msg),
+    };
+}</pre>
+
+    <h3>Option y Result: manejo de errores sin excepciones</h3>
+    <p>Rust no tiene <span class="inline-code">null</span> ni excepciones. En su lugar usa tipos que fuerzan al programador a manejar los casos de ausencia de valor y error explícitamente.</p>
+
+    <pre><span class="lang-tag">rust</span><span class="cm">// Option<T> representa un valor que puede existir o no</span>
+<span class="kw">fn</span> <span class="fn">dividir</span>(num: <span class="ty">f64</span>, den: <span class="ty">f64</span>) -> <span class="ty">Option</span>&lt;<span class="ty">f64</span>&gt; {
+    <span class="kw">if</span> den == <span class="num">0.0</span> { <span class="ty">None</span> } <span class="kw">else</span> { <span class="ty">Some</span>(num / den) }
+}
+
+<span class="cm">// Result<T, E> representa éxito o error con información</span>
+<span class="kw">fn</span> <span class="fn">abrir_archivo</span>(path: <span class="ty">String</span>) -> <span class="ty">Result</span>&lt;<span class="ty">String</span>, <span class="ty">String</span>&gt; {
+    <span class="cm">// ... lógica ...</span>
+    <span class="ty">Err</span>(<span class="ty">String</span>::<span class="fn">from</span>(<span class="str">"no existe el archivo"</span>))
+}
+
+<span class="kw">let</span> d = <span class="fn">dividir</span>(<span class="num">3.0</span>, <span class="num">0.0</span>);
+d.<span class="fn">unwrap</span>() * <span class="num">3</span>;            <span class="cm">// PANIC si es None</span>
+d.<span class="fn">expect</span>(<span class="str">"dividió por 0"</span>);   <span class="cm">// PANIC con mensaje</span>
+d.<span class="fn">map</span>(|n| n * <span class="num">3</span>);          <span class="cm">// Transforma el valor si existe, sin panic</span>
+
+<span class="cm">// El operador ? propaga el error automáticamente</span>
+<span class="kw">fn</span> <span class="fn">div_mul</span>(n: <span class="ty">f64</span>, d: <span class="ty">f64</span>, m: <span class="ty">f64</span>) -> <span class="ty">Option</span>&lt;<span class="ty">f64</span>&gt; {
+    <span class="kw">let</span> d = <span class="fn">dividir</span>(n, d)?;  <span class="cm">// si es None, retorna None aquí</span>
+    <span class="ty">Some</span>(d * m)
+}</pre>
+
+    <h3>Testing en Rust</h3>
+    <pre><span class="lang-tag">rust</span><span class="kw">fn</span> <span class="fn">add</span>(l: <span class="ty">i32</span>, r: <span class="ty">i32</span>) -> <span class="ty">i32</span> { l + r }
+
+<span class="cm">// El módulo solo se compila al ejecutar 'cargo test'</span>
+<span class="kw">#[cfg(test)]</span>
+<span class="kw">mod</span> tests {
+    <span class="kw">use super</span>::*;
+    
+    <span class="kw">#[test]</span>
+    <span class="kw">fn</span> <span class="fn">it_adds_i32s</span>() {
+        <span class="mac">assert_eq!</span>(<span class="num">5</span>, <span class="fn">add</span>(<span class="num">3</span>, <span class="num">2</span>));
+    }
+}</pre>
+  </section>
+
+  <!-- ════ 02b RUST AVANZADO: OWNERSHIP ════ -->
+  <section class="content-section" id="rust-avanzado">
+    <div class="section-tag">02b · Rust Avanzado</div>
+    <h2>Ownership &amp; <em>Borrowing</em></h2>
+    <p class="section-intro">El sistema de ownership es lo que hace a Rust único. Permite garantizar memory safety sin garbage collector, eliminando clases enteras de errores en tiempo de compilación.</p>
+
+    <h3>Motivación: ¿Qué problemas resuelve?</h3>
+    <p>El sistema de ownership está inspirado en C++ RAII (Resource Acquisition Is Initialization) pero lo lleva al extremo. El objetivo es eliminar en compile-time todos estos bugs:</p>
+    <ul>
+      <li><strong>Punteros nulos</strong> — acceder a memoria que ya fue liberada</li>
+      <li><strong>Uso posterior a liberación (use-after-free)</strong> — usar un puntero después de liberar la memoria</li>
+      <li><strong>Doble liberación (double-free)</strong> — liberar la misma memoria dos veces</li>
+      <li><strong>Buffer overflow</strong> — escribir más allá del final de un array</li>
+      <li><strong>Data races</strong> — dos threads acceden a la misma memoria concurrentemente sin sincronización</li>
+    </ul>
 
     <div class="callout warn">
       <span class="callout-icon">⚠</span>
       <div class="callout-body">
-        <strong>Ownership es la razón por la que Rust puede garantizar memory safety sin garbage collector.</strong> Inspirado en C++ RAII pero llevado al extremo: el compilador verifica las reglas en compile-time, con costo de runtime cero.
+        <strong>Costo cero en runtime:</strong> Todas estas garantías se verifican en tiempo de compilación. El programa compilado no tiene overhead por estas verificaciones — son cero costo en ejecución.
       </div>
     </div>
+
+    <h3>Las 3 Reglas de Ownership</h3>
 
     <div class="flow-diagram">
       <div class="flow-step">
         <div class="flow-num">1</div>
         <div class="flow-content">
           <h5>Cada valor tiene un único dueño (owner)</h5>
-          <p>Solo una variable puede ser el owner de un valor en un momento dado.</p>
+          <p>Solo una variable puede ser el owner de un valor en un momento dado. No puede haber dos owners del mismo valor.</p>
         </div>
       </div>
       <div class="flow-step">
         <div class="flow-num">2</div>
         <div class="flow-content">
           <h5>Cambiar de dueño es un <em>move</em></h5>
-          <p>Al asignar a otra variable o pasar a una función, la original ya no puede usarse.</p>
+          <p>Al asignar a otra variable o pasar a una función, la variable original queda inválida. Ya no se puede usar.</p>
         </div>
       </div>
       <div class="flow-step">
         <div class="flow-num">3</div>
         <div class="flow-content">
           <h5>Cuando el owner sale de scope, el valor se elimina</h5>
-          <p>Se llama automáticamente al trait <span class="inline-code">Drop</span>. No hace falta <span class="inline-code">free()</span>.</p>
+          <p>Se llama automáticamente al trait <span class="inline-code">Drop</span>. Similar a los destructores de C++. No hace falta <span class="inline-code">free()</span> manual.</p>
         </div>
       </div>
     </div>
 
+    <h3>Move vs Borrow</h3>
+    <p>Si una función necesita el valor solo para leerlo o modificarlo temporalmente, no tiene sentido transferir el ownership. Para eso existe el <strong>borrowing</strong>: prestar una referencia.</p>
+
+    <div class="ownership-diagram">
+      <div class="own-row">
+        <div class="own-var">ariel</div>
+        <div class="own-arrow">→</div>
+        <div class="own-value">Persona { edad: 37 }</div>
+        <div class="own-status own-valid">owner</div>
+      </div>
+      <div class="own-row">
+        <div class="own-var">envejecer(ariel)</div>
+        <div class="own-arrow">→</div>
+        <div class="own-value">move: la función toma ownership</div>
+        <div class="own-status own-invalid">ariel inválido</div>
+      </div>
+      <div class="own-row">
+        <div class="own-var">fn(&ariel)</div>
+        <div class="own-arrow">→</div>
+        <div class="own-value">referencia inmutable prestada</div>
+        <div class="own-status own-borrow">borrow</div>
+      </div>
+      <div class="own-row">
+        <div class="own-var">fn(&mut ariel)</div>
+        <div class="own-arrow">→</div>
+        <div class="own-value">referencia mutable prestada (única)</div>
+        <div class="own-status own-borrow">borrow mut</div>
+      </div>
+    </div>
+
+    <h3>Reglas de Borrowing</h3>
+    <div class="concept-grid">
+      <div class="concept-cell">
+        <div class="label">Múltiples referencias inmutables</div>
+        <p>El dueño puede prestar <strong>muchas referencias de lectura</strong> simultáneamente. Todos pueden leer al mismo tiempo, es seguro.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Una única referencia mutable</div>
+        <p>Solo puede existir <strong>UNA referencia mutable</strong> a la vez. Mientras existe, no puede haber referencias inmutables. Esto elimina data races.</p>
+      </div>
+    </div>
+
+    <pre><span class="lang-tag">rust</span><span class="kw">let mut</span> ariel = <span class="ty">Persona</span> { edad: <span class="num">37</span> };
+
+<span class="cm">// ✓ Múltiples referencias inmutables OK</span>
+<span class="kw">let</span> r1 = &ariel;
+<span class="kw">let</span> r2 = &ariel;
+<span class="mac">println!</span>(<span class="str">"{:?} {:?}"</span>, r1, r2);
+
+<span class="cm">// ✓ Una referencia mutable</span>
+<span class="kw">let</span> r3 = &<span class="kw">mut</span> ariel;
+r3.edad += <span class="num">1</span>;
+
+<span class="cm">// ✗ No se puede tener mutable + inmutable al mismo tiempo</span>
+<span class="cm">// let r4 = &ariel; // ERROR si r3 sigue activo</span></pre>
+
+    <h3>Heap y Punteros Inteligentes</h3>
+    <p>Para datos de tamaño dinámico o para compartir datos entre múltiples owners, Rust provee punteros inteligentes:</p>
+
+    <div class="heap-compare">
+      <div class="heap-box">
+        <div class="heap-type">Box&lt;T&gt;</div>
+        <div class="heap-desc">Puntero a heap con un único owner. <span class="inline-code">Box&lt;str&gt; → String</span>, <span class="inline-code">Box&lt;[T]&gt; → Vec&lt;T&gt;</span></div>
+      </div>
+      <div class="heap-box">
+        <div class="heap-type">Rc&lt;T&gt;</div>
+        <div class="heap-desc">Reference Counting. Múltiples owners inmutables. Solo para un solo thread.</div>
+      </div>
+      <div class="heap-box">
+        <div class="heap-type">Arc&lt;T&gt;</div>
+        <div class="heap-desc">Atomic Reference Counting. Como Rc pero thread-safe. Para compartir entre múltiples threads.</div>
+      </div>
+      <div class="heap-box">
+        <div class="heap-type">Arc&lt;RwLock&lt;T&gt;&gt;</div>
+        <div class="heap-desc">Patrón típico: compartir entre threads con acceso mutable controlado por un lock.</div>
+      </div>
+    </div>
+
     <h3>Traits Send y Sync</h3>
+    <p>Rust garantiza thread-safety en compile-time a través de dos traits especiales que el compilador verifica automáticamente:</p>
     <div class="concept-grid">
       <div class="concept-cell">
         <div class="label">Send</div>
-        <p>El ownership del tipo puede ser <strong>transferido entre threads</strong>. Casi todos los tipos son Send. Excepción: <span class="inline-code">Rc&lt;T&gt;</span>.</p>
+        <p>El ownership del tipo puede ser <strong>transferido entre threads</strong>. Casi todos los tipos son Send. Excepción notable: <span class="inline-code">Rc&lt;T&gt;</span> (no es atómico). Los tipos compuestos de tipos Send son automáticamente Send.</p>
       </div>
       <div class="concept-cell">
         <div class="label">Sync</div>
-        <p>Es seguro ser <strong>referenciado desde múltiples threads</strong>. T es Sync si <span class="inline-code">&T</span> es Send. Los primitivos son Sync.</p>
+        <p>Es seguro ser <strong>referenciado desde múltiples threads simultáneamente</strong>. T es Sync si <span class="inline-code">&T</span> es Send. Los tipos primitivos son Sync. Los tipos compuestos de tipos Sync son automáticamente Sync.</p>
       </div>
     </div>
 
     <h3>Threads en Rust</h3>
-    <pre><span class="lang-tag">rust</span><span class="kw">use</span> std::{thread, time::Duration};
+    <pre><span class="lang-tag">rust</span><span class="kw">use</span> std::{thread, time::<span class="ty">Duration</span>};
 
+<span class="mac">println!</span>(<span class="str">"[PADRE] spawneo hijo"</span>);
+
+<span class="cm">// thread::spawn crea un nuevo thread</span>
+<span class="cm">// 'move' indica que el closure toma ownership de las variables capturadas</span>
 <span class="kw">let</span> join_handle = thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
     <span class="mac">println!</span>(<span class="str">"[HIJO] spawnie"</span>);
     thread::<span class="fn">sleep</span>(<span class="ty">Duration</span>::<span class="fn">from_secs</span>(<span class="num">2</span>));
+    <span class="mac">println!</span>(<span class="str">"[HIJO] me desperté"</span>);
 });
 
-join_handle.<span class="fn">join</span>().<span class="fn">unwrap</span>();  <span class="cm">// espera que el thread termine</span></pre>
+<span class="mac">println!</span>(<span class="str">"[PADRE] esperando hijo"</span>);
+join_handle.<span class="fn">join</span>().<span class="fn">unwrap</span>();  <span class="cm">// bloquea hasta que el hijo termina</span>
+<span class="mac">println!</span>(<span class="str">"[PADRE] terminó"</span>);</pre>
+
+    <div class="callout tip">
+      <span class="callout-icon">✓</span>
+      <div class="callout-body">
+        <strong>¿Por qué <span class="inline-code">move</span>?</strong> El thread hijo puede vivir más que el scope del padre. Si el closure capturara referencias del padre en vez de tomar ownership, esas referencias podrían quedar inválidas. <span class="inline-code">move</span> fuerza al closure a ser dueño de todo lo que usa.
+      </div>
+    </div>
   </section>
 
   <!-- ════ 03 FORK-JOIN ════ -->
   <section class="content-section" id="forkjoin">
     <div class="section-tag">03 · Modelo de Paralelismo</div>
     <h2>Fork-<em>Join</em></h2>
-    <p class="section-intro">Modelo de paralelismo datado de 1963 (Melvin Conway). El cómputo se divide recursivamente en sub-tareas independientes que se ejecutan en paralelo y luego se combinan.</p>
+    <p class="section-intro">Modelo de paralelismo cuyo origen se remonta al paper de Melvin Conway en 1963. El cómputo se divide recursivamente en sub-tareas independientes que se ejecutan en paralelo y luego se combinan.</p>
+
+    <h3>Procesamiento Secuencial vs Paralelo</h3>
+    <p>Para entender Fork-Join, primero veamos el procesamiento secuencial clásico y su limitación:</p>
+
+    <pre><span class="lang-tag">rust</span><span class="cm">// Versión secuencial: los archivos se procesan uno por uno</span>
+<span class="kw">fn</span> <span class="fn">process_files</span>(filenames: <span class="ty">Vec</span>&lt;<span class="ty">String</span>&gt;) -> io::<span class="ty">Result</span>&lt;()&gt; {
+    <span class="kw">for</span> document <span class="kw">in</span> filenames {
+        <span class="kw">let</span> text = <span class="fn">load</span>(&document)?;     <span class="cm">// leer un archivo</span>
+        <span class="kw">let</span> results = <span class="fn">process</span>(text);    <span class="cm">// realizar el cómputo</span>
+        <span class="fn">save</span>(&document, results)?;       <span class="cm">// escribir resultados</span>
+    }
+    <span class="ty">Ok</span>(())
+}</pre>
+
+    <p>Si tenemos 8 núcleos y 8 archivos, el procesamiento secuencial usa solo 1 núcleo. Desperdicia el 87.5% del hardware disponible.</p>
 
     <div class="card-grid">
       <div class="card">
         <span class="card-icon">🔀</span>
         <div class="card-title">División Recursiva</div>
-        <div class="card-desc">El cómputo se parte recursivamente. Los sub-cómputos son <strong>independientes</strong> → se pueden ejecutar en paralelo.</div>
+        <div class="card-desc">El cómputo se parte recursivamente. Los sub-cómputos son <strong>independientes</strong> entre sí → pueden ejecutarse en paralelo sin coordinación.</div>
       </div>
       <div class="card">
         <span class="card-icon">🎲</span>
         <div class="card-title">Determinístico</div>
-        <div class="card-desc">Los threads están aislados. Produce el <strong>mismo resultado</strong> independientemente de la velocidad.</div>
+        <div class="card-desc">Los threads están <strong>aislados</strong>. El programa produce el mismo resultado independientemente de las diferencias de velocidad entre threads.</div>
       </div>
       <div class="card">
         <span class="card-icon">⚡</span>
         <div class="card-title">Performance Ideal</div>
-        <div class="card-desc">En caso ideal: <strong>t_secuencial / N_threads</strong>. Varía por tamaño de tareas y costo de combinar.</div>
+        <div class="card-desc">En el caso ideal: <strong>t_secuencial / N_threads</strong>. Puede variar por diferencias en tamaño de tareas y costo de combinar resultados.</div>
+      </div>
+      <div class="card">
+        <span class="card-icon">⚠️</span>
+        <div class="card-title">Desventaja</div>
+        <div class="card-desc">Requiere que las unidades de trabajo (tareas) sean <strong>aisladas</strong> entre sí. No funciona si las tareas comparten estado mutable.</div>
       </div>
     </div>
 
-    <h3>Work Stealing</h3>
-    <p>El algoritmo de scheduling más importante en Fork-Join. Resuelve el <strong>balanceo de carga</strong> cuando las tareas tienen distintos tamaños. Cada thread tiene su propia cola de tareas; cuando una cola se vacía, el thread "roba" tareas de la cola de otro.</p>
+    <h3>Reglas del Modelo Fork-Join</h3>
+    <ul>
+      <li>Las sub-tareas se pueden crear en <strong>cualquier momento</strong> de la ejecución de la tarea padre.</li>
+      <li>Las tareas <strong>no deben bloquearse</strong>, excepto para esperar el final de sus subtareas (join).</li>
+      <li>Es un modelo de concurrencia <strong>sin condiciones de carrera</strong> (por el aislamiento de tareas).</li>
+    </ul>
 
-    <h3>Implementación con Rayon</h3>
+    <h3>Work Stealing: el corazón del scheduling</h3>
+    <p>En Fork-Join, las tareas pueden tener tamaños muy diferentes. Si las asignamos estáticamente a los threads, algunos terminarán antes y estarán ociosos mientras otros siguen trabajando. El algoritmo Work Stealing resuelve esto dinámicamente:</p>
+
+    <div class="flow-diagram">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-content">
+          <h5>Cada thread tiene su propia cola de doble extremo (deque)</h5>
+          <p>Almacena las tareas listas para ejecutar. Cada thread trabaja principalmente con su propia cola.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-content">
+          <h5>Al terminar una tarea, encola las subtareas al final</h5>
+          <p>Las subtareas creadas se agregan al final de la propia cola del thread.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-content">
+          <h5>Toma la siguiente tarea del final de su propia cola</h5>
+          <p>LIFO local: favorece la localidad de caché, las subtareas recién creadas están calientes.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-content">
+          <h5>Si la cola está vacía: roba del inicio de una cola aleatoria</h5>
+          <p>FIFO en el robo: minimiza contención. Los threads inactivos roban a los ocupados para balancear la carga.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout tip">
+      <span class="callout-icon">✓</span>
+      <div class="callout-body">
+        <strong>Ventajas de Work Stealing:</strong> Los worker threads solo se comunican cuando lo necesitan → menor necesidad de sincronización. La implementación de la cola deque agrega bajo overhead de sincronización.
+      </div>
+    </div>
+
+    <h3>Implementación con la Standard Library</h3>
+    <pre><span class="lang-tag">rust</span><span class="kw">fn</span> <span class="fn">process_files_in_parallel</span>(filenames: <span class="ty">Vec</span>&lt;<span class="ty">String</span>&gt;) -> io::<span class="ty">Result</span>&lt;()&gt; {
+    <span class="kw">const</span> NTHREADS: <span class="ty">usize</span> = <span class="num">8</span>;
+    <span class="kw">let</span> worklists = <span class="fn">split_vec_into_chunks</span>(filenames, NTHREADS);
+    <span class="kw">let mut</span> thread_handles = <span class="mac">vec!</span>[];
+    
+    <span class="kw">for</span> worklist <span class="kw">in</span> worklists {
+        thread_handles.<span class="fn">push</span>(
+            std::thread::<span class="fn">spawn</span>(<span class="kw">move</span> || <span class="fn">process_files</span>(worklist))
+        );
+    }
+    
+    <span class="kw">for</span> handle <span class="kw">in</span> thread_handles {
+        handle.<span class="fn">join</span>().<span class="fn">unwrap</span>()?;  <span class="cm">// esperar a todos los threads</span>
+    }
+    <span class="ty">Ok</span>(())
+}</pre>
+
+    <h3>Rayon: Fork-Join de alto nivel</h3>
+    <p>Rayon es una biblioteca muy popular (creada por Niko Matsakis, miembro del equipo de Rust) que implementa Fork-Join de forma transparente. Internamente implementa Work Stealing y crea un worker thread por núcleo de CPU.</p>
+
+    <div class="rayon-table">
+      <div class="rayon-row">
+        <div class="rayon-cell header">Versión Secuencial</div>
+        <div class="rayon-cell header">Versión Paralela con Rayon</div>
+      </div>
+      <div class="rayon-row">
+        <div class="rayon-cell seq">foo.iter()</div>
+        <div class="rayon-cell par">foo.par_iter()</div>
+      </div>
+      <div class="rayon-row">
+        <div class="rayon-cell seq">foo.iter_mut()</div>
+        <div class="rayon-cell par">foo.par_iter_mut()</div>
+      </div>
+      <div class="rayon-row">
+        <div class="rayon-cell seq">foo.into_iter()</div>
+        <div class="rayon-cell par">foo.into_par_iter()</div>
+      </div>
+    </div>
+
     <pre><span class="lang-tag">rust</span><span class="kw">use</span> rayon::prelude::*;
 
-<span class="cm">// Dos tareas en paralelo</span>
+<span class="cm">// Dos tareas en paralelo — bloquea hasta que ambas terminan</span>
 <span class="kw">let</span> (v1, v2) = rayon::<span class="fn">join</span>(fn1, fn2);
 
 <span class="cm">// N tareas en paralelo con iterador paralelo</span>
+<span class="cm">// Rayon maneja los threads y distribuye el trabajo automáticamente</span>
 giant_vector.<span class="fn">par_iter</span>().<span class="fn">for_each</span>(|value| {
     <span class="fn">do_thing_with_value</span>(value);
-});</pre>
+});
+
+<span class="cm">// Combinar resultados con reduce</span>
+<span class="kw">let</span> s = [<span class="str">'a'</span>, <span class="str">'b'</span>, <span class="str">'c'</span>, <span class="str">'d'</span>, <span class="str">'e'</span>]
+    .<span class="fn">par_iter</span>()
+    .<span class="fn">map</span>(|c: &<span class="ty">char</span>| <span class="mac">format!</span>(<span class="str">"{}"</span>, c))
+    .<span class="fn">reduce</span>(|| <span class="ty">String</span>::<span class="fn">new</span>(), |<span class="kw">mut</span> a: <span class="ty">String</span>, b: <span class="ty">String</span>| {
+        a.<span class="fn">push_str</span>(&b); a
+    });
+<span class="mac">assert_eq!</span>(s, <span class="str">"abcde"</span>);</pre>
+
+    <h3>Crossbeam: scoped threads</h3>
+    <p>Crossbeam es un crate de concurrencia muy utilizado. <span class="inline-code">crossbeam::scope</span> resuelve un problema importante: los threads de std::thread no pueden tomar referencias al stack del padre (porque el padre podría terminar antes). Crossbeam garantiza que todos los threads del scope terminan antes de que el scope cierre.</p>
+
+    <pre><span class="lang-tag">rust</span><span class="kw">use</span> crossbeam;
+
+<span class="kw">let</span> data = <span class="mac">vec!</span>[<span class="num">1</span>, <span class="num">2</span>, <span class="num">3</span>];
+
+crossbeam::<span class="fn">scope</span>(|s| {
+    <span class="cm">// Podemos tomar referencias al stack porque scope garantiza que</span>
+    <span class="cm">// todos los threads terminan antes de que scope retorne</span>
+    s.<span class="fn">spawn</span>(|_| {
+        <span class="mac">println!</span>(<span class="str">"data = {:?}"</span>, data);  <span class="cm">// referencia a 'data', no move</span>
+    });
+}).<span class="fn">unwrap</span>();
+<span class="cm">// Aquí todos los threads terminaron. Ok o Err si alguno hizo panic.</span></pre>
   </section>
 
-  <!-- ════ 04 VECTORIZACIÓN ════ -->
+  <!-- ════ 04 MAPREDUCE ════ -->
+  <section class="content-section" id="mapreduce">
+    <div class="section-tag">04 · Paradigmas de Datos</div>
+    <h2>MapReduce &amp; <em>Dremel</em></h2>
+    <p class="section-intro">Paradigmas de procesamiento masivo de datos que se construyen sobre los conceptos de Fork-Join. MapReduce (2004) popularizó el procesamiento distribuido de grandes datasets.</p>
+
+    <h3>MapReduce</h3>
+    <p>Presentado en un paper de Google en 2004, MapReduce es un modelo de programación para procesar y generar grandes datasets. El usuario especifica dos funciones:</p>
+
+    <div class="concept-grid">
+      <div class="concept-cell">
+        <div class="label">Función Map</div>
+        <p>Toma un par <strong>clave/valor</strong> y genera un conjunto de pares clave/valor intermedios. Se ejecuta en paralelo sobre distintas particiones de datos.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Función Reduce</div>
+        <p>Combina todos los valores intermedios asociados con la <strong>misma clave</strong>. Produce el resultado final.</p>
+      </div>
+    </div>
+
+    <h4>Ejemplo: Word Count (el "Hello World" de MapReduce)</h4>
+    <div class="flow-diagram">
+      <div class="flow-step">
+        <div class="flow-num">M</div>
+        <div class="flow-content">
+          <h5>Map — Extraer frecuencias locales</h5>
+          <p>Tomar de potencialmente varios archivos de texto las líneas, de las líneas las palabras, de las palabras sus frecuencias locales (cuántas veces aparece cada palabra en este fragmento).</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">R</div>
+        <div class="flow-content">
+          <h5>Reduce — Combinar frecuencias globales</h5>
+          <p>Combinar todas las frecuencias locales en una única tabla con todas las frecuencias globales.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <div class="callout-body">
+        <strong>Ecosistema:</strong> Hadoop fue la primera implementación open source de MapReduce. Sus "hijos" modernos incluyen Apache Spark, que mejoró sustancialmente la performance al mantener datos en memoria entre operaciones.
+      </div>
+    </div>
+
+    <h3>Dremel</h3>
+    <p>Sistema de consultas en tiempo casi real, expuesto públicamente como <strong>BigQuery</strong> de Google. La idea central es distribuir el trabajo en un árbol de nodos:</p>
+    <div class="def-block">
+      <div class="term">Arquitectura en árbol</div>
+      <p>Una consulta se propaga hacia abajo en el árbol y se reescribe en cada nivel. El resultado se ensambla agregando las respuestas que llegan desde los niveles inferiores. Permite ejecutar queries analíticas sobre petabytes de datos en segundos.</p>
+    </div>
+
+    <h3>Vectorización</h3>
+    <p>Cuando queremos un cómputo "simple" sobre un conjunto <strong>grande</strong> de datos (procesar sonido, imágenes, video, entrenar redes neuronales), el overhead de Fork-Join puede ser excesivo. Lanzar incluso una tarea tiene un costo en cómputo y accesos a memoria (localidad). Para esto existen las operaciones vectoriales.</p>
+  </section>
+
+  <!-- ════ 05 VECTORIZACIÓN ════ -->
   <section class="content-section" id="vectorizacion">
-    <div class="section-tag">04 · Paralelismo de Datos</div>
+    <div class="section-tag">05 · Paralelismo de Datos</div>
     <h2>Vectorización <em>&amp; SIMD</em></h2>
-    <p class="section-intro">Cuando queremos un cómputo "simple" sobre un conjunto grande de datos, el overhead de crear threads puede ser excesivo. Las CPUs modernas ofrecen instrucciones SIMD para resolverlo.</p>
+    <p class="section-intro">Al "detenerse" la ley de Moore, el aumento de transistores no se tradujo en mayor velocidad de reloj. En su lugar se agregaron múltiples ALUs para operar sobre los mismos registros de forma concurrente.</p>
 
     <div class="def-block">
       <div class="term">SIMD — Single Instruction, Multiple Data</div>
-      <p>Instrucciones que operan sobre <strong>vectores de datos</strong> en paralelo. Cada variable (registro) es un vector de tamaño fijo, generalmente de entre <strong>128 y 512 bits</strong>, dividido en N "lanes" según el tamaño de los datos.</p>
+      <p>Instrucciones de CPU que operan sobre <strong>vectores de datos</strong> en paralelo. Introducido con los juegos de instrucciones <strong>MMX, SSE, AVX</strong> en x86 y <strong>NEON</strong> en ARM. Cada variable (registro) es un vector de tamaño fijo, generalmente entre 128 y 512 bits, dividido en N "lanes" según el tamaño de los datos.</p>
     </div>
 
     <div class="simd-visual">
@@ -1453,195 +2020,756 @@ giant_vector.<span class="fn">par_iter</span>().<span class="fn">for_each</span>
         <div class="simd-op"></div>
       </div>
     </div>
+
+    <h3>Tipos de Operaciones</h3>
+    <div class="concept-grid">
+      <div class="concept-cell">
+        <div class="label">Operaciones "Verticales"</div>
+        <p>Entre distintos registros en el <strong>mismo lane</strong>. Son las más rápidas. Ejemplo: sumar todos los x₀ con todos los y₀ simultáneamente.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Operaciones "Horizontales"</div>
+        <p>Reducen un vector a un <strong>escalar</strong>. Son más lentas porque requieren combinar datos de distintos lanes. Ejemplo: sumar todos los elementos de un registro.</p>
+      </div>
+    </div>
+
+    <h3>Ejemplo: un registro de 512 bits</h3>
+    <p>Un registro de 512 bits puede alojar simultáneamente:</p>
+    <ul>
+      <li><strong>64 enteros de 8 bits</strong> (u8/i8)</li>
+      <li><strong>16 enteros de 32 bits</strong> (u32/i32)</li>
+      <li><strong>8 flotantes de 64 bits</strong> (f64)</li>
+    </ul>
+    <p>Con una sola instrucción SIMD se pueden sumar, multiplicar o comparar todos esos valores en paralelo. Esto es lo que hace posible el entrenamiento eficiente de redes neuronales.</p>
+
+    <h3>GPU vs CPU</h3>
+
+    <div class="gpu-compare">
+      <div class="gpu-box cpu-box">
+        <div class="gpu-title">CPU — Low Latency</div>
+        <ul>
+          <li>Diseñada para <strong>minimizar la latencia</strong></li>
+          <li>Caches grandes (L1, L2, L3)</li>
+          <li>Lógica complicada (Pipeline, branch prediction)</li>
+          <li>Pocos núcleos potentes</li>
+          <li>Context switch caro (~microsegundos)</li>
+        </ul>
+      </div>
+      <div class="gpu-box gpu-box-card">
+        <div class="gpu-title">GPU — High Throughput</div>
+        <ul>
+          <li>Diseñada para <strong>maximizar el throughput</strong></li>
+          <li>Más transistores en ALUs, caches pequeños</li>
+          <li>Miles de núcleos simples</li>
+          <li>Los tiempos de espera de RAM se diluyen intercalando threads</li>
+          <li>Context switch muy económico (hasta uno por clock cycle)</li>
+        </ul>
+      </div>
+    </div>
+
+    <h3>Modelo de Programación GPU: Jerarquía de Threads</h3>
+    <p>El programa se divide en un <strong>grid de workgroups</strong> independientes. Cada workgroup tiene N threads que se ejecutan en paralelo sobre el mismo espacio de memoria compartida — de forma equivalente a un lane SIMD. La performance óptima se logra cuando la cantidad de threads en un workgroup es <strong>múltiplo de 32</strong> (el tamaño del "warp" en CUDA o "SIMD-group" en Metal).</p>
+
+    <h3>WGSL — WebGPU Shader Language</h3>
+    <p>Lenguaje de shaders moderno, portable entre Vulkan, Metal y Direct3D 12. Con sintaxis similar a Rust (strongly typed). Permite escribir programas que corren en la GPU de manera portable.</p>
+
+    <h4>Flujo típico de un programa GPU</h4>
+    <div class="flow-diagram">
+      <div class="flow-step"><div class="flow-num">1</div><div class="flow-content"><h5>Declarar y allocar memoria en host y device</h5><p>La GPU tiene su propia VRAM separada de la RAM del CPU.</p></div></div>
+      <div class="flow-step"><div class="flow-num">2</div><div class="flow-content"><h5>Inicializar datos en el host</h5><p>Preparar los datos en la RAM del CPU.</p></div></div>
+      <div class="flow-step"><div class="flow-num">3</div><div class="flow-content"><h5>Transferir datos host → device</h5><p>Copiar los datos a la VRAM (a través de zonas de memoria "mappeable").</p></div></div>
+      <div class="flow-step"><div class="flow-num">4</div><div class="flow-content"><h5>Ejecutar shaders en la GPU</h5><p>Lanzar uno o más shaders (funciones que corren en la GPU). Esperar a que terminen.</p></div></div>
+      <div class="flow-step"><div class="flow-num">5</div><div class="flow-content"><h5>Transferir resultados device → host</h5><p>Copiar los resultados de vuelta a la RAM para usarlos en el CPU.</p></div></div>
+    </div>
   </section>
 
-  <!-- ════ 05 ASYNC ════ -->
+  <!-- ════ 06 ASYNC ════ -->
   <section class="content-section" id="async">
-    <div class="section-tag">05 · Modelo Asincrónico</div>
-    <h2>Async / <em>Await</em></h2>
-    <p class="section-intro">Modelo de concurrencia basado en la cooperación entre tareas livianas. Ideal para operaciones I/O-bound donde los threads pasarían la mayor parte del tiempo esperando system calls.</p>
+    <div class="section-tag">06 · Modelo Asincrónico</div>
+    <h2>Async / <em>Await &amp; Futures</em></h2>
+    <p class="section-intro">Modelo de concurrencia basado en la cooperación entre tareas livianas. Ideal para operaciones I/O-bound donde los threads pasarían la mayor parte del tiempo esperando system calls sin hacer trabajo real.</p>
+
+    <h3>El Problema de los Threads para I/O</h3>
+    <p>Si una aplicación crea muchos threads (ej: uno por conexión HTTP), cada thread puede necesitar 100KB de stack o más. Con 10.000 conexiones simultáneas, eso son 1GB solo de stacks. Además, la mayor parte del tiempo los threads están <strong>bloqueados esperando</strong> que el sistema operativo complete una operación de red o disco.</p>
 
     <div class="concept-grid">
       <div class="concept-cell" style="border-top: 2px solid var(--red);">
-        <div class="label" style="color: var(--red);">❌ No usar async</div>
-        <p>Calcular un factorial, producto de matrices, problema de los filósofos. Son tareas <strong>CPU-bound</strong> → usá Fork-Join.</p>
+        <div class="label" style="color: var(--red);">❌ No usar async cuando:</div>
+        <p>Calcular un factorial, producto de matrices, el problema de los filósofos, estado interno compartido. Son tareas <strong>CPU-bound</strong>: el tiempo lo pasa computando, no esperando. Usá Fork-Join.</p>
       </div>
       <div class="concept-cell" style="border-top: 2px solid var(--green);">
-        <div class="label" style="color: var(--green);">✓ Usar async</div>
-        <p>Consultar servicios externos, leer archivos, servir requests HTTP. Son tareas <strong>I/O-bound</strong> donde el thread estaría bloqueado esperando.</p>
+        <div class="label" style="color: var(--green);">✓ Usar async cuando:</div>
+        <p>Consultar servicios externos, leer archivos, servir requests HTTP. Son tareas <strong>I/O-bound</strong>: el tiempo lo pasa esperando respuestas. El thread podría atender otras tareas mientras tanto.</p>
+      </div>
+    </div>
+
+    <h3>Tareas Asincrónicas vs Threads</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Métrica</th><th>Thread OS (Linux)</th><th>Tarea Async (Rust)</th></tr></thead>
+        <tbody>
+          <tr><td>Memoria</td><td>~20KB de stack mínimo</td><td>Mucho menor (solo el estado del future)</td></tr>
+          <tr><td>Creación</td><td>~15 microsegundos</td><td>~300 nanosegundos (50x más rápido)</td></tr>
+          <tr><td>Context switch</td><td>Caro (syscall al kernel)</td><td>Más rápido (cooperativo, en userspace)</td></tr>
+          <tr><td>Escala</td><td>Miles</td><td>Decenas de miles o más</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Futures: el concepto central</h3>
+    <p>Rust introduce el trait <span class="inline-code">std::future::Future</span> para representar operaciones asincrónicas. Un Future es un valor que representa un <strong>cómputo que puede no estar completo todavía</strong>.</p>
+
+    <pre><span class="lang-tag">rust</span><span class="cm">// Definición simplificada del trait Future</span>
+<span class="kw">trait</span> <span class="ty">Future</span> {
+    <span class="kw">type</span> Output;
+    <span class="kw">fn</span> <span class="fn">poll</span>(self: <span class="ty">Pin</span>&lt;&<span class="kw">mut</span> Self&gt;, cx: &<span class="kw">mut</span> <span class="ty">Context</span>&lt;'_&gt;) -> <span class="ty">Poll</span>&lt;Self::Output&gt;;
+}
+
+<span class="cm">// Poll puede ser Ready (con el valor) o Pending (todavía no terminó)</span>
+<span class="kw">enum</span> <span class="ty">Poll</span>&lt;T&gt; {
+    <span class="ty">Ready</span>(T),
+    <span class="ty">Pending</span>,
+}</pre>
+
+    <div class="callout purple">
+      <span class="callout-icon">💡</span>
+      <div class="callout-body">
+        <strong>La metáfora de la piñata:</strong> Lo único que se puede hacer con un Future es "golpearlo con poll" hasta que caiga el valor. El método <span class="inline-code">poll</span> <strong>nunca bloquea</strong>: si la operación no está lista, retorna <span class="inline-code">Pending</span> inmediatamente. Si terminó, retorna <span class="inline-code">Ready(output)</span>.
+      </div>
+    </div>
+
+    <h3>Cómo funciona poll en la práctica</h3>
+
+    <div class="futures-visual">
+      <div class="future-poll">
+        <div class="future-num">1°</div>
+        <div class="future-desc">Primera llamada a poll — el future inicia la operación (ej: envía el request HTTP) y se registra para ser notificado.</div>
+        <div class="future-result result-pending">Pending</div>
+      </div>
+      <div class="future-poll">
+        <div class="future-num">2°</div>
+        <div class="future-desc">Segunda llamada a poll — la operación todavía no terminó (el servidor no respondió aún).</div>
+        <div class="future-result result-pending">Pending</div>
+      </div>
+      <div class="future-poll">
+        <div class="future-num">3°</div>
+        <div class="future-desc">Tercera llamada a poll — la respuesta llegó. El future retorna el resultado final.</div>
+        <div class="future-result result-ready">Ready(T)</div>
+      </div>
+    </div>
+
+    <p>La arquitectura async de Rust está diseñada para ser eficiente: se llama a poll <strong>solo cuando vale la pena</strong> (algo debe retornar Ready, o progresar hacia el objetivo). El OS provee system calls como interfaz para hacer poll sobre operaciones de I/O.</p>
+
+    <h3>Funciones Async y el operador await</h3>
+    <p>Escribir código que usa poll directamente sería muy tedioso. Rust provee las keywords <span class="inline-code">async</span> y <span class="inline-code">await</span> que generan automáticamente el código de polling:</p>
+
+    <pre><span class="lang-tag">rust</span><span class="cm">// Versión sincrónica (bloquea el thread mientras espera)</span>
+<span class="kw">fn</span> <span class="fn">cheapo_request_sync</span>(host: &<span class="kw">str</span>, port: <span class="ty">u16</span>, path: &<span class="kw">str</span>) -> io::<span class="ty">Result</span>&lt;<span class="ty">String</span>&gt; {
+    <span class="kw">let mut</span> socket = net::<span class="ty">TcpStream</span>::<span class="fn">connect</span>((host, port))?;
+    <span class="cm">// ... todo el thread se bloquea aquí esperando la conexión</span>
+    socket.<span class="fn">read_to_string</span>(&<span class="kw">mut</span> response)?;  <span class="cm">// y aquí esperando la respuesta</span>
+    <span class="ty">Ok</span>(response)
+}
+
+<span class="cm">// Versión asincrónica (libera el thread mientras espera)</span>
+<span class="kw">async fn</span> <span class="fn">cheapo_request</span>(host: &<span class="kw">str</span>, port: <span class="ty">u16</span>, path: &<span class="kw">str</span>) -> io::<span class="ty">Result</span>&lt;<span class="ty">String</span>&gt; {
+    <span class="kw">let mut</span> socket = net::<span class="ty">TcpStream</span>::<span class="fn">connect</span>((host, port)).<span class="kw">await</span>?;
+    <span class="cm">// .await suspende ESTA tarea pero libera el thread para otras tareas</span>
+    socket.<span class="fn">read_to_string</span>(&<span class="kw">mut</span> response).<span class="kw">await</span>?;
+    <span class="ty">Ok</span>(response)
+}</pre>
+
+    <h3>¿Qué hace exactamente async/await?</h3>
+    <div class="flow-diagram">
+      <div class="flow-step">
+        <div class="flow-num">1</div>
+        <div class="flow-content">
+          <h5>Invocar una función async retorna inmediatamente</h5>
+          <p>Antes de que comience a ejecutarse el cuerpo. Se obtiene un Future que contiene todo lo necesario para ejecutarla.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">2</div>
+        <div class="flow-content">
+          <h5>Al ejecutar poll por primera vez</h5>
+          <p>Se ejecuta el cuerpo de la función hasta el primer <span class="inline-code">await</span>. Cada <span class="inline-code">await</span> es un punto potencial de suspensión.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">3</div>
+        <div class="flow-content">
+          <h5>Si el sub-future no está listo: Pending</h5>
+          <p>Toda la función retorna Pending y el thread queda libre para ejecutar otras tareas.</p>
+        </div>
+      </div>
+      <div class="flow-step">
+        <div class="flow-num">4</div>
+        <div class="flow-content">
+          <h5>Próximo poll: continúa desde donde se suspendió</h5>
+          <p>El Future almacena el estado local y el punto de reanudación. Continúa desde el await anterior.</p>
+        </div>
       </div>
     </div>
 
     <div class="callout warn">
       <span class="callout-icon">⚠</span>
       <div class="callout-body">
-        <strong>El cambio de una tarea a otra ocurre SÓLO en las expresiones await.</strong> Un cómputo grande en una función async no daría lugar a la ejecución de otras tareas. Esto es diferente a los threads, donde el scheduler puede interrumpir en cualquier momento.
+        <strong>Diferencia clave con threads:</strong> El cambio de una tarea a otra ocurre <strong>SOLO en las expresiones await</strong>. Un cómputo CPU-intensivo en una función async bloquearía al thread y no daría lugar a otras tareas. Para cómputos pesados dentro de async, usar <span class="inline-code">async_std::task::spawn_blocking</span> que mueve la tarea a un thread del OS dedicado a tareas bloqueantes.
+      </div>
+    </div>
+
+    <h3>block_on: el puente entre async y sync</h3>
+    <pre><span class="lang-tag">rust</span><span class="kw">fn</span> <span class="fn">main</span>() -> io::<span class="ty">Result</span>&lt;()&gt; {
+    <span class="kw">use</span> async_std::task;
+    
+    <span class="cm">// block_on: función SINCRÓNICA que ejecuta un Future</span>
+    <span class="cm">// bloquea el thread actual hasta que el Future retorna Ready</span>
+    <span class="cm">// No debe llamarse dentro de una función async</span>
+    <span class="kw">let</span> response = task::<span class="fn">block_on</span>(<span class="fn">cheapo_request</span>(<span class="str">"example.com"</span>, <span class="num">80</span>, <span class="str">"/"</span>))?;
+    <span class="mac">println!</span>(<span class="str">"{}"</span>, response);
+    <span class="ty">Ok</span>(())
+}</pre>
+
+    <h3>Crear tareas async: spawn</h3>
+    <pre><span class="lang-tag">rust</span><span class="kw">use</span> async_std::task;
+
+<span class="cm">// spawn_local: agrega al pool de la tarea actual (single-thread)</span>
+task::<span class="fn">spawn_local</span>(<span class="kw">async</span> {
+    <span class="fn">do_something</span>().<span class="kw">await</span>;
+});
+
+<span class="cm">// spawn: crea tarea en el pool de threads (multi-thread)</span>
+<span class="cm">// Los lifetimes deben ser 'static (vive hasta el final del programa)</span>
+task::<span class="fn">spawn</span>(<span class="kw">async</span> {
+    <span class="fn">do_something</span>().<span class="kw">await</span>;
+});
+
+<span class="cm">// yield_now: favorece el paralelismo — cede el control a otra tarea</span>
+task::<span class="fn">yield_now</span>().<span class="kw">await</span>;  <span class="cm">// Pending la primera vez, Ready(()) la segunda</span></pre>
+
+    <h3>Encadenar Futures</h3>
+    <p>Los futures se pueden encadenar con <span class="inline-code">await</span> (secuencial) o con <span class="inline-code">join!</span> (paralelo):</p>
+
+    <pre><span class="lang-tag">rust</span><span class="cm">// Secuencial: hello termina ANTES de que world empiece</span>
+<span class="kw">async fn</span> <span class="fn">async_main_seq</span>() -> <span class="ty">String</span> {
+    <span class="fn">hello</span>().<span class="kw">await</span> + &<span class="fn">world</span>().<span class="kw">await</span>
+}
+
+<span class="cm">// Paralelo con join!: hello y world se ejecutan concurrentemente</span>
+<span class="kw">async fn</span> <span class="fn">async_main_par</span>() -> <span class="ty">String</span> {
+    <span class="kw">let</span> (h, w) = <span class="mac">futures::join!</span>(<span class="fn">hello</span>(), <span class="fn">world</span>());
+    h + &w
+}</pre>
+
+    <h3>Runtimes Async</h3>
+    <p>Los runtimes como <strong>Tokio</strong> y <strong>async-std</strong> son los que realmente ejecutan los futures. Incluyen executors (que traducen await en llamadas a poll), bibliotecas async de I/O, timers, locks, channels y más.</p>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <div class="callout-body">
+        <strong>Pin&lt;T&gt;:</strong> Los tipos autogenerados de async que implementan Future guardan referencias a sí mismos (self-references). Si el future fuera movido en memoria, esas referencias internas quedarían inválidas. <span class="inline-code">Pin</span> "fija" el future en una dirección de memoria, haciendo imposible moverlo si implementa <span class="inline-code">!Unpin</span>.
       </div>
     </div>
   </section>
 
-  <!-- ════ 06 CORRECCIÓN Y LOCKS ════ -->
+  <!-- ════ 07 CORRECCIÓN Y LOCKS ════ -->
   <section class="content-section" id="correccion">
-    <div class="section-tag">06 · Sincronización</div>
+    <div class="section-tag">07 · Sincronización</div>
     <h2>Corrección &amp; <em>Locks</em></h2>
-    <p class="section-intro">En programas concurrentes, la corrección es más difícil de razonar que en programas secuenciales: la salida puede depender del escenario de ejecución.</p>
+    <p class="section-intro">En programas secuenciales, ante la misma entrada siempre se obtiene la misma salida. En programas concurrentes, la salida puede depender del escenario de ejecución — el orden en que se intercalan las instrucciones.</p>
 
     <h3>Propiedades de Corrección</h3>
+    <p>Para razonar sobre si un programa concurrente es correcto, se usan dos categorías de propiedades:</p>
 
     <div class="prop-grid">
       <div class="prop-card safety">
-        <div class="prop-label">Safety — debe ser verdadera siempre</div>
+        <div class="prop-label">Safety — debe ser verdadera SIEMPRE</div>
         <div class="prop-item">
           <strong>Exclusión Mutua</strong>
-          Dos procesos no deben intercalar ciertas (sub)secuencias de instrucciones.
+          Dos procesos no deben intercalar ciertas (sub)secuencias de instrucciones. Ejemplo: el incremento de una variable global debe ser atómico.
         </div>
         <div class="prop-item">
           <strong>Ausencia de Deadlock</strong>
-          Un sistema que aún no finalizó debe poder continuar realizando su tarea.
+          Un sistema que aún no finalizó debe poder continuar realizando su tarea, es decir, avanzar productivamente.
         </div>
       </div>
       <div class="prop-card liveness">
-        <div class="prop-label">Liveness — debe volverse verdadera eventualmente</div>
+        <div class="prop-label">Liveness — debe volverse verdadera EVENTUALMENTE</div>
         <div class="prop-item">
           <strong>Ausencia de Starvation</strong>
-          Todo proceso que esté listo para utilizar un recurso debe recibirlo eventualmente.
+          Todo proceso que esté listo para utilizar un recurso debe recibir dicho recurso eventualmente. Ningún proceso espera para siempre.
         </div>
         <div class="prop-item">
           <strong>Fairness (equidad)</strong>
-          Una instrucción que está continuamente habilitada, eventualmente aparece en el escenario.
+          Un escenario es (débilmente) fair si en algún estado del escenario, una instrucción que está continuamente habilitada, eventualmente aparece en el escenario.
         </div>
       </div>
     </div>
 
+    <h3>La Sección Crítica</h3>
+    <p>El problema central de la sincronización. Cada proceso tiene código que puede dividirse en parte <strong>crítica</strong> (donde accede a recursos compartidos) y parte <strong>no-crítica</strong>.</p>
+
+    <div class="concept-grid">
+      <div class="concept-cell">
+        <div class="label">Sección Crítica</div>
+        <p>Código que accede a recursos compartidos. <strong>Debe progresar</strong> (finalizar eventualmente). Solo un proceso a la vez puede ejecutarla.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Sección No-Crítica</div>
+        <p>El resto del código. <strong>No requiere progreso</strong>: el proceso puede terminar o entrar en un loop infinito aquí sin afectar a los demás.</p>
+      </div>
+    </div>
+
+    <p>Las especificaciones de corrección para la sección crítica son:</p>
+    <ul>
+      <li><strong>Exclusión mutua:</strong> no deben intercalarse instrucciones de la sección crítica de distintos procesos.</li>
+      <li><strong>Ausencia de deadlock:</strong> si dos procesos están tratando de entrar, eventualmente alguno debe tener éxito.</li>
+      <li><strong>Ausencia de starvation:</strong> si un proceso trata de entrar, eventualmente debe tener éxito.</li>
+    </ul>
+
+    <h3>Locks: la solución práctica</h3>
+    <p>Los locks son el mecanismo más común para implementar exclusión mutua. Se implementan mediante variables de tipo lock que representan el estado del mismo, y requieren soporte tanto del hardware como del sistema operativo.</p>
+
+    <div class="def-block">
+      <div class="term">Lock</div>
+      <p>Variable con dos métodos: <strong>lock()</strong> — el proceso se bloquea hasta poder obtener el lock. <strong>unlock()</strong> — el proceso libera el lock que tomó previamente. Solo un proceso puede tener el lock a la vez.</p>
+    </div>
+
+    <h3>Locks en UNIX</h3>
+    <p>En UNIX, los locks fueron diseñados originalmente como mecanismo de sincronización de acceso a archivos, pero se pueden usar para cualquier recurso compartido. En Unix son <strong>advisory</strong> (los procesos pueden ignorarlos, es una convención).</p>
+
+    <div class="concept-grid">
+      <div class="concept-cell">
+        <div class="label">Shared Lock (Read Lock)</div>
+        <p>Más de un proceso puede tener el lock al mismo tiempo. Se usa para proteger lecturas: múltiples lectores concurrentes son seguros.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Exclusive Lock (Write Lock)</div>
+        <p>Solo un proceso puede tener el lock. Excluye tanto a otros escritores como a lectores. Se usa para proteger escrituras.</p>
+      </div>
+    </div>
+
+    <h4>Condiciones para tomar un lock</h4>
+    <ul>
+      <li>Para tomar un <strong>shared (read) lock</strong>: esperar hasta que sean liberados todos los exclusive locks.</li>
+      <li>Para tomar un <strong>exclusive (write) lock</strong>: esperar hasta que sean liberados <em>todos</em> los locks (de ambos tipos).</li>
+    </ul>
+
     <h3>RwLock en Rust</h3>
+    <p>Rust provee locks compartidos (lectura) y exclusivos (escritura) en <span class="inline-code">std::sync::RwLock</span>. Requiere que T sea <span class="inline-code">Send</span> para ser compartido entre threads y <span class="inline-code">Sync</span> para permitir acceso concurrente entre lectores.</p>
+
     <pre><span class="lang-tag">rust</span><span class="kw">use</span> std::sync::{<span class="ty">Arc</span>, <span class="ty">RwLock</span>};
 
+<span class="kw">let</span> lock = <span class="ty">RwLock</span>::<span class="fn">new</span>(<span class="num">1</span>);
+
+<span class="cm">// Lock de LECTURA: múltiples threads pueden leer simultáneamente</span>
+<span class="kw">let</span> n = lock.<span class="fn">read</span>().<span class="fn">unwrap</span>();
+<span class="mac">println!</span>(<span class="str">"El valor encontrado es: {}"</span>, *n);
+<span class="cm">// El lock de lectura se libera automáticamente cuando 'n' sale de scope (RAII)</span>
+
+<span class="cm">// Lock de ESCRITURA: acceso exclusivo</span>
+<span class="kw">let mut</span> w = lock.<span class="fn">write</span>().<span class="fn">unwrap</span>();
+*w += <span class="num">1</span>;
+<span class="cm">// El lock de escritura se libera automáticamente cuando 'w' sale de scope</span>
+
+<span class="cm">// Compartir el RwLock entre threads: Arc (Atomic Reference Counter)</span>
 <span class="kw">let</span> shared = <span class="ty">Arc</span>::<span class="fn">new</span>(<span class="ty">RwLock</span>::<span class="fn">new</span>(<span class="num">0i32</span>));
-<span class="kw">let mut</span> w = shared.<span class="fn">write</span>().<span class="fn">unwrap</span>();
-*w += <span class="num">1</span>;</pre>
+<span class="kw">let</span> shared_clone = shared.<span class="fn">clone</span>();  <span class="cm">// incrementa el contador atómico</span>
+std::thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
+    <span class="kw">let mut</span> w = shared_clone.<span class="fn">write</span>().<span class="fn">unwrap</span>();
+    *w += <span class="num">1</span>;
+});</pre>
+
+    <h3>Locks Envenenados (Poisoned Locks)</h3>
+    <div class="callout warn">
+      <span class="callout-icon">⚠</span>
+      <div class="callout-body">
+        <strong>Lock Envenenado:</strong> Un lock queda en estado "poisoned" (envenenado) cuando un thread toma el lock de forma exclusiva y ejecuta <span class="inline-code">panic!()</span> mientras lo tiene. Las llamadas posteriores a <span class="inline-code">read()</span> y <span class="inline-code">write()</span> devolverán <span class="inline-code">Err</span>. Esto es intencional: el estado compartido puede haber quedado inconsistente, y Rust te obliga a manejarlo explícitamente.
+      </div>
+    </div>
   </section>
 
-  <!-- ════ 07 SEMÁFOROS ════ -->
+  <!-- ════ 08 SEMÁFOROS ════ -->
   <section class="content-section" id="semaforos">
-    <div class="section-tag">07 · Sincronización II</div>
+    <div class="section-tag">08 · Sincronización II</div>
     <h2><em>Semáforos</em></h2>
-    <p class="section-intro">Mecanismos de sincronismo implementados como una construcción de programación concurrente de más alto nivel. Introducidos por Dijkstra en los años 60.</p>
+    <p class="section-intro">Mecanismos de sincronismo de más alto nivel que los locks simples. Introducidos por Dijkstra en los años 60. Son un contador con dos operaciones atómicas.</p>
 
     <div class="def-block">
       <div class="term">Semáforo</div>
-      <p>Tipo de dato compuesto por un <strong>entero no negativo V</strong> y un <strong>conjunto de procesos L</strong> (los bloqueados). Dos operaciones atómicas: <strong>wait(S)</strong> y <strong>signal(S)</strong>.</p>
+      <p>Tipo de dato compuesto por dos campos: un <strong>entero no negativo V</strong> (el contador) y un <strong>conjunto de procesos L</strong> (los bloqueados esperando). Se inicializa con un valor k ≥ 0 y el conjunto vacío ∅. Dos operaciones atómicas: <strong>wait(S)</strong> también llamada p(S), y <strong>signal(S)</strong> también llamada v(S).</p>
     </div>
+
+    <p>Un semáforo es esencialmente un <strong>contador de recursos disponibles</strong>:</p>
+    <ul>
+      <li>Si <strong>contador &gt; 0</strong> → recurso disponible, se puede acceder</li>
+      <li>Si <strong>contador ≤ 0</strong> → recurso no disponible, el proceso espera</li>
+    </ul>
 
     <h3>Semántica de las Operaciones</h3>
     <div class="sem-visual">
       <div class="sem-box">
-        <div class="sem-label">wait(S) — p(S)</div>
-        <pre style="background: var(--bg3); border: none; margin: 0; padding: 8px 12px; font-size: 12px;"><span class="kw">if</span> S.V > <span class="num">0</span>
-    S.V := S.V - <span class="num">1</span>
-<span class="kw">else</span>
-    S.L.add(p)
+        <div class="sem-label">wait(S) — p(S) — "tomar el recurso"</div>
+        <pre style="background: var(--bg3); border: none; margin: 0; padding: 8px 12px; font-size: 12px;"><span class="kw">if</span> S.V > <span class="num">0</span>:
+    S.V := S.V - <span class="num">1</span>   <span class="cm">// hay recurso: tomarlo</span>
+<span class="kw">else</span>:
+    S.L.add(p)        <span class="cm">// sin recurso: bloquear</span>
     p.state := blocked</pre>
+        <p style="font-size: 12px; color: var(--muted); margin-top: 8px; margin-bottom: 0;">Decrementa el contador. Si llega a 0 o menos, el proceso se bloquea.</p>
       </div>
       <div class="sem-box">
-        <div class="sem-label">signal(S) — v(S)</div>
-        <pre style="background: var(--bg3); border: none; margin: 0; padding: 8px 12px; font-size: 12px;"><span class="kw">if</span> S.L.isEmpty()
-    S.V := S.V + <span class="num">1</span>
-<span class="kw">else</span>
-    q := S.L.takeOne()
+        <div class="sem-label">signal(S) — v(S) — "liberar el recurso"</div>
+        <pre style="background: var(--bg3); border: none; margin: 0; padding: 8px 12px; font-size: 12px;"><span class="kw">if</span> S.L.isEmpty():
+    S.V := S.V + <span class="num">1</span>   <span class="cm">// nadie espera: liberar</span>
+<span class="kw">else</span>:
+    q := S.L.<span class="fn">takeOne</span>()  <span class="cm">// despertar uno</span>
     q.state := ready</pre>
+        <p style="font-size: 12px; color: var(--muted); margin-top: 8px; margin-bottom: 0;">Incrementa el contador. Si hay procesos esperando, despierta uno.</p>
+      </div>
+    </div>
+
+    <h3>Propiedades Importantes</h3>
+    <ul>
+      <li><span class="inline-code">wait()</span> y <span class="inline-code">signal()</span> son <strong>instrucciones atómicas</strong> (no se pueden interrumpir a la mitad).</li>
+      <li>Un semáforo debe inicializarse con un valor entero <strong>no negativo</strong>.</li>
+      <li>La instrucción <span class="inline-code">signal()</span> debe despertar a uno de los procesos suspendidos, pero <strong>no está definido cuál</strong>.</li>
+    </ul>
+
+    <h3>Invariantes de los Semáforos</h3>
+    <div class="concept-grid">
+      <div class="concept-cell">
+        <div class="label">Invariante 1</div>
+        <p><strong>S.V ≥ 0</strong> — El valor del semáforo nunca es negativo.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">Invariante 2</div>
+        <p><strong>S.V = k + #signal(S) − #wait(S)</strong> — siendo k el valor inicial. El valor refleja el balance de señales vs esperas.</p>
+      </div>
+    </div>
+
+    <h3>Semáforo Binario (Mutex)</h3>
+    <p>Si el valor V solo puede ser 0 o 1, se llama <strong>semáforo binario</strong> o Mutex. Se comporta igual que un lock de escritura exclusivo.</p>
+
+    <pre><span class="lang-tag">pseudocode</span><span class="cm">// Inicializado en (1, ∅) — disponible</span>
+<span class="cm">// Inicializado en (0, ∅) — ocupado desde el inicio</span>
+
+signal(S):
+    <span class="kw">if</span> S.V = <span class="num">1</span>:
+        <span class="cm">// undefined (ya está libre, no debería señalizarse)</span>
+    <span class="kw">else if</span> S.L.isEmpty():
+        S.V := <span class="num">1</span>         <span class="cm">// nadie espera, simplemente liberar</span>
+    <span class="kw">else</span>:
+        q := S.L.<span class="fn">remove</span>()   <span class="cm">// despertar a uno</span>
+        q.state := ready</pre>
+
+    <h3>Semáforos en Rust</h3>
+    <pre><span class="lang-tag">rust</span><span class="kw">use</span> std_semaphore::<span class="ty">Semaphore</span>;
+
+<span class="cm">// Inicializar con 5 recursos disponibles</span>
+<span class="kw">let</span> sem = <span class="ty">Semaphore</span>::<span class="fn">new</span>(<span class="num">5</span>);
+
+<span class="cm">// wait(): obtener acceso (decrementa el contador, bloquea si es 0)</span>
+sem.<span class="fn">acquire</span>();
+
+<span class="cm">// signal(): liberar acceso (incrementa el contador)</span>
+sem.<span class="fn">release</span>();
+
+<span class="cm">// Patrón RAII: libera automáticamente al salir del scope</span>
+<span class="kw">let</span> _guard = sem.<span class="fn">access</span>();  <span class="cm">// se libera cuando _guard se dropea</span></pre>
+
+    <h3>Barreras en Rust</h3>
+    <p>Las barreras son mecanismos de sincronización que permiten que varios threads esperen mutuamente hasta que todos llegaron a un punto determinado del algoritmo.</p>
+
+    <pre><span class="lang-tag">rust</span><span class="kw">use</span> std::sync::{<span class="ty">Arc</span>, <span class="ty">Barrier</span>};
+
+<span class="cm">// Crear una barrera para sincronizar 3 threads</span>
+<span class="kw">let</span> barrier = <span class="ty">Arc</span>::<span class="fn">new</span>(<span class="ty">Barrier</span>::<span class="fn">new</span>(<span class="num">3</span>));
+
+<span class="cm">// Cada thread llama a wait() cuando llega a la barrera</span>
+<span class="cm">// Todos se bloquean hasta que los 3 llegaron</span>
+<span class="kw">let</span> bw = barrier.<span class="fn">wait</span>();
+
+<span class="cm">// is_leader() es true en exactamente un thread (el último en llegar)</span>
+<span class="cm">// Útil para hacer alguna acción solo una vez cuando todos llegaron</span>
+<span class="kw">if</span> bw.<span class="fn">is_leader</span>() {
+    <span class="mac">println!</span>(<span class="str">"Todos llegaron! Soy el líder."</span>);
+}</pre>
+
+    <div class="callout tip">
+      <span class="callout-icon">✓</span>
+      <div class="callout-body">
+        <strong>Las barreras son reutilizables automáticamente.</strong> Después de que todos los threads pasan, la barrera se reinicia y puede usarse para la próxima ronda de sincronización.
       </div>
     </div>
 
     <h3>Problema Clásico: Productor-Consumidor</h3>
+    <p>El problema del productor-consumidor modela una situación muy común: procesos que generan datos (productores) y procesos que consumen esos datos (consumidores), comunicándose a través de un buffer compartido.</p>
+
+    <p>Requisitos (invariantes que siempre deben cumplirse):</p>
+    <ol style="padding-left: 20px; margin-bottom: 12px;">
+      <li style="color: var(--muted);">No se puede consumir lo que no hay (buffer vacío)</li>
+      <li style="color: var(--muted);">Todos los ítems producidos son eventualmente consumidos</li>
+      <li style="color: var(--muted);">Al espacio de almacenamiento se accede de a uno (mutex)</li>
+      <li style="color: var(--muted);">Se respeta el orden de almacenamiento y retiro (FIFO)</li>
+    </ol>
+
+    <h4>Caso 1: Buffer Infinito</h4>
+    <div class="prod-cons">
+      <div class="prod-box">
+        <div class="box-label">Productor</div>
+        <pre style="background: var(--bg3); border: none; margin: 0; padding: 8px 12px; font-size: 11px; font-family: var(--font-mono);">loop forever:
+  p1: append(d, buffer)
+  p2: signal(notEmpty)</pre>
+        <p style="font-size: 11px; color: var(--muted); margin-top: 6px; margin-bottom: 0;">Produce dato → señaliza que ya hay algo</p>
+      </div>
+      <div class="prod-cons-arrow">→</div>
+      <div class="cons-box">
+        <div class="box-label">Consumidor</div>
+        <pre style="background: var(--bg3); border: none; margin: 0; padding: 8px 12px; font-size: 11px; font-family: var(--font-mono);">loop forever:
+  q1: wait(notEmpty)
+  q2: d ← take(buffer)</pre>
+        <p style="font-size: 11px; color: var(--muted); margin-top: 6px; margin-bottom: 0;">Espera a que haya algo → consume</p>
+      </div>
+    </div>
+
+    <p>Con buffer infinito solo usamos un semáforo <span class="inline-code">notEmpty (0, ∅)</span> — el problema solo es "no consumir si vacío".</p>
+
+    <h4>Caso 2: Buffer Acotado (N lugares)</h4>
+    <p>Se agregan dos problemas: no consumir si vacío <strong>y</strong> no producir si lleno. Necesitamos dos semáforos:</p>
+
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Caso</th><th>Semáforos necesarios</th><th>Descripción</th></tr></thead>
+        <thead><tr><th>Semáforo</th><th>Valor inicial</th><th>Propósito</th></tr></thead>
         <tbody>
-          <tr>
-            <td>Buffer infinito</td>
-            <td><span class="inline-code">notEmpty (0, ∅)</span></td>
-            <td>Solo problema 1: no consumir si el buffer está vacío</td>
-          </tr>
-          <tr>
-            <td>Buffer acotado N</td>
-            <td><span class="inline-code">notEmpty (0, ∅)</span><br><span class="inline-code">notFull (N, ∅)</span></td>
-            <td>Problema 1 y 2: además no producir si el buffer está lleno</td>
-          </tr>
+          <tr><td><span class="inline-code">notEmpty</span></td><td>(0, ∅)</td><td>Bloquea al consumidor si el buffer está vacío</td></tr>
+          <tr><td><span class="inline-code">notFull</span></td><td>(N, ∅)</td><td>Bloquea al productor si el buffer está lleno</td></tr>
         </tbody>
       </table>
+    </div>
+
+    <h3>Tipos de Semáforos en UNIX</h3>
+    <div class="concept-grid">
+      <div class="concept-cell">
+        <div class="label">System V</div>
+        <p>El semáforo guarda: el valor, el PID del último proceso que lo usó, la cantidad de procesos esperando, y la cantidad esperando que el semáforo sea cero.</p>
+      </div>
+      <div class="concept-cell">
+        <div class="label">POSIX</div>
+        <p>API más moderna y portátil. Más simple de usar. Dos variantes: con nombre (persistente en el filesystem) y sin nombre (para uso entre threads del mismo proceso).</p>
+      </div>
     </div>
   </section>
 
-  <!-- ════ 08 MONITORES ════ -->
+  <!-- ════ 09 MONITORES ════ -->
   <section class="content-section" id="monitores">
-    <div class="section-tag">08 · Sincronización III</div>
-    <h2><em>Monitores</em></h2>
-    <p class="section-intro">Herramienta de sincronización de más alto nivel que los semáforos. Los monitores encapsulan estado compartido junto con las operaciones que lo modifican, garantizando exclusión mutua implícita.</p>
+    <div class="section-tag">09 · Sincronización III</div>
+    <h2><em>Monitores</em> &amp; Condition Variables</h2>
+    <p class="section-intro">Los monitores son una herramienta de sincronización de más alto nivel que los semáforos. Encapsulan el estado compartido junto con las operaciones que lo modifican, y garantizan exclusión mutua implícitamente.</p>
+
+    <h3>¿Por qué necesitamos monitores?</h3>
+    <p>Con semáforos, es fácil cometer errores: olvidar un signal, poner el wait en el lugar incorrecto, etc. Los monitores son más seguros porque la exclusión mutua es <strong>automática</strong>: el programador no tiene que preocuparse por lockear/unlockear manualmente.</p>
 
     <div class="def-block">
       <div class="term">Monitor</div>
-      <p>Herramienta que permite a los hilos tener <strong>exclusión mutua</strong> y la posibilidad de <strong>esperar (block)</strong> a que una condición se cumpla. Tiene un mecanismo para señalizar a otros hilos cuando su condición se satisface.</p>
+      <p>Herramienta de sincronización que permite a los hilos tener <strong>exclusión mutua</strong> y la posibilidad de <strong>esperar (block)</strong> a que una condición se cumpla. Tiene un mecanismo para señalizar a otros hilos cuando su condición se satisface. Solo un proceso puede ejecutar el monitor a la vez.</p>
     </div>
 
+    <h3>Estructura de un Monitor</h3>
+    <div class="monitor-diagram">
+      <div class="monitor-box">
+        <div class="monitor-box-label">Monitor</div>
+        <div class="monitor-internals">
+          <div class="monitor-internal-item">
+            <div class="mi-label">Variables internas</div>
+            Estado compartido protegido por el monitor. Solo accesible desde los procedimientos del monitor.
+          </div>
+          <div class="monitor-internal-item">
+            <div class="mi-label">Procedimientos del monitor</div>
+            Rutinas que acceden directamente a las variables internas. Solo uno ejecuta a la vez.
+          </div>
+          <div class="monitor-internal-item">
+            <div class="mi-label">Condition variables</div>
+            Permiten que un proceso espere dentro del monitor liberando el lock temporalmente.
+          </div>
+          <div class="monitor-internal-item">
+            <div class="mi-label">Interfaz pública</div>
+            Los procesos acceden al estado solo a través de los procedimientos. Nunca directamente.
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <h3>Estados de un proceso en un Monitor</h3>
+    <ul>
+      <li><strong>Esperando para entrar al monitor</strong> — quiere llamar a un procedimiento pero otro proceso está dentro</li>
+      <li><strong>Ejecutando el monitor</strong> — sólo un proceso a la vez (exclusión mutua)</li>
+      <li><strong>Bloqueado en FIFO de condition variable</strong> — esperando que una condición se cumpla</li>
+      <li><strong>Recién liberado de una wait condition</strong> — fue notificado, espera para retomar ejecución</li>
+      <li><strong>Recién completó una operación signalC</strong> — señalizó y puede continuar</li>
+    </ul>
+
     <h3>Condition Variables</h3>
+    <p>Las condition variables son el mecanismo que tienen los procesos para esperar dentro del monitor a que se cumpla una condición. Una condition variable C:</p>
+    <ul>
+      <li>No guarda ningún valor por sí misma</li>
+      <li>Tiene asociada una cola FIFO de procesos esperando</li>
+      <li>Consta de tres operaciones atómicas</li>
+    </ul>
+
     <div class="table-wrap">
       <table>
-        <thead><tr><th>Operación</th><th>Efecto</th></tr></thead>
+        <thead><tr><th>Operación</th><th>Efecto</th><th>Diferencia con semáforo</th></tr></thead>
         <tbody>
           <tr>
             <td><span class="inline-code">waitC(cond)</span></td>
-            <td>Bloquea el proceso y <strong>libera el lock del monitor</strong>. Siempre bloquea.</td>
+            <td>Agrega el proceso a la cola FIFO, lo bloquea, y <strong>libera el lock del monitor</strong> para que otros puedan entrar.</td>
+            <td><strong>Siempre bloquea</strong> (a diferencia de wait de semáforo que puede no bloquear)</td>
           </tr>
           <tr>
             <td><span class="inline-code">signalC(cond)</span></td>
-            <td>Desbloquea el proceso del tope de la cola FIFO. <strong>No tiene efecto si la cola está vacía</strong>.</td>
+            <td>Desbloquea el proceso del tope de la cola. El proceso señalizador puede continuar o esperar, según la semántica.</td>
+            <td><strong>No tiene efecto si la cola está vacía</strong> (a diferencia de signal de semáforo que siempre tiene efecto)</td>
           </tr>
           <tr>
             <td><span class="inline-code">empty(cond)</span></td>
-            <td>Devuelve true si la cola de la condition variable está vacía.</td>
+            <td>Retorna true si la cola de la condition variable está vacía (nadie espera).</td>
+            <td>No existe en semáforos</td>
           </tr>
         </tbody>
       </table>
     </div>
 
-    <h3>Condition Variables en Rust</h3>
+    <h3>Semáforo vs Monitor: tabla comparativa</h3>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Semáforo</th><th>Monitor (Condition Variable)</th></tr></thead>
+        <tbody>
+          <tr><td>wait puede o NO bloquear</td><td>waitC <strong>siempre</strong> bloquea</td></tr>
+          <tr><td>signal <strong>siempre</strong> tiene efecto</td><td>signalC no tiene efecto si la cola está vacía</td></tr>
+          <tr><td>signal desbloquea un proceso <strong>arbitrario</strong></td><td>signalC desbloquea el proceso del <strong>tope de la cola</strong> (FIFO)</td></tr>
+          <tr><td>Proceso desbloqueado puede continuar inmediatamente</td><td>Proceso desbloqueado debe esperar a que el señalizador deje el monitor</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <h3>Condition Variables en Rust (Mutex + Condvar)</h3>
+    <p>En Rust, los monitores se implementan con la combinación de <span class="inline-code">Mutex&lt;T&gt;</span> y <span class="inline-code">Condvar</span>. El patrón típico es envolver ambos en un <span class="inline-code">Arc</span> para compartirlos entre threads:</p>
+
     <pre><span class="lang-tag">rust</span><span class="kw">use</span> std::sync::{<span class="ty">Arc</span>, <span class="ty">Condvar</span>, <span class="ty">Mutex</span>};
 
+<span class="cm">// Patrón común: (Mutex con el estado, Condvar para señalizar)</span>
 <span class="kw">let</span> pair = <span class="ty">Arc</span>::<span class="fn">new</span>((<span class="ty">Mutex</span>::<span class="fn">new</span>(<span class="kw">false</span>), <span class="ty">Condvar</span>::<span class="fn">new</span>()));
+<span class="kw">let</span> pair2 = pair.<span class="fn">clone</span>();
 
-<span class="cm">// Thread que espera:</span>
-<span class="kw">while</span> !*ready {
-    ready = cvar.<span class="fn">wait</span>(ready).<span class="fn">unwrap</span>(); <span class="cm">// libera el lock y espera</span>
-}
+<span class="cm">// Thread que ESPERA (consumidor)</span>
+std::thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
+    <span class="kw">let</span> (lock, cvar) = &*pair2;
+    <span class="kw">let mut</span> ready = lock.<span class="fn">lock</span>().<span class="fn">unwrap</span>();
+    
+    <span class="cm">// IMPORTANTE: siempre en un WHILE, no en un if</span>
+    <span class="cm">// (por los spurious wakeups — despertares espurios)</span>
+    <span class="kw">while</span> !*ready {
+        ready = cvar.<span class="fn">wait</span>(ready).<span class="fn">unwrap</span>();
+        <span class="cm">// wait: libera el lock, espera, retoma el lock al despertar</span>
+    }
+    <span class="mac">println!</span>(<span class="str">"Condición cumplida!"</span>);
+});
 
-<span class="cm">// Thread que señaliza:</span>
+<span class="cm">// Thread que SEÑALIZA (productor)</span>
+<span class="kw">let</span> (lock, cvar) = &*pair;
+<span class="kw">let mut</span> ready = lock.<span class="fn">lock</span>().<span class="fn">unwrap</span>();
 *ready = <span class="kw">true</span>;
-cvar.<span class="fn">notify_all</span>();</pre>
+cvar.<span class="fn">notify_all</span>();  <span class="cm">// despertar a todos los que esperan</span>
+<span class="cm">// cvar.notify_one(); // despertar solo a uno</span></pre>
 
     <div class="callout warn">
       <span class="callout-icon">⚠</span>
       <div class="callout-body">
-        <strong>Spurious wakeups:</strong> Un thread puede despertar de un wait sin que notify haya sido llamado. Por eso siempre se debe volver a verificar la condición en un <strong>while</strong>, no en un if.
+        <strong>Spurious Wakeups (despertares espurios):</strong> Un thread puede despertar de un <span class="inline-code">wait</span> sin que <span class="inline-code">notify</span> haya sido llamado. Esto es un comportamiento permitido por POSIX. Por eso la condición <strong>siempre</strong> debe verificarse en un <strong>while</strong>, nunca en un if. Si usás if, el código puede continuar aunque la condición no se cumpla.
       </div>
     </div>
 
-    <div class="collapsible-header" onclick="toggleCollapsible(this)">
-      <div>
-        <div class="ch-tag">Clásico</div>
-        <div class="ch-title">Filósofos, Barbero, Lector-Escritor</div>
+    <h3>Monitores en Java</h3>
+    <p>Java implementa monitores nativamente con la keyword <span class="inline-code">synchronized</span>. Cada objeto Java tiene un lock (monitor) asociado:</p>
+
+    <pre><span class="lang-tag">java</span><span class="cm">// Bloque synchronized: lock sobre 'this'</span>
+<span class="kw">public void</span> <span class="fn">incrementar</span>(<span class="kw">int</span> cantidad) {
+    <span class="kw">synchronized</span>(<span class="kw">this</span>) {
+        <span class="kw">this</span>.valor += cantidad;
+    }
+}
+
+<span class="cm">// Método synchronized: equivalente, lock sobre 'this'</span>
+<span class="kw">public synchronized void</span> <span class="fn">incrementar</span>(<span class="kw">int</span> cantidad) {
+    <span class="kw">this</span>.valor += cantidad;
+}
+
+<span class="cm">// Señalización: debe tener el monitor adquirido</span>
+<span class="cm">// wait() libera el monitor y suspende el hilo</span>
+<span class="cm">// notify() despierta alguno de los hilos que espera</span>
+<span class="cm">// notifyAll() despierta todos los hilos que esperan</span></pre>
+
+    <div class="callout info">
+      <span class="callout-icon">ℹ</span>
+      <div class="callout-body">
+        <strong>Variables volatile en Java:</strong> Los hilos guardan copias de las variables compartidas en sus caches. La keyword <span class="inline-code">volatile</span> indica al compilador que el valor no debe cachearse — siempre se lee de la memoria principal. Garantiza visibilidad entre threads, pero <strong>no atomicidad</strong>: no reemplaza a synchronized para operaciones compuestas.
       </div>
+    </div>
+
+    <h3>Problemas Clásicos con Monitores</h3>
+
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div><div class="ch-tag">Clásico</div><div class="ch-title">El Problema del Barbero Dormilón</div></div>
       <span class="ch-arrow">▼</span>
     </div>
     <div class="collapsible-body">
-      <p><strong>Filósofos:</strong> 5 filósofos, 5 palitos. Si todos toman el palito izquierdo → deadlock. Solución: árbitro o forzar a uno a tomar en orden inverso.</p>
-      <p><strong>Barbero Dormilón:</strong> Si no hay clientes, el barbero duerme. El primer cliente lo despierta. Sincronizar despertar con llegada de clientes.</p>
-      <p><strong>Lector-Escritor:</strong> Múltiples lectores simultáneos OK. Escritor requiere acceso exclusivo. Cuidado con starvation de escritores.</p>
+      <p>Una barbería tiene una sala de espera con sillas. Si la barbería está vacía, el barbero se pone a dormir. Si un cliente entra y el barbero está durmiendo, lo despierta. Si el barbero está atendiendo, el cliente se sienta en una silla y espera su turno.</p>
+      <p><strong>Solución con semáforos:</strong> Un semáforo <span class="inline-code">clientes</span> (0) cuenta los clientes esperando. El barbero hace <span class="inline-code">wait(clientes)</span> (duerme si no hay clientes). Cada cliente hace <span class="inline-code">signal(clientes)</span> (despierta al barbero). Se agrega un mutex para proteger el conteo de sillas disponibles.</p>
+    </div>
+
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div><div class="ch-tag">Clásico</div><div class="ch-title">El Problema de los Filósofos</div></div>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <p>Cinco filósofos se sientan alrededor de una mesa. Cada uno tiene un plato de fideos y un palito chino a la izquierda de su plato. Para comer necesitan dos palitos: el de su izquierda y el de su derecha. Si cualquier filósofo toma un palito y el otro está ocupado, espera con el palito en la mano.</p>
+      <p><strong>Problema:</strong> Si todos toman el palito izquierdo simultáneamente → deadlock. Nadie puede tomar el palito derecho.</p>
+      <p><strong>Soluciones:</strong> (1) Solo puede comer si ambos palitos están disponibles (atómico). (2) Uno de los filósofos toma los palitos en orden inverso. (3) Árbitro (waiter) que controla el acceso. (4) Solución de Chandy/Misra con canales de mensajes.</p>
+    </div>
+
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div><div class="ch-tag">Clásico</div><div class="ch-title">El Problema del Lector-Escritor</div></div>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <p>Un estado se comparte entre varios procesos. Algunos necesitan actualizar el estado (escritores), otros solo leerlo (lectores). Las reglas son: múltiples lectores simultáneos están permitidos, pero un escritor requiere acceso exclusivo total.</p>
+      <div class="table-wrap" style="margin: 8px 0;">
+        <table>
+          <thead><tr><th>Proceso 1</th><th>Proceso 2</th><th>¿Permitido?</th></tr></thead>
+          <tbody>
+            <tr><td>Escribiendo</td><td>Escribiendo</td><td>❌ No permitido</td></tr>
+            <tr><td>Leyendo</td><td>Escribiendo</td><td>❌ No permitido</td></tr>
+            <tr><td>Escribiendo</td><td>Leyendo</td><td>❌ No permitido</td></tr>
+            <tr><td>Leyendo</td><td>Leyendo</td><td>✅ Permitido</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p><strong>Problema de starvation:</strong> Si continuamente llegan lectores, el escritor nunca puede acceder (Writer Starvation). Variante "Writer Preference": los escritores tienen prioridad. Variante "Fair": los procesos acceden en orden de llegada.</p>
+    </div>
+
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div><div class="ch-tag">Clásico</div><div class="ch-title">El Problema de los Fumadores</div></div>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <p>Para fumar se necesitan 3 ingredientes: tabaco, papel y fósforos. Hay 3 fumadores, cada uno con un ingrediente infinito de uno solo. Un agente pone aleatoriamente dos ingredientes en la mesa. El fumador que tiene el tercer ingrediente los toma, hace un cigarrillo, fuma, y el agente vuelve a poner dos ingredientes.</p>
+      <p>Este problema ilustra el problema de la signalización con semáforos cuando la señal debe despertar a un proceso específico (el que tiene el ingrediente complementario), pero los semáforos no proveen esta selectividad directamente.</p>
     </div>
   </section>
 
-  <!-- ════ 09 REDES DE PETRI ════ -->
+  <!-- ════ 10 REDES DE PETRI ════ -->
   <section class="content-section" id="petri">
-    <div class="section-tag">09 · Formalismo</div>
+    <div class="section-tag">10 · Formalismo</div>
     <h2>Redes de <em>Petri</em></h2>
     <p class="section-intro">Formalismo matemático para modelar sistemas concurrentes. Permite razonar sobre propiedades como deadlock, alcanzabilidad y corrección de manera visual y rigurosa.</p>
 
@@ -1673,9 +2801,9 @@ cvar.<span class="fn">notify_all</span>();</pre>
     </div>
   </section>
 
-  <!-- ════ 10 PETRI EJEMPLOS ════ -->
+  <!-- ════ 11 PETRI EJEMPLOS ════ -->
   <section class="content-section" id="petri-ejemplos">
-    <div class="section-tag">10 · Redes de Petri · Avanzado</div>
+    <div class="section-tag">11 · Redes de Petri · Avanzado</div>
     <h2>Red General &amp; <em>Ejemplos Clásicos</em></h2>
 
     <div class="collapsible-header" onclick="toggleCollapsible(this)">
@@ -1703,16 +2831,16 @@ cvar.<span class="fn">notify_all</span>();</pre>
     </div>
   </section>
 
-  <!-- ════ 11 CHANNELS ════ -->
+  <!-- ════ 12 CHANNELS ════ -->
   <section class="content-section" id="channels">
-    <div class="section-tag">11 · Pasaje de Mensajes</div>
+    <div class="section-tag">12 · Pasaje de Mensajes</div>
     <h2>Channels &amp; <em>Mensajes</em></h2>
     <p class="section-intro">Modelo de comunicación basado en el pasaje de mensajes entre procesos. En lugar de memoria compartida, los procesos se comunican enviando datos a través de canales tipados.</p>
 
     <div class="callout info">
       <span class="callout-icon">💬</span>
       <div class="callout-body">
-        <strong>Filosofía Go adoptada por Rust:</strong> "Do not communicate by sharing memory; instead, share memory by communicating."
+        <strong>Filosofía Go adoptada por Rust:</strong> "Do not communicate by sharing memory; instead, share memory by communicating." En vez de compartir una variable con locks, usá un canal para enviar el dato.
       </div>
     </div>
 
@@ -1720,58 +2848,68 @@ cvar.<span class="fn">notify_all</span>();</pre>
     <div class="concept-grid">
       <div class="concept-cell">
         <div class="label">Comunicación Sincrónica</div>
-        <p>El emisor se bloquea hasta que el receptor recibe el mensaje. No hay buffer.</p>
+        <p>El emisor se bloquea hasta que el receptor recibe el mensaje. No hay buffer. Garantiza que el receptor procesó el mensaje antes de que el emisor continúe.</p>
       </div>
       <div class="concept-cell">
         <div class="label">Comunicación Asincrónica</div>
-        <p>El emisor deposita el mensaje en un <strong>buffer</strong> y continúa. El receptor lo lee cuando puede.</p>
+        <p>El emisor deposita el mensaje en un <strong>buffer</strong> y continúa sin esperar. El receptor lo lee cuando puede. Más flexible pero requiere manejo del buffer.</p>
       </div>
       <div class="concept-cell">
         <div class="label">Direccionamiento Simétrico</div>
-        <p>El emisor nombra al receptor y el receptor nombra al emisor.</p>
+        <p>El emisor nombra al receptor y el receptor nombra al emisor. Ambos se conocen.</p>
       </div>
       <div class="concept-cell">
         <div class="label">Flujo Unidireccional</div>
-        <p>Los canales solo transportan datos en una dirección: de emisor a receptor.</p>
+        <p>Los canales solo transportan datos en una dirección: de emisor a receptor. Para comunicación bidireccional se usan dos canales.</p>
       </div>
     </div>
 
     <h3>Canales en Rust — <span class="inline-code">std::sync::mpsc</span></h3>
-    <p>Rust provee canales <strong>MPSC (Multiple Producer, Single Consumer)</strong>. El canal tiene dos extremos: un emisor <span class="inline-code">Sender&lt;T&gt;</span> y un receptor <span class="inline-code">Receiver&lt;T&gt;</span>. <strong>Transfieren el ownership</strong> del elemento enviado.</p>
+    <p>Rust provee canales <strong>MPSC (Multiple Producer, Single Consumer)</strong>. El canal tiene dos extremos: <span class="inline-code">Sender&lt;T&gt;</span> (se puede clonar para múltiples productores) y <span class="inline-code">Receiver&lt;T&gt;</span> (un solo consumidor). <strong>Transfieren el ownership</strong> del elemento enviado — no hay copia.</p>
 
     <pre><span class="lang-tag">rust</span><span class="kw">use</span> std::sync::mpsc;
 <span class="kw">use</span> std::thread;
 
+<span class="cm">// Crear el canal: tx = transmitter (sender), rx = receiver</span>
 <span class="kw">let</span> (tx, rx) = mpsc::<span class="fn">channel</span>();
 
+<span class="cm">// Múltiples productores: clonar el sender</span>
+<span class="kw">let</span> tx2 = tx.<span class="fn">clone</span>();
+
 thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
-    tx.<span class="fn">send</span>(<span class="ty">String</span>::<span class="fn">from</span>(<span class="str">"Hola"</span>)).<span class="fn">unwrap</span>();
+    tx.<span class="fn">send</span>(<span class="ty">String</span>::<span class="fn">from</span>(<span class="str">"Hola desde thread 1"</span>)).<span class="fn">unwrap</span>();
 });
 
-<span class="kw">let</span> received = rx.<span class="fn">recv</span>().<span class="fn">unwrap</span>();
-<span class="mac">println!</span>(<span class="str">"Recibido: {}"</span>, received);</pre>
+thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
+    tx2.<span class="fn">send</span>(<span class="ty">String</span>::<span class="fn">from</span>(<span class="str">"Hola desde thread 2"</span>)).<span class="fn">unwrap</span>();
+});
+
+<span class="cm">// recv() bloquea hasta recibir. El canal cierra cuando todos los tx se dropean</span>
+<span class="kw">for</span> received <span class="kw">in</span> rx {  <span class="cm">// rx implementa Iterator</span>
+    <span class="mac">println!</span>(<span class="str">"Recibido: {}"</span>, received);
+}</pre>
+
+    <h3>Canales en Unix: Pipes, FIFOs y Message Queues</h3>
+    <p>Unix provee <strong>Pipes</strong> y <strong>FIFOs</strong> para conectar dos procesos independientes, orientados a bytes. Los FIFOs tienen representación en el filesystem. También existen <strong>Message Queues</strong>, orientadas a mensajes como unidades independientes.</p>
 
     <h3>Selective Input</h3>
     <div class="def-block">
       <div class="term">Selective Input</div>
-      <p>Sintaxis que permite escuchar en <strong>varios canales de forma bloqueante</strong> y desbloquearse con el primero que recibe un mensaje. Fundamental para que un proceso pueda reaccionar a distintas fuentes de datos.</p>
+      <p>Sintaxis que permite escuchar en <strong>varios canales de forma bloqueante</strong> y desbloquearse con el primero que recibe un mensaje. En Go se llama <span class="inline-code">select</span>. Fundamental para que un proceso pueda reaccionar a distintas fuentes de datos.</p>
     </div>
-
-    <h3>Canales en Unix: Pipes, FIFOs y Message Queues</h3>
-    <p>Unix provee <strong>Pipes</strong> y <strong>FIFOs</strong> para conectar dos procesos independientes, orientados a bytes. Los FIFOs tienen representación en el filesystem. También existen <strong>Message Queues</strong>, orientadas a mensajes como unidades independientes.</p>
 
     <h3>Filósofos con Canales — Solución de Chandy/Misra</h3>
     <div class="callout tip">
       <span class="callout-icon">✓</span>
       <div class="callout-body">
-        <strong>Idea clave:</strong> Los palitos circulan por mensajes entre filósofos. Cada palito puede estar <strong>sucio</strong> o <strong>limpio</strong>. Un filósofo entrega un palito sucio si le es solicitado, pero retiene uno limpio. Esto garantiza ausencia de deadlock y starvation.
+        <strong>Idea clave:</strong> Los palitos circulan por mensajes entre filósofos. Cada palito puede estar <strong>sucio</strong> o <strong>limpio</strong>. Un filósofo entrega un palito sucio si le es solicitado, pero retiene uno limpio. Esto garantiza ausencia de deadlock y starvation sin memoria compartida.
       </div>
     </div>
   </section>
 
-  <!-- ════ 12 ACTORES ════ -->
+  <!-- ════ 13 ACTORES ════ -->
   <section class="content-section" id="actores">
-    <div class="section-tag">12 · Modelo de Actores</div>
+    <div class="section-tag">13 · Modelo de Actores</div>
     <h2>Actores &amp; <em>Actix</em></h2>
     <p class="section-intro">Modelo de concurrencia desarrollado por Carl Hewitt en 1973. Popularizado por Erlang. Los actores encapsulan estado, comportamiento y tienen una dirección única.</p>
 
@@ -1779,22 +2917,22 @@ thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
       <div class="card">
         <span class="card-icon">📬</span>
         <div class="card-title">Mailbox (FIFO)</div>
-        <div class="card-desc">Cada actor tiene una cola de mensajes entrantes. Procesa <strong>uno a la vez</strong>.</div>
+        <div class="card-desc">Cada actor tiene una cola de mensajes entrantes. Procesa <strong>uno a la vez</strong>, nunca hay acceso concurrente a su estado.</div>
       </div>
       <div class="card">
         <span class="card-icon">🔒</span>
         <div class="card-title">Estado Privado</div>
-        <div class="card-desc">No comparte memoria con otros actores. El estado <strong>solo cambia al procesar mensajes</strong>.</div>
+        <div class="card-desc">No comparte memoria con otros actores. El estado <strong>solo cambia al procesar mensajes</strong>. Sin locks.</div>
       </div>
       <div class="card">
         <span class="card-icon">🌐</span>
         <div class="card-title">Distribuible</div>
-        <div class="card-desc">La dirección de un actor puede ser <strong>remota</strong>. El código no cambia.</div>
+        <div class="card-desc">La dirección de un actor puede ser <strong>remota</strong>. El código no cambia entre local y remoto.</div>
       </div>
       <div class="card">
         <span class="card-icon">⚡</span>
         <div class="card-title">Livianos</div>
-        <div class="card-desc">Se pueden crear <strong>miles de actores</strong> en lugar de threads.</div>
+        <div class="card-desc">Se pueden crear <strong>miles o millones de actores</strong> en lugar de threads del SO.</div>
       </div>
     </div>
 
@@ -1805,24 +2943,24 @@ thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
         <tbody>
           <tr>
             <td><span class="inline-code">Addr::do_send(M)</span></td>
-            <td>Fire-and-forget. Ignora errores. No retorna resultado.</td>
+            <td>Fire-and-forget. Ignora errores. No retorna resultado. El actor puede no existir.</td>
           </tr>
           <tr>
             <td><span class="inline-code">Addr::try_send(M)</span></td>
-            <td>Envío inmediato. Retorna <span class="inline-code">SendError</span> si mailbox lleno o cerrado.</td>
+            <td>Envío inmediato. Retorna <span class="inline-code">SendError</span> si el mailbox está lleno o el actor cerrado.</td>
           </tr>
           <tr>
             <td><span class="inline-code">Addr::send(M)</span></td>
-            <td>Retorna un <strong>Future</strong> con el resultado del handler. Permite <span class="inline-code">.await</span>.</td>
+            <td>Retorna un <strong>Future</strong> con el resultado del handler. Permite <span class="inline-code">.await</span> para esperar la respuesta.</td>
           </tr>
         </tbody>
       </table>
     </div>
   </section>
 
-  <!-- ════ 13 DISTRIBUIDO ════ -->
+  <!-- ════ 14 DISTRIBUIDO ════ -->
   <section class="content-section" id="distrib">
-    <div class="section-tag">13 · Sistemas Distribuidos</div>
+    <div class="section-tag">14 · Sistemas Distribuidos</div>
     <h2>Concurrencia <em>Distribuida</em></h2>
     <p class="section-intro">En sistemas distribuidos, los procesos corren en máquinas separadas y se comunican por red. Los algoritmos clásicos de exclusión mutua y comunicación deben adaptarse a este modelo.</p>
 
@@ -1882,9 +3020,9 @@ thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
     </div>
   </section>
 
-  <!-- ════ 14 ELECCIÓN DE LÍDER ════ -->
+  <!-- ════ 15 ELECCIÓN DE LÍDER ════ -->
   <section class="content-section" id="eleccion">
-    <div class="section-tag">14 · Distribuido II</div>
+    <div class="section-tag">15 · Distribuido II</div>
     <h2>Algoritmos de <em>Elección</em></h2>
     <p class="section-intro">Varios algoritmos distribuidos requieren un coordinador con un rol especial. Los algoritmos de elección permiten elegir uno automáticamente cuando el actual falla.</p>
 
@@ -1908,14 +3046,13 @@ thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
     </div>
   </section>
 
-  <!-- ════ 15 TRANSACCIONES ════ -->
+  <!-- ════ 16 TRANSACCIONES ════ -->
   <section class="content-section" id="transacciones">
-    <div class="section-tag">15 · Distribuido III</div>
+    <div class="section-tag">16 · Distribuido III</div>
     <h2>Transacciones <em>Distribuidas</em></h2>
     <p class="section-intro">Una transacción es una secuencia de operaciones que debe ejecutarse de forma atómica en un sistema distribuido. Si cualquier parte falla, todo debe revertirse.</p>
 
     <h3>Propiedades ACID</h3>
-
     <div class="acid-grid">
       <div class="acid-card">
         <div class="acid-letter">A</div>
@@ -1939,26 +3076,11 @@ thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
       </div>
     </div>
 
-    <h3>Primitivas de Transacción</h3>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Primitiva</th><th>Descripción</th></tr></thead>
-        <tbody>
-          <tr><td><span class="inline-code">BEGIN TRANSACTION</span></td><td>Marca el inicio de la transacción</td></tr>
-          <tr><td><span class="inline-code">END TRANSACTION</span></td><td>Finalizar la transacción y tratar de hacer commit</td></tr>
-          <tr><td><span class="inline-code">ABORT TRANSACTION</span></td><td>Finalizar forzadamente y restaurar los valores anteriores (rollback)</td></tr>
-          <tr><td><span class="inline-code">READ / WRITE</span></td><td>Leer o escribir datos de un archivo u otro objeto</td></tr>
-        </tbody>
-      </table>
-    </div>
-
     <h3>Commit en Dos Fases (2PC)</h3>
-    <p>El protocolo más utilizado para garantizar atomicidad en transacciones distribuidas. Un coordinador coordina a los participantes:</p>
-
     <div class="twopc-grid">
       <div class="twopc-phase">
         <div class="phase-label">⬡ Fase 1 — Prepare</div>
-        <div class="twopc-step"><div class="twopc-n">1</div>El coordinador escribe <em>prepare</em> en su log y envía mensaje PREPARE a todos los participantes</div>
+        <div class="twopc-step"><div class="twopc-n">1</div>El coordinador escribe prepare en su log y envía PREPARE a todos los participantes</div>
         <div class="twopc-step"><div class="twopc-n">2</div>Los participantes que pueden commitear responden READY y escriben en su log</div>
         <div class="twopc-step"><div class="twopc-n">3</div>Si alguno responde ABORT, la transacción se cancela</div>
       </div>
@@ -1970,59 +3092,27 @@ thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
       </div>
     </div>
 
-    <h3>Implementaciones</h3>
-
     <div class="collapsible-header" onclick="toggleCollapsible(this)">
-      <div><div class="ch-tag">Técnica</div><div class="ch-title">Private Workspace</div></div>
+      <div><div class="ch-tag">Técnica</div><div class="ch-title">Private Workspace, WAL, 2PL y Concurrencia Optimista</div></div>
       <span class="ch-arrow">▼</span>
     </div>
     <div class="collapsible-body">
-      <p>Al iniciar una transacción, el proceso recibe una <strong>copia de todos los archivos</strong> a los que tiene acceso. Hasta que hace commit, trabaja con la copia. Al commitear, se persisten los cambios. <em>Desventaja: extremadamente costoso salvo por optimizaciones.</em></p>
-    </div>
-
-    <div class="collapsible-header" onclick="toggleCollapsible(this)">
-      <div><div class="ch-tag">Técnica</div><div class="ch-title">Writeahead Log (WAL)</div></div>
-      <span class="ch-arrow">▼</span>
-    </div>
-    <div class="collapsible-body">
-      <p>Los archivos se modifican <em>in place</em>, pero se mantiene una lista de los cambios aplicados (primero se escribe la lista y luego se modifica el archivo). Al commitear, se escribe un registro <em>commit</em> en el log. Si la transacción se aborta, se lee el log de atrás hacia adelante para hacer <strong>rollback</strong>.</p>
-    </div>
-
-    <div class="collapsible-header" onclick="toggleCollapsible(this)">
-      <div><div class="ch-tag">Control de Concurrencia</div><div class="ch-title">Two-Phase Locking (2PL)</div></div>
-      <span class="ch-arrow">▼</span>
-    </div>
-    <div class="collapsible-body">
-      <p><strong>Fase de expansión:</strong> se toman todos los locks a usar. <strong>Fase de contracción:</strong> se liberan todos los locks (no se pueden tomar nuevos). Garantiza propiedad serializable. Pueden ocurrir deadlocks. En <em>Strict 2PL</em>, la contracción ocurre recién después del commit.</p>
-    </div>
-
-    <div class="collapsible-header" onclick="toggleCollapsible(this)">
-      <div><div class="ch-tag">Control de Concurrencia</div><div class="ch-title">Concurrencia Optimista</div></div>
-      <span class="ch-arrow">▼</span>
-    </div>
-    <div class="collapsible-body">
-      <p>El proceso modifica los archivos sin ningún control, esperando que no haya conflictos. Al commitear, se verifica si el resto de las transacciones modificó los mismos archivos. Si es así, se <strong>aborta la transacción</strong>. <em>Ventajas: Libre de deadlocks. Desventajas: Rehacer todo puede ser costoso bajo alta carga.</em></p>
-    </div>
-
-    <h3>Ejemplo Práctico: RustiShop</h3>
-    <div class="callout purple">
-      <span class="callout-icon">🛒</span>
-      <div class="callout-body">
-        <strong>RustiShop:</strong> El proceso de checkout requiere conectarse con RustiPago, RustiStock y RustiEnvios. Debe ejecutarse <strong>atómicamente</strong>: si cualquier servicio falla o rechaza, toda la operación se cancela. Solución: implementar 2PC entre los tres servicios.
-      </div>
+      <p><strong>Private Workspace:</strong> Al iniciar una transacción, el proceso recibe una copia de todos los archivos a los que tiene acceso. Trabaja con la copia. Al commitear, se persisten los cambios. Extremadamente costoso salvo por optimizaciones (copy-on-write).</p>
+      <p><strong>Writeahead Log (WAL):</strong> Los archivos se modifican in place, pero se mantiene un log de los cambios. Al commitear, se escribe un registro commit en el log. Para abortar, se lee el log de atrás hacia adelante para hacer rollback.</p>
+      <p><strong>Two-Phase Locking (2PL):</strong> Fase de expansión: tomar todos los locks. Fase de contracción: liberar todos (no tomar nuevos). Garantiza serializabilidad. Pueden ocurrir deadlocks.</p>
+      <p><strong>Concurrencia Optimista:</strong> Modificar sin control, esperando que no haya conflictos. Al commitear, verificar si hubo conflictos. Si los hubo, abortar. Libre de deadlocks pero costoso bajo alta contención.</p>
     </div>
   </section>
 
-  <!-- ════ 16 AMBIENTES DISTRIBUIDOS ════ -->
+  <!-- ════ 17 AMBIENTES DISTRIBUIDOS ════ -->
   <section class="content-section" id="ambientes">
-    <div class="section-tag">16 · Distribuido IV</div>
+    <div class="section-tag">17 · Distribuido IV</div>
     <h2>Ambientes <em>Distribuidos</em></h2>
     <p class="section-intro">Modelo formal para describir sistemas distribuidos: entidades, eventos, comportamiento colectivo y métricas de costo.</p>
 
-    <h3>Entidades</h3>
     <div class="def-block">
       <div class="term">Entidad</div>
-      <p>Es la unidad de cómputo de un ambiente informático distribuido. Puede ser un proceso, un procesador, etc. Cada entidad tiene acceso de lectura/escritura a una memoria local (no compartida), capacidad de procesamiento local, comunicación via mensajes, y un reloj local.</p>
+      <p>Unidad de cómputo de un ambiente informático distribuido. Tiene acceso de lectura/escritura a memoria local (no compartida), capacidad de procesamiento local, comunicación via mensajes, y un reloj local.</p>
     </div>
 
     <h3>Eventos Externos</h3>
@@ -2036,33 +3126,13 @@ thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
     <h3>Reglas y Comportamiento</h3>
     <div class="concept-grid">
       <div class="concept-cell">
-        <div class="label">Acción</div>
-        <p>Secuencia finita e indivisible de operaciones. Es atómica: se ejecuta sin interrupciones.</p>
-      </div>
-      <div class="concept-cell">
         <div class="label">Regla</div>
         <p>Relación entre evento y estado: <strong>estado × evento → acción</strong>. Para cada posible evento y estado debe existir una única regla.</p>
       </div>
       <div class="concept-cell">
-        <div class="label">Comportamiento B(x)</div>
-        <p>Conjunto de todas las reglas que obedece una entidad x. También llamado <strong>protocolo o algoritmo distribuido</strong>.</p>
-      </div>
-      <div class="concept-cell">
         <div class="label">Comportamiento Homogéneo</div>
-        <p>Cuando todas las entidades del sistema tienen el mismo comportamiento: ∀x, y ∈ E, B(x) = B(y). Todo comportamiento colectivo puede transformarse en homogéneo.</p>
+        <p>Cuando todas las entidades del sistema tienen el mismo comportamiento. Todo comportamiento colectivo puede transformarse en homogéneo.</p>
       </div>
-    </div>
-
-    <h3>Restricciones del Sistema</h3>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Tipo</th><th>Restricción</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Confiabilidad</strong></td><td>Entrega garantizada: cualquier mensaje enviado será recibido intacto. Parcial: no ocurrirán fallas. Total: no han ocurrido ni ocurrirán fallas.</td></tr>
-          <tr><td><strong>Temporal</strong></td><td>Delays acotados (existe constante Δ), delays unitarios, relojes sincronizados.</td></tr>
-          <tr><td><strong>Orientación local</strong></td><td>Una entidad puede distinguir qué vecino le envía un mensaje y puede enviar a un vecino específico.</td></tr>
-        </tbody>
-      </table>
     </div>
 
     <h3>Costo y Complejidad</h3>
@@ -2078,29 +3148,13 @@ thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
         <div class="card-desc">Tiempo total del protocolo. Tiempo ideal: medido bajo delays unitarios y relojes sincronizados.</div>
       </div>
     </div>
-
-    <h3>Tipos de Conocimiento Local</h3>
-    <ul>
-      <li><strong>Información métrica:</strong> datos numéricos sobre la red (n = |V|, m = |E|, diámetro, etc.)</li>
-      <li><strong>Propiedades topológicas:</strong> el grafo es un anillo, es acíclico, etc.</li>
-      <li><strong>Mapas topológicos:</strong> un mapa de la vecindad de la entidad hasta una distancia d (ej: matriz de adyacencia)</li>
-    </ul>
-
-    <div class="callout info">
-      <span class="callout-icon">ℹ</span>
-      <div class="callout-body">
-        <strong>Principio clave:</strong> En ausencia de fallas, el conocimiento no puede perderse. Los eventos disparan acciones que pueden generar nuevos eventos, los cuales ocurrirán siempre en un tiempo futuro Future(t).
-      </div>
-    </div>
   </section>
 
-  <!-- ════ 17 DEADLOCKS DISTRIBUIDOS ════ -->
+  <!-- ════ 18 DEADLOCKS DISTRIBUIDOS ════ -->
   <section class="content-section" id="deadlocks-distrib">
-    <div class="section-tag">17 · Distribuido V</div>
+    <div class="section-tag">18 · Distribuido V</div>
     <h2>Deadlocks <em>Distribuidos</em></h2>
     <p class="section-intro">En sistemas distribuidos, los deadlocks son más difíciles de detectar porque no existe una vista global del estado. Se necesitan algoritmos especiales para detectarlos y prevenirlos.</p>
-
-    <h3>Detección</h3>
 
     <div class="collapsible-header" onclick="toggleCollapsible(this)">
       <div><div class="ch-tag">Algoritmo</div><div class="ch-title">Centralizado: Grafo de uso de recursos</div></div>
@@ -2129,82 +3183,24 @@ thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
         <p>Si el proceso tiene timestamp <strong>menor</strong> (más viejo), aborta la transacción del proceso que tiene el recurso (lo "hiere"). Si no, espera.</p>
       </div>
     </div>
-
-    <div class="callout info">
-      <span class="callout-icon">ℹ</span>
-      <div class="callout-body">
-        Ambos algoritmos usan timestamps globales de <strong>Lamport</strong> asignados al inicio de cada transacción. Ambos garanteízan ausencia de deadlock pero con diferentes trade-offs: Wait-Die favorece a los más viejos sin abortar a otros; Wound-Wait puede abortar transacciones activas.
-      </div>
-    </div>
   </section>
 
-  <!-- ════ 18 CUDA ════ -->
+  <!-- ════ 19 CUDA ════ -->
   <section class="content-section" id="cuda">
-    <div class="section-tag">18 · Extra · GPU</div>
+    <div class="section-tag">19 · Extra · GPU</div>
     <h2>CUDA &amp; <em>Programación GPU</em></h2>
     <p class="section-intro">Las GPUs tienen miles de núcleos simples optimizados para operaciones masivamente paralelas. CUDA es el modelo de programación de NVIDIA para aprovechar este poder de cómputo.</p>
 
-    <h3>GPU vs CPU</h3>
-
-    <div class="gpu-compare">
-      <div class="gpu-box cpu-box">
-        <div class="gpu-title">CPU — Low Latency Processor</div>
-        <ul>
-          <li>Diseñada para <strong>minimizar la latencia</strong></li>
-          <li>Caches grandes (L1, L2, L3)</li>
-          <li>Lógica complicada (pipeline, branch prediction)</li>
-          <li>Pocos núcleos potentes, context switch caro</li>
-          <li>Ideal para tareas secuenciales y código con mucha lógica</li>
-        </ul>
-      </div>
-      <div class="gpu-box gpu-box-card">
-        <div class="gpu-title">GPU — High Throughput Processor</div>
-        <ul>
-          <li>Diseñada para <strong>maximizar el throughput</strong></li>
-          <li>Más transistores en ALUs, caches pequeños</li>
-          <li>Los tiempos de espera de RAM se diluyen intercalando threads</li>
-          <li>Context switch muy económico (hasta uno por clock cycle)</li>
-          <li>Ideal para datos masivos con operaciones simples</li>
-        </ul>
-      </div>
-    </div>
-
-    <h3>SIMT — Single Instruction, Multiple Threads</h3>
     <div class="def-block">
       <div class="term">Warp</div>
-      <p>La ejecución se schedulea en <strong>warps de 32 hilos</strong>. Como todos los hilos ejecutan el mismo código, comparten un único program counter (hasta arquitectura Volta). Cada hilo trabaja en un "lane" SIMD. El contexto de ejecución de cada warp se mantiene en el chip para hacer interleaving.</p>
-    </div>
-
-    <div class="callout warn">
-      <span class="callout-icon">⚠</span>
-      <div class="callout-body">
-        <strong>Branch Divergence:</strong> Cuando el código tiene saltos condicionales, el warp debe ejecutar <em>todas</em> las variantes aplicando una máscara de threads. La máxima eficiencia se logra cuando todos los threads del warp convergen (ejecutan el mismo camino).
-      </div>
+      <p>La ejecución se schedulea en <strong>warps de 32 hilos</strong>. Todos ejecutan el mismo código — comparten un único program counter. Cada hilo trabaja en un "lane" SIMD. La performance óptima se logra cuando la cantidad de threads por bloque es <strong>múltiplo de 32</strong>.</p>
     </div>
 
     <h3>Jerarquía de Threads</h3>
     <div class="flow-diagram">
-      <div class="flow-step">
-        <div class="flow-num">G</div>
-        <div class="flow-content">
-          <h5>Grid</h5>
-          <p>El programa se divide en un <strong>grid de bloques</strong> independientes. Representa el total del trabajo a realizar.</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="flow-num">B</div>
-        <div class="flow-content">
-          <h5>Block of Threads</h5>
-          <p>Cada bloque tiene N threads. Los bloques se mantienen en el mismo <strong>SM (Streaming Multiprocessor)</strong> al ejecutarse. Óptima performance cuando cantidad de threads es múltiplo de 32.</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="flow-num">T</div>
-        <div class="flow-content">
-          <h5>Thread</h5>
-          <p>Unidad mínima de ejecución. Se identifica con <span class="inline-code">threadIdx.x</span> dentro del bloque. Índice global: <span class="inline-code">blockIdx.x * blockDim.x + threadIdx.x</span></p>
-        </div>
-      </div>
+      <div class="flow-step"><div class="flow-num">G</div><div class="flow-content"><h5>Grid</h5><p>El programa se divide en un grid de bloques independientes. Representa el total del trabajo a realizar.</p></div></div>
+      <div class="flow-step"><div class="flow-num">B</div><div class="flow-content"><h5>Block of Threads</h5><p>Cada bloque tiene N threads en el mismo SM (Streaming Multiprocessor). Acceden a Shared Memory compartida.</p></div></div>
+      <div class="flow-step"><div class="flow-num">T</div><div class="flow-content"><h5>Thread</h5><p>Unidad mínima. Se identifica con <span class="inline-code">threadIdx.x</span> dentro del bloque. Índice global: <span class="inline-code">blockIdx.x * blockDim.x + threadIdx.x</span></p></div></div>
     </div>
 
     <h3>Modelo de Memoria</h3>
@@ -2213,140 +3209,39 @@ thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
         <thead><tr><th>Tipo</th><th>Alcance</th><th>Velocidad</th></tr></thead>
         <tbody>
           <tr><td><strong>Registers</strong></td><td>Por thread (private)</td><td>⚡ Mínima latencia posible</td></tr>
-          <tr><td><strong>Local Memory</strong></td><td>Por thread (private)</td><td>🐢 Más lenta (va a DRAM)</td></tr>
-          <tr><td><strong>Shared Memory</strong></td><td>Por bloque (todos los threads del bloque)</td><td>⚡ Muy rápida, ideal para intercambiar datos entre threads</td></tr>
+          <tr><td><strong>Shared Memory</strong></td><td>Por bloque (todos los threads del bloque)</td><td>⚡ Muy rápida</td></tr>
           <tr><td><strong>Global Memory</strong></td><td>Todos los threads de la grid</td><td>🐢 La más lenta</td></tr>
         </tbody>
       </table>
     </div>
-
-    <h3>Sincronización</h3>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Nivel</th><th>Función</th><th>Velocidad</th></tr></thead>
-        <tbody>
-          <tr><td>Grid</td><td><span class="inline-code">grid_group::sync()</span> (Cooperative Groups API)</td><td>🐢 Lenta, evitar si no es necesario</td></tr>
-          <tr><td>Thread-Block</td><td><span class="inline-code">__syncthreads()</span></td><td>⚡ Rápida, el más común</td></tr>
-          <tr><td>Warp / Sub-warp</td><td><span class="inline-code">__syncwarp()</span></td><td>⚡⚡ Muy rápida</td></tr>
-        </tbody>
-      </table>
-    </div>
-
-    <h3>Flujo Típico de un Programa CUDA</h3>
-    <div class="flow-diagram">
-      <div class="flow-step">
-        <div class="flow-num">1</div>
-        <div class="flow-content">
-          <h5>Allocar memoria en host y device</h5>
-          <p>Reservar memoria tanto en CPU (host) como en GPU (device).</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="flow-num">2</div>
-        <div class="flow-content">
-          <h5>Inicializar datos en host</h5>
-          <p>Preparar los datos de entrada en memoria del host.</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="flow-num">3</div>
-        <div class="flow-content">
-          <h5>Transferir datos host → device</h5>
-          <p>Copiar los datos a la memoria de la GPU.</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="flow-num">4</div>
-        <div class="flow-content">
-          <h5>Ejecutar kernels en la GPU</h5>
-          <p>Lanzar uno o más kernels (funciones que corren en la GPU). Esperar a que terminen.</p>
-        </div>
-      </div>
-      <div class="flow-step">
-        <div class="flow-num">5</div>
-        <div class="flow-content">
-          <h5>Transferir resultados device → host</h5>
-          <p>Copiar los resultados de vuelta a la CPU para usarlos.</p>
-        </div>
-      </div>
-    </div>
   </section>
 
-  <!-- ════ 19 TESTING ════ -->
+  <!-- ════ 20 TESTING ════ -->
   <section class="content-section" id="testing">
-    <div class="section-tag">19 · Extra · Testing</div>
+    <div class="section-tag">20 · Extra · Testing</div>
     <h2>Testing <em>Concurrente</em></h2>
-    <p class="section-intro">Testear código concurrente es más difícil que el secuencial: los bugs dependen del orden de ejecución. Rust provee herramientas específicas para hacer estos tests más deterministas y confiables.</p>
-
-    <h3>Testing en Rust</h3>
-
-    <div class="card-grid">
-      <div class="card">
-        <span class="card-icon">🏷</span>
-        <div class="card-title">#[cfg(test)]</div>
-        <div class="card-desc">El módulo solo se compila cuando se ejecuta <span class="inline-code">cargo test</span>. También existe <span class="inline-code">#[cfg(not(test))]</span>.</div>
-      </div>
-      <div class="card">
-        <span class="card-icon">✅</span>
-        <div class="card-title">#[test]</div>
-        <div class="card-desc">Marca funciones que son tests. Las macros <span class="inline-code">assert_eq!</span> son wrappers sobre <span class="inline-code">panic()</span>.</div>
-      </div>
-      <div class="card">
-        <span class="card-icon">⚡</span>
-        <div class="card-title">Concurrencia por defecto</div>
-        <div class="card-desc">Por defecto los tests se corren de forma <strong>concurrente</strong>. Usar <span class="inline-code">--test-threads=1</span> para secuencial.</div>
-      </div>
-      <div class="card">
-        <span class="card-icon">🏗</span>
-        <div class="card-title">SOLID para testabilidad</div>
-        <div class="card-desc">El diseño determina la testeabilidad. Dependency Inversion permite inyectar mocks fácilmente.</div>
-      </div>
-    </div>
-
-    <h3>Crate mockall</h3>
-    <p>La herramienta más completa para mocks en Rust. Permite generar automáticamente implementaciones mock de traits.</p>
-
-    <div class="collapsible-header" onclick="toggleCollapsible(this)">
-      <div><div class="ch-tag">mockall</div><div class="ch-title">Funcionalidades principales</div></div>
-      <span class="ch-arrow">▼</span>
-    </div>
-    <div class="collapsible-body">
-      <p><strong>#[automock]:</strong> Genera mocks automáticamente de traits. El mock implementa el trait con comportamiento controlable en tests.</p>
-      <p><strong>Mocks de métodos estáticos:</strong> Permite mockear funciones estáticas y constructores, que normalmente son difíciles de reemplazar.</p>
-      <p><strong>#[double]:</strong> Reemplaza una implementación real en tiempo de test sin cambiar el resto del código. Alternativa manual: <span class="inline-code">#[cfg(not(test))]</span> para la implementación real y <span class="inline-code">#[cfg(test)]</span> para la mock.</p>
-      <p><strong>lazy_static para singletons de mocks:</strong> En algunos casos, se necesita acceder a la instancia del mock desde distintos lugares del test. <span class="inline-code">lazy_static</span> permite crear "singletons" controlables.</p>
-    </div>
+    <p class="section-intro">Testear código concurrente es más difícil que el secuencial: los bugs dependen del orden de ejecución. Rust provee herramientas específicas para hacer estos tests más deterministas.</p>
 
     <h3>Loom — Model Checking para Concurrencia</h3>
     <div class="def-block">
       <div class="term">Loom</div>
-      <p>Herramienta para testear programas concurrentes. Ejecuta los tests muchas veces, permutando las posibles ejecuciones concurrentes según el modelo de memoria C11. Usa técnicas de reducción de estados para evitar explosión combinatoria. Permite cubrir <strong>todos los posibles escenarios</strong> de ejecución.</p>
+      <p>Herramienta para testear programas concurrentes. Ejecuta los tests muchas veces, permutando las posibles ejecuciones concurrentes según el modelo de memoria C11. Permite cubrir <strong>todos los posibles escenarios</strong> de ejecución sin explosión combinatoria.</p>
     </div>
 
-    <h3>Técnicas para Race Conditions</h3>
-    <p>El <strong>Race Condition Game</strong> es un patrón de ejemplo: N threads duermen por tiempos aleatorios; el primero en despertar setea su ID en un mutex. Para testearlo:</p>
-    <ul>
-      <li><strong>Template methods:</strong> minimizar cambios de código conservando la esencia del algoritmo</li>
-      <li><strong>Reemplazar sleeps</strong> no controlados por channels controlables desde el test</li>
-      <li><strong>Loom:</strong> cubre todos los posibles interleavings automáticamente</li>
-    </ul>
-
-    <h3>Testing de Actores (Actix)</h3>
-    <div class="table-wrap">
-      <table>
-        <thead><tr><th>Técnica</th><th>Descripción</th></tr></thead>
-        <tbody>
-          <tr><td><strong>Mocking de actores</strong></td><td>Crear actores mock que implementen el trait del actor real pero con comportamiento controlable</td></tr>
-          <tr><td><strong>Tests async</strong></td><td>Esperar resultados sobre futures, channels o promesas (oneshot)</td></tr>
-          <tr><td><strong>Tests end-to-end</strong></td><td>Esperar por un mensaje final para detener el actor system. Siempre con un timeout razonable.</td></tr>
-        </tbody>
-      </table>
+    <div class="collapsible-header" onclick="toggleCollapsible(this)">
+      <div><div class="ch-tag">mockall</div><div class="ch-title">Mocking en Rust: mockall, #[double], lazy_static</div></div>
+      <span class="ch-arrow">▼</span>
+    </div>
+    <div class="collapsible-body">
+      <p><strong>#[automock]:</strong> Genera mocks automáticamente de traits. El mock implementa el trait con comportamiento controlable en tests.</p>
+      <p><strong>#[double]:</strong> Reemplaza una implementación real en tiempo de test sin cambiar el resto del código.</p>
+      <p><strong>lazy_static para singletons de mocks:</strong> Permite crear instancias del mock accesibles desde distintos lugares del test.</p>
     </div>
   </section>
 
-  <!-- ════ 20 LENGUAJES ════ -->
+  <!-- ════ 21 LENGUAJES ════ -->
   <section class="content-section" id="lenguajes">
-    <div class="section-tag">20 · Extra · Lenguajes</div>
+    <div class="section-tag">21 · Extra · Lenguajes</div>
     <h2>Lenguajes para <em>Concurrencia</em></h2>
     <p class="section-intro">Más allá de Rust, existen lenguajes con primitivas de concurrencia distintas. Cada uno toma decisiones de diseño radicalmente diferentes para resolver los mismos problemas.</p>
 
@@ -2373,82 +3268,6 @@ thread::<span class="fn">spawn</span>(<span class="kw">move</span> || {
       </div>
     </div>
 
-    <h3>Go — Goroutines</h3>
-    <div class="def-block">
-      <div class="term">Goroutine</div>
-      <p>Green thread administrada por el runtime de Go. Stack inicial de solo <strong>2KB</strong> (puede crecer dinámicamente). Cualquier función puede ejecutarse concurrentemente con la palabra reservada <span class="inline-code">go</span>. Se planifica sobre un pool de <span class="inline-code">GOMAXPROCS</span> threads del OS.</p>
-    </div>
-
-    <pre><span class="lang-tag">go</span><span class="cm">// Lanzar una goroutine</span>
-go <span class="fn">myFunction</span>()
-
-<span class="cm">// Crear un canal</span>
-ch := <span class="fn">make</span>(<span class="kw">chan</span> <span class="ty">int</span>)
-go <span class="kw">func</span>() { ch <- <span class="num">42</span> }()
-val := <-ch
-
-<span class="cm">// Select: escuchar varios canales</span>
-<span class="kw">select</span> {
-<span class="kw">case</span> v := <-ch1: <span class="fn">process</span>(v)
-<span class="kw">case</span> v := <-ch2: <span class="fn">process</span>(v)
-}</pre>
-
-    <h3>Elixir — Actores sobre BEAM</h3>
-    <div class="concept-grid">
-      <div class="concept-cell">
-        <div class="label">Procesos Ligeros</div>
-        <p>Los procesos de Elixir son extremadamente baratos. El scheduler propio usa un pool de runners igual a la cantidad de CPUs.</p>
-      </div>
-      <div class="concept-cell">
-        <div class="label">Let it Crash</div>
-        <p>Filosofía de tolerancia a fallos: dejar que los procesos fallen y que un <strong>Supervisor</strong> los reinicie automáticamente.</p>
-      </div>
-      <div class="concept-cell">
-        <div class="label">OTP — GenServer</div>
-        <p>Open Telecom Platform: protocolo estandarizado para definir un proceso ("actor") extendiendo GenServer.</p>
-      </div>
-      <div class="concept-cell">
-        <div class="label">Funcional Puro</div>
-        <p>Immutabilidad por defecto. Pattern matching potente. Usado en producción por Discord y WhatsApp (Erlang).</p>
-      </div>
-    </div>
-
-    <h3>Clojure — Software Transactional Memory</h3>
-    <div class="def-block">
-      <div class="term">STM (Software Transactional Memory)</div>
-      <p>Modelo de concurrencia que trata la memoria compartida como transacciones de base de datos. Las operaciones se ejecutan especulativamente y se reintentan si hay conflictos. Libre de deadlocks. Atlassian usa Clojure para el backend de su realtime collaboration.</p>
-    </div>
-
-    <pre><span class="lang-tag">clojure</span><span class="cm">; Referencia mutable</span>
-(<span class="kw">def</span> counter (<span class="fn">ref</span> <span class="num">0</span>))
-
-<span class="cm">; Transacción STM — atómica y aislada</span>
-(<span class="fn">dosync</span>
-  (<span class="fn">alter</span> counter <span class="fn">inc</span>))
-
-<span class="cm">; Agent — actualización asíncrona</span>
-(<span class="kw">def</span> ag (<span class="fn">agent</span> <span class="num">0</span>))
-(<span class="fn">send</span> ag <span class="fn">inc</span>)</pre>
-
-    <h3>Julia — Computación Científica Paralela</h3>
-    <div class="card-grid">
-      <div class="card">
-        <span class="card-icon">🧵</span>
-        <div class="card-title">@Threads</div>
-        <div class="card-desc">Macro para paralelismo de threads. Simple de usar para loops embarazosamente paralelos.</div>
-      </div>
-      <div class="card">
-        <span class="card-icon">🔢</span>
-        <div class="card-title">SIMD Nativo</div>
-        <div class="card-desc">Soporte SIMD out-of-the-box. El compilador puede auto-vectorizar código Julia.</div>
-      </div>
-      <div class="card">
-        <span class="card-icon">🌐</span>
-        <div class="card-title">Distributed</div>
-        <div class="card-desc">Computación distribuida integrada en el lenguaje. Ideal para clusters de científicos.</div>
-      </div>
-    </div>
-
     <h3>¿Qué lenguaje elegir?</h3>
     <div class="table-wrap">
       <table>
@@ -2466,7 +3285,7 @@ val := <-ch
 
   <!-- ════════════ FOOTER ════════════ -->
   <div class="page-footer">
-    <span class="footer-text">TPC I · FIUBA · Resumen completo — 27/27 PDFs ✓</span>
+    <span class="footer-text">TPC I · FIUBA · Resumen completo actualizado ✓</span>
     <span class="footer-text">Deymonnaz · Concurrentes I</span>
   </div>
 
@@ -2491,13 +3310,12 @@ val := <-ch
     header.nextElementSibling.classList.toggle('open');
   }
 
-  // Scroll indicator
   window.addEventListener('scroll', () => {
     const h = document.documentElement;
     const pct = (h.scrollTop / (h.scrollHeight - h.clientHeight)) * 100;
     document.getElementById('scroll-bar').style.width = pct + '%';
 
-    const sections = ['intro','rust','forkjoin','vectorizacion','async','correccion','semaforos','monitores','petri','petri-ejemplos','channels','actores','distrib','eleccion','transacciones','ambientes','deadlocks-distrib','cuda','testing','lenguajes'];
+    const sections = ['intro','rust','rust-avanzado','forkjoin','mapreduce','vectorizacion','async','correccion','semaforos','monitores','petri','petri-ejemplos','channels','actores','distrib','eleccion','transacciones','ambientes','deadlocks-distrib','cuda','testing','lenguajes'];
     const scrollPos = window.scrollY + 200;
     sections.forEach(id => {
       const el = document.getElementById(id);
@@ -2525,11 +3343,9 @@ val := <-ch
     const isOpen = sidebar.classList.toggle('open');
     overlay.classList.toggle('visible', isOpen);
     document.body.style.overflow = isOpen ? 'hidden' : '';
-    // Abrir todas las unidades cuando se abre el sidebar en mobile
     if (isOpen) openAllNavUnits();
   }
 
-  // También abrir todas las unidades en mobile al cargar
   if (window.innerWidth <= 900) openAllNavUnits();
 
   document.addEventListener('click', (e) => {
